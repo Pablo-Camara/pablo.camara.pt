@@ -198,7 +198,7 @@ function fadeCTA(){
 
 function prepareContentForMenu(){
   if(!pablocamara.style.marginTop)pablocamara.style.marginTop = '1px';
-  else pablocamara.style.marginTop = (parseInt(pablocamara.style.marginTop) + 1) + 'px';
+  else pablocamara.style.marginTop = (parseInt(pablocamara.style.marginTop) + 2) + 'px';
   if(parseInt(pablocamara.style.marginTop) < 190){
     setTimeout(function(){
       prepareContentForMenu();
@@ -207,7 +207,7 @@ function prepareContentForMenu(){
 }
 
 function normalizeContent(){
-  pablocamara.style.marginTop = (parseInt(pablocamara.style.marginTop) - 1) + 'px';
+  pablocamara.style.marginTop = (parseInt(pablocamara.style.marginTop) - 2) + 'px';
   if(parseInt(pablocamara.style.marginTop) > 0){
     setTimeout(function(){
       normalizeContent();
@@ -221,7 +221,7 @@ var menu_loading = false;
 
 function showMenu(){
   menu_loading = true;
-  menu.style.top = (menu.offsetTop+1) + 'px';
+  menu.style.top = (menu.offsetTop+2) + 'px';
   if(menu.offsetTop < navbar.offsetHeight){
     setTimeout(function(){
       showMenu();
@@ -234,7 +234,7 @@ function showMenu(){
 
 function hideMenu(){
   menu_loading = true;
-  menu.style.top = (menu.offsetTop-1) + 'px';
+  menu.style.top = (menu.offsetTop-2) + 'px';
   if(menu.offsetTop > -menu.offsetHeight){
     setTimeout(function(){
       hideMenu();
@@ -249,7 +249,7 @@ function hideMenu(){
 
 el('navbar').onclick = function(){
   if(menu_loading)return;
-  
+
   if(!menu_open){
     triangle.style.borderWidth = '0px 5px 10px 5px';
     triangle.style.borderColor = 'transparent transparent white transparent';
