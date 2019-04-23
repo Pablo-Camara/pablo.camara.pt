@@ -188,7 +188,7 @@
       <div id="skip_intro">avançar</div>
     </div>
 
-    <script type="text/javascript" src="js/main.js?v=1.0"></script>
+    <script type="text/javascript" src="js/main.js?v=1.0&d=<?= date('YmdHis') ?>"></script>
     <script type="text/javascript">
       PabloCamaraLoader(function(){
         loadTitle(50, function(){
