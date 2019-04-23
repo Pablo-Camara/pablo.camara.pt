@@ -5,6 +5,10 @@ function el(id){
 var pablocamara = el('pablocamara');
 var pablocamara_title = el('pablocamara_title');
 var navbar = el('navbar');
+var triangle = el('triangle');
+var menu = el('menu');
+var menu_container = el('menu-container');
+
 var name_props = [
   // P
   { width: '4px', height: '30px', top: '189px', left: '78px', time: 300},
@@ -96,7 +100,16 @@ function PabloCamaraLoader(callback){
   var letter_piece_element = document.createElement('div');
 
   for (var prop in letter_piece_props) {
+
+    if(prop === 'top'){
+      var top = letter_piece_props[prop].replace('px','');
+      top -= 100;
+      top = top + 'px';
+      letter_piece_element.style.top = top;
+    } else {
       letter_piece_element.style[prop] = letter_piece_props[prop];
+    }
+
   }
 
   letter_piece_element.style.backgroundColor = 'white';
@@ -107,7 +120,7 @@ function PabloCamaraLoader(callback){
 }
 
 
-var title = 'Programador Informático, freelancer'.split('');
+var title = 'Web designer, Programador & freelancer'.split('');
 function loadTitle(interval, callback){
   if(title.length === 0){
     callback();
@@ -167,17 +180,93 @@ function fadeSocial(){
     if(parseFloat(social_media.style.opacity) < 1){
       setTimeout(function(){
         fadeSocial();
-      },10);
+      },30);
     }
 }
 
 
-function fadeProfilePic(){
-    var profilePic = el('profile_pic');
-    profilePic.style.opacity = parseFloat(profilePic.style.opacity) + 0.01;
-    if(parseFloat(profilePic.style.opacity) < 1){
+function fadeCTA(){
+    var cta = el('contact_cta');
+    cta.style.opacity = parseFloat(cta.style.opacity) + 0.05;
+    if(parseFloat(cta.style.opacity) < 1){
       setTimeout(function(){
-        fadeProfilePic();
-      },10);
+        fadeCTA();
+      },30);
     }
 }
+
+
+function prepareContentForMenu(){
+  if(!pablocamara.style.marginTop)pablocamara.style.marginTop = '1px';
+  else pablocamara.style.marginTop = (parseInt(pablocamara.style.marginTop) + 1) + 'px';
+  if(parseInt(pablocamara.style.marginTop) < 190){
+    setTimeout(function(){
+      prepareContentForMenu();
+    },1);
+  }
+}
+
+function normalizeContent(){
+  pablocamara.style.marginTop = (parseInt(pablocamara.style.marginTop) - 1) + 'px';
+  if(parseInt(pablocamara.style.marginTop) > 0){
+    setTimeout(function(){
+      normalizeContent();
+    },1);
+  }
+}
+
+
+var menu_open = false;
+var menu_loading = false;
+
+function showMenu(){
+  menu_loading = true;
+  menu.style.top = (menu.offsetTop+1) + 'px';
+  if(menu.offsetTop < navbar.offsetHeight){
+    setTimeout(function(){
+      showMenu();
+    },1);
+  } else {
+    menu_loading = false;
+  }
+}
+
+
+function hideMenu(){
+  menu_loading = true;
+  menu.style.top = (menu.offsetTop-1) + 'px';
+  if(menu.offsetTop > -menu.offsetHeight){
+    setTimeout(function(){
+      hideMenu();
+    },1);
+  } else {
+    menu_loading = false;
+  }
+}
+
+
+
+
+el('navbar').onclick = function(){
+  if(menu_loading)return;
+  
+  if(!menu_open){
+    triangle.style.borderWidth = '0px 5px 10px 5px';
+    triangle.style.borderColor = 'transparent transparent white transparent';
+    prepareContentForMenu();
+    showMenu();
+  } else {
+    triangle.style.borderWidth = '10px 5px 0 5px';
+    triangle.style.borderColor = 'white transparent transparent transparent';
+    normalizeContent();
+    hideMenu();
+  }
+  menu_open = !menu_open;
+};
+
+
+document.addEventListener("DOMContentLoaded", function(){
+    var menu_height = (menu.offsetHeight) + 'px';
+    menu.style.top = '-' + menu_height;
+    //menu_container.style.height =  menu_height;
+});
