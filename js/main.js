@@ -116,7 +116,7 @@ function PabloCamaraLoader(callback){
   letter_piece_element.style.position = 'absolute';
 
   pablocamara.appendChild(letter_piece_element);
-  setTimeout(function(){ PabloCamaraLoader(callback); }, letter_piece_props.time);
+  setTimeout(function(){ PabloCamaraLoader(callback); }, window.skip_intro === true ? 0 : letter_piece_props.time);
 }
 
 
@@ -128,41 +128,9 @@ function loadTitle(interval, callback){
   }
   pablocamara_title.innerHTML += title.shift();
 
-  setTimeout(function(){ loadTitle(interval, callback); }, interval);
+  setTimeout(function(){ loadTitle(interval, callback); }, window.skip_intro === true ? 0 : interval);
 
 }
-
-
-// Background fade into white
-var colors = [];
-for(var i = 1; i > 0; i -= 0.1){
-	colors.push(i);
-}
-
-function fadeBg(interval, callback){
-  if(colors.length === 0){
-    callback();
-    return;
-  }
-  i = colors.shift();
-  var bgColor =  'rgba(0, 32, 43, ' + i + ')';
-  document.body.style.backgroundColor = bgColor;
-  document.documentElement.style.backgroundColor = bgColor;
-	setTimeout(function(){ fadeBg(interval, callback); }, interval);
-}
-
-
-function invertColors(callback){
-  var pieces = pablocamara.children;
-  color = 'rgba(0, 32, 43, 1)';
-  for(var i = 0; i < pieces.length; i++) {
-      pieces[i].style.backgroundColor = color;
-  }
-  pablocamara_title.style.color = color;
-
-  callback();
-}
-
 
 function fadeNav(){
     navbar.style.top = (navbar.offsetTop+1) + 'px';
@@ -180,7 +148,7 @@ function fadeSocial(){
     if(parseFloat(social_media.style.opacity) < 1){
       setTimeout(function(){
         fadeSocial();
-      },30);
+      },window.skip_intro === true ? 0 : 30);
     }
 }
 
@@ -191,7 +159,7 @@ function fadeCTA(){
     if(parseFloat(cta.style.opacity) < 1){
       setTimeout(function(){
         fadeCTA();
-      },30);
+      },window.skip_intro === true ? 0 :30);
     }
 }
 
@@ -262,6 +230,10 @@ el('navbar').onclick = function(){
     hideMenu();
   }
   menu_open = !menu_open;
+};
+
+el('skip_intro').onclick = function(){
+  window.skip_intro = true;
 };
 
 
