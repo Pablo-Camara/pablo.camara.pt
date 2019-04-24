@@ -307,7 +307,7 @@
       <div id="skip_intro">avançar</div>
     </div>
 
-    <script type="text/javascript" src="js/main.js?v=1.0&s=<?= date('s') ?>"></script>
+    <script type="text/javascript" src="js/main.js?v=1.0&s=<?= date('YmdHis') ?>"></script>
     <script type="text/javascript">
       PabloCamaraLoader(function(){
         initTitle('Web designer, Programador & freelancer');
