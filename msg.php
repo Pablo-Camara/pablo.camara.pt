@@ -1,8 +1,8 @@
 <?php
 session_start();
+$debug = false;
 
-
-if(isset($_SESSION['msg_sent'])){
+if(!$debug && isset($_SESSION['msg_sent'])){
     $res = json_encode([
       'status' => 0,
       'message' => 'Você já enviou uma mensagem, por favor aguarde pela resposta ou entre em contacto através de outro meio, obrigado.'
@@ -12,7 +12,7 @@ if(isset($_SESSION['msg_sent'])){
     die();
 }
 
-$debug = false;
+
 
 if($debug){
   ini_set('display_errors', 1);

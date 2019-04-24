@@ -224,7 +224,7 @@
 
       #skip_intro:hover { color: yellow; }
 
-      .error_msg,.success_msg {
+      .error_msg,.success_msg,.sending_msg {
         color: white;
         padding: 10px;
         text-align: center;
@@ -276,6 +276,7 @@
         <textarea name="message" placeholder="Mensagem" rows="10" id="send_msg_msg"></textarea>
         <div id="send_msg_error" class="error_msg" style="display: none"></div>
         <div id="send_msg_success" class="success_msg" style="display: none"></div>
+        <div id="send_msg_sending" class="sending_msg" style="display: none">A enviar mensagem...</div>
         <div class="form-button" id="send_msg_btn">Enviar mensagem</div>
       </div>
 

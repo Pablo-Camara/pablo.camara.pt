@@ -377,6 +377,7 @@ el('send_msg_btn').onclick = function(){
   xhr.open('PUT', 'msg.php');
   xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.onload = function() {
+      el('send_msg_sending').style.display = 'none';
       if (xhr.status === 200) {
           var response = JSON.parse(xhr.responseText);
 
@@ -394,6 +395,8 @@ el('send_msg_btn').onclick = function(){
           }
       }
   };
+
+  el('send_msg_sending').style.display = 'block';
   xhr.send(JSON.stringify({
       name: name.value,
       phone: phone.value,
