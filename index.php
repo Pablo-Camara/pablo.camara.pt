@@ -82,7 +82,7 @@
         cursor: pointer;
       }
 
-      .btn:hover {
+      .btn.active {
         color: #00202B;
         background: white;
       }
@@ -147,11 +147,104 @@
         color: #254854;
       }
 
+
+      #send_msg {
+        width: 100%;
+        max-width: 220px;
+        margin: auto;
+        margin-top: 20px;
+      }
+
+      #send_msg.form-box input[type="text"],
+      #send_msg.form-box input[type="email"],
+      #send_msg.form-box textarea {
+        max-width: 203px;
+        margin: auto;
+        margin-bottom: 5px;
+      }
+
+
+      #send_msg.form-box textarea {
+        margin-bottom: 0;
+      }
+
+      #send_msg.form-box textarea {
+        max-width: 201px;
+      }
+
+
+      .appearance-none,
+      .form-box input[type="text"],
+      .form-box input[type="email"],
+      .form-box textarea {
+        -webkit-appearance:     none;
+            -moz-appearance:        none;
+            -ms-appearance:         none;
+            -o-appearance:          none;
+            appearance:             none;
+      }
+
+
+      .form-box input[type="text"],
+      .form-box input[type="email"],
+      .form-box textarea {
+        width: 100%;
+        border: 1px solid #063646;
+        color: #ffffff;
+        background-color: #032935;
+        padding-left: 15px;
+      }
+
+      .form-box input[type="text"],
+      .form-box input[type="email"] {
+        height: 40px;
+      }
+
+      .form-box textarea {
+        padding-top: 10px;
+      }
+
+      .form-box .form-button {
+        text-align: center;
+        color: white;
+        background: #00202b;
+        padding: 10px;
+        border: 1px solid white;
+        cursor: pointer;
+      }
+
+      .form-box .form-button:hover {
+        background: white;
+        color: #00202b;
+      }
+
       .color-yellow {
         color: yellow !important;
       }
 
       #skip_intro:hover { color: yellow; }
+
+      .error_msg,.success_msg {
+        color: white;
+        padding: 10px;
+        text-align: center;
+        margin: 6px 0;
+        font-size: 14px;
+      }
+
+      .error_msg {
+        background-color: #f53939;
+      }
+
+      .success_msg {
+        background-color: #005416;
+      }
+
+      .d-none {
+        display: none !important;
+      }
+
+
     </style>
   </head>
   <body>
@@ -170,7 +263,22 @@
     <div id="home" class="view">
       <div id="pablocamara"></div>
       <div id="pablocamara_title"></div>
+
+
       <div class="btn" id="contact_cta" style="opacity: 0">Entrar em Contacto</div>
+
+
+      <div class="form-box" id="send_msg" style="display: none">
+        <input type="text" name="name" placeholder="O seu nome?" id="send_msg_name"/>
+        <input type="text" name="phone" placeholder="Telefone" id="send_msg_phone"/>
+        <input type="email" name="email" placeholder="Email" id="send_msg_email"/>
+        <input type="email" name="subject" placeholder="Assunto" id="send_msg_subject"/>
+        <textarea name="message" placeholder="Mensagem" rows="10" id="send_msg_msg"></textarea>
+        <div id="send_msg_error" class="error_msg" style="display: none"></div>
+        <div id="send_msg_success" class="success_msg" style="display: none"></div>
+        <div class="form-button" id="send_msg_btn">Enviar mensagem</div>
+      </div>
+
 
       <div id="social_media" style="opacity: 0;">
         <a href="https://www.facebook.com/pablo.camara.pt" target="_blank">

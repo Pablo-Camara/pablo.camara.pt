@@ -228,6 +228,11 @@ function toggleClass(element,className) {
   }
 }
 
+document.addEventListener("DOMContentLoaded", function(){
+    var menu_height = (menu.offsetHeight) + 'px';
+    menu.style.top = '-' + menu_height;
+    //menu_container.style.height =  menu_height;
+});
 
 
 
@@ -253,9 +258,148 @@ el('skip_intro').onclick = function(){
   window.skip_intro = true;
 };
 
+el('contact_cta').onclick = function(e){
+  var form = el('send_msg');
 
-document.addEventListener("DOMContentLoaded", function(){
-    var menu_height = (menu.offsetHeight) + 'px';
-    menu.style.top = '-' + menu_height;
-    //menu_container.style.height =  menu_height;
-});
+  if(form.style.display === 'block')
+    form.style.display = "none";
+  else
+    form.style.display = "block";
+
+  toggleClass(e.target,'active');
+};
+
+
+function showMsg(el, msg){
+  el.style.display = 'block';
+  el.innerHTML = msg;
+}
+
+function hideMsg(el){
+  el.style.display = 'none';
+  el.innerHTML = '';
+}
+
+function hideEl(el_id){
+  el(el_id).style.display = 'none';
+}
+
+function showEl(el_id){
+  el(el_id).style.display = "block";
+}
+
+
+function isNumeric(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
+function validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+}
+
+
+el('send_msg_btn').onclick = function(){
+  var form = el('send_msg');
+
+  var name = form.querySelector('[name="name"]'); //el('send_msg_name');
+  var phone = el('send_msg_phone');
+  var email = el('send_msg_email');
+  var subject = el('send_msg_subject');
+  var message = el('send_msg_msg');
+
+
+  var msg_error = el('send_msg_error');
+
+  // name validations
+  var names = name.value.split(' ');
+  var name_count = 0;
+  for(var i = 0; i < names.length; i++){
+    if(names[i].trim().length >= 2)name_count++;
+  }
+
+  if(name.value.length > 65){
+    showMsg(msg_error,'Prêencha o seu nome correctamente (muito grande)');
+    return;
+  } else {
+    hideMsg(msg_error);
+  }
+
+  if(name_count < 2){
+    showMsg(msg_error,'Prêencha o seu nome correctamente');
+    return;
+  } else {
+    hideMsg(msg_error);
+  }
+
+  // phone validations
+  if(phone.value.length < 9 || phone.value.length > 16 || !isNumeric(phone.value)){
+    showMsg(msg_error,'Prêencha o telefone correctamente (sem espaços, apenas numeros)');
+    return;
+  } else {
+    hideMsg(msg_error);
+  }
+
+
+  // email validations
+  if(!validateEmail(email.value)){
+    showMsg(msg_error,'Prêencha o email correctamente');
+    return;
+  } else {
+    hideMsg(msg_error);
+  }
+
+  // subject validations
+  if(subject.value.length <= 10){
+    showMsg(msg_error,'Por favor especifique melhor o assunto, obrigado');
+    return;
+  } else {
+    hideMsg(msg_error);
+  }
+
+  if(subject.value.length > 255){
+    showMsg(msg_error,'Assunto muito grande, desenvolva antes a sua mensagem e diminua o tamanho do assunto, obrigado');
+    return;
+  } else {
+    hideMsg(msg_error);
+  }
+
+
+  // message validations
+  if(message.value.length <= 10){
+    showMsg(msg_error,'Por favor desenvolva melhor a sua mensagem, obrigado');
+    return;
+  } else {
+    hideMsg(msg_error);
+  }
+
+  var xhr = new XMLHttpRequest();
+  xhr.open('PUT', 'msg.php');
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.onload = function() {
+      if (xhr.status === 200) {
+          var response = JSON.parse(xhr.responseText);
+
+          if(response.status){
+              showMsg(el('send_msg_success'),response.message)
+              hideEl('contact_cta');
+              hideEl('send_msg_name');
+              hideEl('send_msg_phone');
+              hideEl('send_msg_email');
+              hideEl('send_msg_subject');
+              hideEl('send_msg_msg');
+              hideEl('send_msg_btn');
+          } else {
+              showMsg(el('send_msg_error'),response.message ? response.message : 'Ups.. não foi possível enviar a mensagem, tente mais tarde ou envie um email directamente, ou entre em contacto pelas redes sociais.');
+          }
+      }
+  };
+  xhr.send(JSON.stringify({
+      name: name.value,
+      phone: phone.value,
+      email: email.value,
+      subject: subject.value,
+      message: message.value
+  }));
+
+};
