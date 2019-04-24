@@ -2,8 +2,11 @@ function el(id){
   return document.getElementById(id);
 }
 
+window.menu_open = false;
+window.menu_loading = false;
+
 var pablocamara = el('pablocamara');
-var pablocamara_title = el('pablocamara_title');
+var special_title_el = el('special_title');
 var navbar = el('navbar');
 var triangle = el('triangle');
 var menu = el('menu');
@@ -140,17 +143,19 @@ function PabloCamaraLoader(callback){
   setTimeout(function(){ PabloCamaraLoader(callback); }, window.skip_intro === true ? 0 : letter_piece_props.time);
 }
 
+function initTitle(titleStr){
+    special_title_el.innerHTML = '';
+    window.special_title = titleStr.split('');
+}
 
-var title = 'Web designer, Programador & freelancer'.split('');
 function loadTitle(interval, callback){
-  if(title.length === 0){
+  if(window.special_title.length === 0){
     callback();
     return;
   }
-  pablocamara_title.innerHTML += title.shift();
+  special_title_el.innerHTML += window.special_title.shift();
 
   setTimeout(function(){ loadTitle(interval, callback); }, window.skip_intro === true ? 0 : interval);
-
 }
 
 function fadeNav(){
@@ -205,31 +210,42 @@ function normalizeContent(){
 }
 
 
-var menu_open = false;
-var menu_loading = false;
+
 
 function showMenu(){
-  menu_loading = true;
+  doScrolling(0,1000);
+
+  triangle.style.borderWidth = '0px 5px 10px 5px';
+  triangle.style.borderColor = 'transparent transparent white transparent';
+
+
+  window.menu_loading = true;
   menu.style.top = (menu.offsetTop+2) + 'px';
   if(menu.offsetTop < navbar.offsetHeight){
     setTimeout(function(){
       showMenu();
     },1);
   } else {
-    menu_loading = false;
+    window.menu_loading = false;
+    window.menu_open = true;
+    toggleClass(menu,'color-yellow');
   }
 }
 
 
 function hideMenu(){
-  menu_loading = true;
+  triangle.style.borderWidth = '10px 5px 0 5px';
+  triangle.style.borderColor = 'white transparent transparent transparent';
+  window.menu_loading = true;
   menu.style.top = (menu.offsetTop-2) + 'px';
   if(menu.offsetTop > -menu.offsetHeight){
     setTimeout(function(){
       hideMenu();
     },1);
   } else {
-    menu_loading = false;
+    window.menu_loading = false;
+    window.menu_open = false;
+    toggleClass(menu,'color-yellow');
   }
 }
 
@@ -258,22 +274,15 @@ document.addEventListener("DOMContentLoaded", function(){
 
 
 el('navbar').onclick = function(e){
-  if(menu_loading)return;
+  if(window.menu_loading)return;
 
-  if(!menu_open){
-    triangle.style.borderWidth = '0px 5px 10px 5px';
-    triangle.style.borderColor = 'transparent transparent white transparent';
+  if(!window.menu_open){
     prepareContentForMenu();
     showMenu();
-    doScrolling(el('menu').offsetTop,500);
   } else {
-    triangle.style.borderWidth = '10px 5px 0 5px';
-    triangle.style.borderColor = 'white transparent transparent transparent';
     normalizeContent();
     hideMenu();
   }
-  menu_open = !menu_open;
-  toggleClass(e.target,'color-yellow');
 };
 
 el('skip_intro').onclick = function(){
@@ -290,7 +299,7 @@ el('contact_cta').onclick = function(e){
     form.style.display = "none";
   else {
     form.style.display = "block";
-    doScrolling(el('pablocamara_title').offsetTop - el('navbar').offsetHeight,500);
+    doScrolling(special_title_el.offsetTop - navbar.offsetHeight,500);
   }
 
 
@@ -438,3 +447,53 @@ el('send_msg_btn').onclick = function(){
   }));
 
 };
+
+function hideViews(){
+  var views = document.getElementsByClassName('view');
+  for(var i = 0; i < views.length; i++){
+    views[i].style.display = "none";
+  }
+}
+
+function setActiveMenuItem(target){
+  var items = menu.getElementsByClassName('active');
+  for(var i = 0; i < items.length; i++){
+    toggleClass(items[i],'active');
+  }
+  toggleClass(target,'active');
+}
+
+function menuItemClick(e){
+  setActiveMenuItem(e);
+  hideViews();
+  normalizeContent();
+  hideMenu();
+  doScrolling(pablocamara.offsetHeight,1200);
+}
+
+function show_home_page(e){
+  menuItemClick(e);
+  initTitle('Web designer, Programador & freelancer');
+  window.skip_intro = false;
+  el('contact_cta').style.opacity = '0';
+  el('social_media').style.opacity = '0';
+
+  el('home').style.display = 'block';
+  loadTitle(50, function(){
+    setTimeout(function(){
+          fadeCTA();
+          fadeNav();
+          fadeSocial();
+          el('skip_intro').style.display = 'none';
+    }, 100);
+  });
+}
+
+function show_about_me(e){
+  menuItemClick(e);
+  initTitle('Sobre mim:');
+  window.skip_intro = false;
+  loadTitle(200,function(){
+
+  });
+}

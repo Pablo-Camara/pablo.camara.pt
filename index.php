@@ -56,7 +56,7 @@
         margin: auto;
       }
 
-      #pablocamara_title {
+      #special_title {
         text-align: center;
         color: white;
       }
@@ -136,6 +136,10 @@
 
       .menu .menu-item:hover {
         color: #005373;
+        font-weight: bold;
+      }
+
+      .menu .menu-item.active {
         font-weight: bold;
       }
 
@@ -253,17 +257,16 @@
       <div class="triangle" id="triangle"></div>
     </div>
     <div class="menu" id="menu">
-      <div class="menu-item">Início</div>
-      <div class="menu-item">Sobre mim</div>
+      <div class="menu-item active" onClick="show_home_page(this)">Início</div>
+      <div class="menu-item" onClick="show_about_me(this)">Sobre mim</div>
       <div class="menu-item">Portefólio</div>
       <div class="menu-item">Serviços</div>
-      <div class="menu-item">Contactos</div>
     </div>
 
-    <div id="home" class="view">
-      <div id="pablocamara"></div>
-      <div id="pablocamara_title"></div>
+    <div id="pablocamara"></div>
+    <div id="special_title"></div>
 
+    <div id="home" class="view">
 
       <div class="btn" id="contact_cta" style="opacity: 0">Entrar em Contacto</div>
 
@@ -304,9 +307,10 @@
       <div id="skip_intro">avançar</div>
     </div>
 
-    <script type="text/javascript" src="js/main.js?v=1.0&d=<?= date('YmdHis') ?>"></script>
+    <script type="text/javascript" src="js/main.js?v=1.0&s=<?= date('s') ?>"></script>
     <script type="text/javascript">
       PabloCamaraLoader(function(){
+        initTitle('Web designer, Programador & freelancer');
         loadTitle(50, function(){
           setTimeout(function(){
                 fadeCTA();
