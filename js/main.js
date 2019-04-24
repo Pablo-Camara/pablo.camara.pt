@@ -479,7 +479,7 @@ function show_home_page(e){
   el('social_media').style.opacity = '0';
 
   el('home').style.display = 'block';
-  loadTitle(25, function(){
+  loadTitle(50, function(){
     setTimeout(function(){
           fadeCTA();
           fadeNav();
