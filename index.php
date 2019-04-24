@@ -321,7 +321,7 @@
                 fadeNav();
                 fadeSocial();
                 el('skip_intro').style.display = 'none';
-          }, window.skip_intro === true ? 0 : 1100);
+          }, window.skip_intro === true ? 0 : 650);
         });
       });
     </script>

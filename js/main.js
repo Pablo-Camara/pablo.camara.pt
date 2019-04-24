@@ -491,9 +491,9 @@ function show_home_page(e){
 
 function show_about_me(e){
   menuItemClick(e);
-  initTitle('Sobre mim:');
+  initTitle('Olá,');
   window.skip_intro = false;
-  loadTitle(200,function(){
+  loadTitle(500,function(){
 
   });
 }
