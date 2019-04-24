@@ -265,6 +265,7 @@ el('navbar').onclick = function(e){
     triangle.style.borderColor = 'transparent transparent white transparent';
     prepareContentForMenu();
     showMenu();
+    doScrolling(el('menu').offsetTop,500);
   } else {
     triangle.style.borderWidth = '10px 5px 0 5px';
     triangle.style.borderColor = 'white transparent transparent transparent';

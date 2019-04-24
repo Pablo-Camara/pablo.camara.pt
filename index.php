@@ -94,7 +94,7 @@
         line-height: 29px;
         width: 100%;
         background-color: #00202b; //white; //rgba(0, 75, 111, 1);
-        position: absolute;
+        position: fixed;
         top: -60px;
         color: white;
         text-align: center;
