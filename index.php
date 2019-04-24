@@ -148,7 +148,7 @@
         bottom: 10px;
         right: 10px;
         cursor: pointer;
-        color: yellow;
+        color: rgba(228, 255, 0, 0.3);
       }
 
       #skip_intro:hover { color: white; }
