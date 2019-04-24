@@ -147,6 +147,10 @@
         color: #254854;
       }
 
+      .color-yellow {
+        color: yellow !important;
+      }
+
       #skip_intro:hover { color: yellow; }
     </style>
   </head>

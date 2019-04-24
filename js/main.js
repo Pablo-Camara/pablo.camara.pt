@@ -212,10 +212,26 @@ function hideMenu(){
   }
 }
 
+function toggleClass(element,className) {
+  if (element.classList) {
+    element.classList.toggle(className);
+  } else {
+    // For IE9
+    var classes = element.className.split(" ");
+    var i = classes.indexOf(className);
+
+    if (i >= 0)
+      classes.splice(i, 1);
+    else
+      classes.push(className);
+      element.className = classes.join(" ");
+  }
+}
 
 
 
-el('navbar').onclick = function(){
+
+el('navbar').onclick = function(e){
   if(menu_loading)return;
 
   if(!menu_open){
@@ -230,6 +246,7 @@ el('navbar').onclick = function(){
     hideMenu();
   }
   menu_open = !menu_open;
+  toggleClass(e.target,'color-yellow');
 };
 
 el('skip_intro').onclick = function(){
