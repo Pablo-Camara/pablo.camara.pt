@@ -8,7 +8,10 @@
     <meta property="og:title" content="Pablo Câmara - Web designer, Programador & freelancer" />
     <meta property="og:description" content="Empreendedor, freelancer, apaixonado pela tecnologia e pelo desporto." />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="http://pablo.camara.pt/img/facebook-c.png" />
+    <meta property="og:image" content="http://pablo.camara.pt/img/facebook-cc.png" />
+    <meta property="og:image:width" content="600" />
+    <meta property="og:image:height" content="315" />
+
     <meta property="og:url"   content="https://www.pablo.camara.pt" />
     <meta property="fb:app_id"   content="344746412825208" />
 
