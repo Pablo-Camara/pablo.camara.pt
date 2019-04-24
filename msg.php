@@ -37,10 +37,10 @@ use PHPMailer\PHPMailer\Exception;
 $database = new Medoo([
 	// required
 	'database_type' => 'mysql',
-	'database_name' => 'pc',
-	'server' => 'pc_mysql',
-	'username' => 'pc_root',
-	'password' => 'pc_root_pwd',
+	'database_name' => 'pablocam_pc',
+	'server' => 'localhost',// dev mode : 'pc_mysql',
+	'username' => 'pablocam_root',
+	'password' => 'PabloCamara2019Mailer',
 
 	// [optional]
 	'charset' => 'utf8mb4',
