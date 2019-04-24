@@ -261,11 +261,16 @@ el('skip_intro').onclick = function(){
 el('contact_cta').onclick = function(e){
   var form = el('send_msg');
 
+
   if(form.style.display === 'block')
     form.style.display = "none";
   else
     form.style.display = "block";
 
+
+  var name = el('send_msg_name');
+  name.focus();
+  
   toggleClass(e.target,'active');
 };
 
@@ -302,7 +307,7 @@ function validateEmail(email) {
 el('send_msg_btn').onclick = function(){
   var form = el('send_msg');
 
-  var name = form.querySelector('[name="name"]'); //el('send_msg_name');
+  var name = el('send_msg_name');
   var phone = el('send_msg_phone');
   var email = el('send_msg_email');
   var subject = el('send_msg_subject');
