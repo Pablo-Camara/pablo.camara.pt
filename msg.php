@@ -12,7 +12,7 @@ if(isset($_SESSION['msg_sent'])){
     die();
 }
 
-$debug = true;
+$debug = false;
 
 if($debug){
   ini_set('display_errors', 1);
@@ -100,7 +100,9 @@ $mail->Body    .= 'IP: <br/><b>' . $ip . '</b><br/>';
 $mail->Body    .= 'Database record ID: <b>' . $database->id() . '</b><br/>';
 $mail->Body    .= 'Mensagem:<br/><b>' . $data['message'] . '</b><br/>';
 
-$mail->send();
+if(!$debug){
+  $mail->send();
+}
 
 
 
