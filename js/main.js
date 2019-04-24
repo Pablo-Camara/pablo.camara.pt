@@ -290,7 +290,7 @@ el('contact_cta').onclick = function(e){
     form.style.display = "none";
   else {
     form.style.display = "block";
-    doScrolling(el('pablocamara_title').offsetTop,500);
+    doScrolling(el('pablocamara_title').offsetTop - el('navbar').offsetHeight,500);
   }
 
 
