@@ -143,8 +143,11 @@
         position: absolute;
         bottom: 10px;
         right: 10px;
+        cursor: pointer;
         color: #254854;
       }
+
+      #skip_intro:hover { color: yellow; }
     </style>
   </head>
   <body>
