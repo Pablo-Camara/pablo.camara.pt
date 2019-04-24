@@ -89,6 +89,27 @@ var name_props = [
   { width: '4px', height: '4px', top: '223px', left: '108px', time: 100},
 ];
 
+function doScrolling(elementY, duration) {
+  var startingY = window.pageYOffset;
+  var diff = elementY - startingY;
+  var start;
+
+  // Bootstrap our animation - it will get called right before next frame shall be rendered.
+  window.requestAnimationFrame(function step(timestamp) {
+    if (!start) start = timestamp;
+    // Elapsed milliseconds since start of scrolling.
+    var time = timestamp - start;
+    // Get percent of completion in range [0, 1].
+    var percent = Math.min(time / duration, 1);
+
+    window.scrollTo(0, startingY + diff * percent);
+
+    // Proceed with animation as long as we wanted it to.
+    if (time < duration) {
+      window.requestAnimationFrame(step);
+    }
+  })
+}
 
 function PabloCamaraLoader(callback){
   if(name_props.length === 0){
@@ -258,19 +279,24 @@ el('skip_intro').onclick = function(){
   window.skip_intro = true;
 };
 
+
+
 el('contact_cta').onclick = function(e){
   var form = el('send_msg');
 
 
   if(form.style.display === 'block')
     form.style.display = "none";
-  else
+  else {
     form.style.display = "block";
+    doScrolling(el('pablocamara_title').offsetTop,500);
+  }
+
 
 
   var name = el('send_msg_name');
   name.focus();
-  
+
   toggleClass(e.target,'active');
 };
 
