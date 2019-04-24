@@ -148,9 +148,10 @@
         bottom: 10px;
         right: 10px;
         cursor: pointer;
-        color: #254854;
+        color: yellow;
       }
 
+      #skip_intro:hover { color: white; }
 
       #send_msg {
         width: 100%;
@@ -226,7 +227,7 @@
         color: yellow !important;
       }
 
-      #skip_intro:hover { color: yellow; }
+
 
       .error_msg,.success_msg,.sending_msg {
         color: white;
