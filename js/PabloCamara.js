@@ -535,7 +535,9 @@ const PabloCamara = {
         for (const field in fields) {
           fields[field].getEl().value = '';
           fields[field].getEl().style.display = 'none';
-        }
+          }
+
+          PabloCamara.Components.ContactForm.getSendBtn().style.display = 'none';
       },
       show: function(){
         El.show(PabloCamara.Components.ContactForm.getForm.getElId());
