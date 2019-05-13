@@ -36,7 +36,7 @@ try {
 
   $database = new Medoo([
   	// required
-  	'database_type' => 'mysqli',
+  	'database_type' => 'mysql',
   	'database_name' => 'pablocamara',
   	'server' => 'pc_mysql',// dev mode : 'pc_mysql',
   	'username' => 'pc_main_user2019',
