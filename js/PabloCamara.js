@@ -150,7 +150,7 @@ const PabloCamara = {
           }
           const nextLetterPiece = PabloCamara.Components.NameLoader._lettersConfigsToLoad.shift();
           const nextLetterPiece_element = document.createElement('div');
-          for (const property in nextLetterPiece) {
+          for (var property in nextLetterPiece) {
               nextLetterPiece_element.style[property] = nextLetterPiece[property];
           }
           nextLetterPiece_element.style.backgroundColor = 'white';
