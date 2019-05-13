@@ -30,7 +30,7 @@ const PabloCamara = {
                   // TODO: Enable navbar after we create other pages then the Home page
                   //PabloCamara.Components.Navbar.initialize(10,function(){
                       // Hides the Skip button
-                      //El.hide('skip_btn');
+                      El.hide('skip_btn');
                       // and calls the callback in case its passed as a function
                       if(typeof callback === "function")callback();
                   //});
