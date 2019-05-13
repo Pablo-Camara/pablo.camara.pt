@@ -532,7 +532,7 @@ const PabloCamara = {
       },
       hideFields: function(){
         const fields = PabloCamara.Components.ContactForm.fields;
-        for (const field in fields) {
+        for (var field in fields) {
           fields[field].getEl().value = '';
           fields[field].getEl().style.display = 'none';
           }
