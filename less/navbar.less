@@ -1,0 +1,54 @@
+// out: ../css/navbar.css, sourcemap: false, compress: true
+#navbar {
+  height: 45px;
+  line-height: 29px;
+  width: 100%;
+  background-color: #00202b; //white; //rgba(0, 75, 111, 1);
+  position: fixed;
+  top: -60px;
+  color: white;
+  text-align: center;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-size: 14px;
+  z-index: 999;
+}
+
+#navbar .triangle {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 10px 5px 0 5px;
+  border-color: white transparent transparent transparent;
+  margin: auto;
+}
+
+.menu {
+  width: 320px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -1000px; // Make sure Menu doesn't show initially on the screen
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 888;
+}
+
+.menu .menu-item {
+  background: white;
+  margin-bottom: 4px;
+  color: #0d4a5f;
+  text-transform: none;
+  font-size: 15px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.menu .menu-item:hover {
+  color: #005373;
+  font-weight: bold;
+}
+
+.menu .menu-item.active {
+  font-weight: bold;
+}
