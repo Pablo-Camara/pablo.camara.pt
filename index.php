@@ -12,7 +12,7 @@
     <meta property="og:image:width" content="600" />
     <meta property="og:image:height" content="315" />
 
-    <meta property="og:url"   content="https://www.pablo.camara.pt" />
+    <meta property="og:url"   content="https://pablo.camara.pt" />
     <meta property="fb:app_id"   content="344746412825208" />
 
     <title>Pablo Câmara - Freelancer</title>
