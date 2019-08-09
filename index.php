@@ -50,7 +50,7 @@
 
 
       <div id="social_media">
-        <a href="https://www.facebook.com/pablo.camara.pt" target="_blank">
+        <a href="https://www.facebook.com/pablo.camara.5" target="_blank">
           <img src="img/icons/fb-icon.svg" width="30px" height="30px" />
         </a>
         <a href="https://www.instagram.com/pablo.camara.pt/" target="_blank">
