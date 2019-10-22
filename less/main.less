@@ -2,8 +2,24 @@
 html,body {
   margin: 0;
   padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+body {
   background: #00202B;
-  font-family: 'Karla', Arial, sans-serif;
+  color: #ffffff;
+}
+
+.white-theme {
+  background: #ffffff;
+}
+
+#pablocamara div {
+	background-color: white;
+}
+
+.white-theme #pablocamara div {
+	background-color: #00202b;
 }
 
 * {
@@ -43,6 +59,10 @@ html,body {
   color: white;
 }
 
+.white-theme #view_intro_text {
+	color: #001F2B;
+}
+
 #profile_pic {
   width: 100px;
   margin-top: 240px;
@@ -80,12 +100,23 @@ html,body {
   bottom: 10px;
   right: 10px;
   cursor: pointer;
-  color: rgba(228, 255, 0, 0.3);
+  color: rgba(228, 255, 0, 0.6);
 }
 
 #skip_btn:hover { color: white; }
 
-#contact_form {
+.white-theme {
+	#skip_btn {
+		color: rgba(230, 85, 0, 1);
+		
+		&:hover {
+			color: #049fd0;
+		}
+	}
+}
+
+#contact_form,
+#login_form {
   width: 100%;
   max-width: 220px;
   margin: auto;
@@ -94,7 +125,11 @@ html,body {
 
 #contact_form.form-box input[type="text"],
 #contact_form.form-box input[type="email"],
-#contact_form.form-box textarea {
+#contact_form.form-box input[type="password"],
+#contact_form.form-box textarea,
+#login_form.form-box input[type="email"],
+#login_form.form-box input[type="password"]
+{
   max-width: 203px;
   margin: auto;
   margin-bottom: 5px;
@@ -113,6 +148,7 @@ html,body {
 .appearance-none,
 .form-box input[type="text"],
 .form-box input[type="email"],
+.form-box input[type="password"],
 .form-box textarea {
   -webkit-appearance:     none;
       -moz-appearance:        none;
@@ -124,6 +160,7 @@ html,body {
 
 .form-box input[type="text"],
 .form-box input[type="email"],
+.form-box input[type="password"],
 .form-box textarea {
   width: 100%;
   border: 1px solid #063646;
@@ -133,6 +170,7 @@ html,body {
 }
 
 .form-box input[type="text"],
+.form-box input[type="password"],
 .form-box input[type="email"] {
   height: 40px;
 }
@@ -153,6 +191,18 @@ html,body {
 .form-box .form-button:hover {
   background: white;
   color: #00202b;
+}
+
+.form-box .form-button.reversed:hover {
+	border-color: #ffffff;
+	background: #00202b;
+	color: #ffffff;
+}
+
+.form-box .form-button.reversed {
+  background: #ffffff;
+  color: #00202b;
+  border-color: #696969;
 }
 
 .color-yellow {
@@ -221,4 +271,78 @@ html,body {
   #about_me {
     max-width: 300px;
   }
+}
+
+.img-webdev {
+	background-image: url('../img/webdev.png');
+	width: 291px;
+	height: 153px;
+	margin: auto;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.img-webmaintenance {
+	background-image: url('../img/webmaintenance.jpg');
+	width: 291px;
+	height: 153px;
+	margin: auto;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+
+
+
+.h-12 {
+	font-size: 12px;
+}
+
+
+.h-14 {
+	font-size: 14px;
+}
+
+
+.h-16 {
+	font-size: 16px;
+}
+
+.h-18 {
+	font-size: 18px;
+}
+
+.h-20 {
+	font-size: 20px;
+}
+
+#services {
+	text-align: center;
+}
+
+.service-item {
+    border: 1px solid #053242;
+    width: 290px;
+    margin: 20px auto;
+    padding: 10px 10px;
+    -webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+    vertical-align: top;
+}
+
+.btn-white-rounded {
+	background-color: #ffffff;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+	width: 180px;
+    height: 46px;
+    line-height: 46px;
+    color: #001F2B;
+    font-size: 18px;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+	cursor: pointer;
 }

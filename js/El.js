@@ -10,7 +10,7 @@ const El = {
       El.getById(el_id).style.display = 'none';
     },
     fadeIn: function(el_id, interval, callback){
-      var element = El.getById(el_id);
+      var element = typeof el_id === 'string' ? El.getById(el_id) : el_id;
 
       if(element.style.display === 'none' || element.style.opacity == ''){
         element.style.opacity = '0';

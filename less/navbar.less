@@ -14,6 +14,7 @@
   z-index: 999;
 }
 
+
 #navbar .triangle {
   width: 0;
   height: 0;
@@ -21,7 +22,16 @@
   border-width: 10px 5px 0 5px;
   border-color: white transparent transparent transparent;
   margin: auto;
+  
 }
+
+#navbar .triangle.reversed {
+	border-width: 0px 5px 10px 5px;
+	border-color: transparent transparent white transparent;
+}
+
+
+
 
 .menu {
   width: 320px;
@@ -51,4 +61,27 @@
 
 .menu .menu-item.active {
   font-weight: bold;
+}
+
+
+.white-theme {
+	#navbar {
+		color: #00202b;
+		background-color: white;
+		
+		.triangle {
+			border-color: #00202b transparent transparent transparent;
+		}
+		
+		.triangle.reversed {
+			border-width: 0px 5px 10px 5px;
+			border-color: transparent transparent #00202b transparent;
+		}
+
+	}
+	
+	.menu .menu-item {
+	  background: #0d4a5f;
+	  color: #ffffff;
+	}
 }

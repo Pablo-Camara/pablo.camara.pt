@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -21,13 +21,16 @@
     <link href="css/navbar.css" rel="stylesheet"/>
     <link href="css/main.css" rel="stylesheet"/>
   </head>
-  <body>
+  <body id="mainbody">
     <div id="navbar">
       MENU
       <div class="triangle" id="menu-triangle"></div>
     </div>
     <div class="menu" id="menu">
-      <div class="menu-item active" data-view="HomePage">Início</div>
+      <div class="menu-item active" data-view="HomePage">Pagina Inícial / Contacto</div>
+      <div class="menu-item" data-view="Services">Serviços</div>
+      <!-- <div class="menu-item" data-view="Portfolio">Portfólio</div> -->
+      <div class="menu-item" data-view="ClientArea">Área de Clientes</div>
     </div>
 
     <div id="pablocamara"></div>
@@ -36,7 +39,6 @@
     <div id="home" class="view" style="display: none">
 
       <div class="btn" id="contact_cta">Entrar em Contacto</div>
-
 
       <div class="form-box" id="contact_form">
         <input type="text" name="name" placeholder="O seu nome?" id="contact_form_name"/>
@@ -50,15 +52,15 @@
 
 
       <div id="social_media">
-        <a href="https://www.facebook.com/pablo.camara.5" target="_blank">
-          <img src="img/icons/fb-icon.svg" width="30px" height="30px" />
-        </a>
-        <a href="https://www.instagram.com/pablo.camara.pt/" target="_blank">
-          <img src="img/icons/instagram.svg" width="30px" height="30px" />
-        </a>
-        <a href="#" target="_blank" style="display: none">
-          <img src="img/icons/youtube.svg" width="30px" height="30px" />
-        </a>
+        <!-- <a href="https://www.facebook.com/pablo.camara.5" target="_blank"> -->
+          <!-- <img src="img/icons/fb-icon.svg" width="30px" height="30px" /> -->
+        <!-- </a> -->
+        <!-- <a href="https://www.instagram.com/pablo.camara.pt/" target="_blank"> -->
+          <!-- <img src="img/icons/instagram.svg" width="30px" height="30px" /> -->
+        <!-- </a> -->
+        <!-- <a href="#" target="_blank"> -->
+          <!-- <img src="img/icons/youtube.svg" width="30px" height="30px" /> -->
+        <!-- </a> -->
         <a href="https://www.linkedin.com/in/pablo-camara/" target="_blank">
           <img src="img/icons/linkedin.svg" width="30px" height="30px" />
         </a>
@@ -72,7 +74,43 @@
 
     </div>
 
-
+	<div id="client_area" class="view" style="display: none">
+		<div class="form-box" id="login_form">
+			<input type="email" name="login_email" placeholder="Email" id="login_email"/>
+			<input type="password" name="login_pwd" placeholder="Palavra-passe" id="login_pwd"/>
+			<div id="login_form_feedback" class="error_msg h-12" style="display: none"></div>
+			<div class="form-button reversed" id="login_form_submit">Entrar</div>
+		</div>
+	</div>
+	
+	<div id="services" style="display: none">
+		<div class="service-item" style="display: none">
+			<div class="h-16">
+				<b>Web Design + Desenvolvimento</b>
+			</div>
+			<div class="img-webdev"></div>
+			<div class="h-14">
+				Criação de sites / aplicações web á medida,<br/>
+				de acordo com as necessidades<br/>
+				do seu negócio ou ideia.
+			</div>
+			<!-- <div class="btn-white-rounded">Saber mais..</div> -->
+		</div>
+		
+		<div class="service-item" style="display: none">
+			<div class="h-16">
+				<b>Gestão/Otimização de Sites</b>
+			</div>
+			<div class="img-webmaintenance"></div>
+			<div class="h-14">
+				Gestão de sites atualmente existentes,<br>
+    			desenvolvimento do design visual, de <br>
+				funcionalidades novas/existentes,<br>
+    			otimização de performance, entre outros.
+			</div>
+			<!-- <div class="btn-white-rounded">Saber mais..</div> -->
+		</div>
+	</div>
 
     <div id="skip_btn">avançar</div>
 
@@ -82,7 +120,7 @@
     <script type="text/javascript" src="js/Validator.js?v=1.0&d=2019-05-13 12:22"></script>
     <script type="text/javascript" src="js/PabloCamara.js?v=1.0&d=2019-05-13 13:55"></script>
     <script type="text/javascript">
-      PabloCamara.Startup();
+      PabloCamara.showView("HomePage",false);
     </script>
   </body>
 </html>

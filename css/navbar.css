@@ -1,1 +1,67 @@
-#navbar{height:45px;line-height:29px;width:100%;background-color:#00202b;position:fixed;top:-60px;color:white;text-align:center;cursor:pointer;text-transform:uppercase;font-size:14px;z-index:999}#navbar .triangle{width:0;height:0;border-style:solid;border-width:10px 5px 0 5px;border-color:white transparent transparent transparent;margin:auto}.menu{width:320px;position:absolute;left:0;right:0;top:-1000px;margin-left:auto;margin-right:auto;z-index:888}.menu .menu-item{background:white;margin-bottom:4px;color:#0d4a5f;text-transform:none;font-size:15px;padding:10px;cursor:pointer}.menu .menu-item:hover{color:#005373;font-weight:bold}.menu .menu-item.active{font-weight:bold}
+#navbar {
+  height: 45px;
+  line-height: 29px;
+  width: 100%;
+  background-color: #00202b;
+  position: fixed;
+  top: -60px;
+  color: white;
+  text-align: center;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-size: 14px;
+  z-index: 999;
+}
+#navbar .triangle {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 10px 5px 0 5px;
+  border-color: white transparent transparent transparent;
+  margin: auto;
+}
+#navbar .triangle.reversed {
+  border-width: 0px 5px 10px 5px;
+  border-color: transparent transparent white transparent;
+}
+.menu {
+  width: 320px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -1000px;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 888;
+}
+.menu .menu-item {
+  background: white;
+  margin-bottom: 4px;
+  color: #0d4a5f;
+  text-transform: none;
+  font-size: 15px;
+  padding: 10px;
+  cursor: pointer;
+}
+.menu .menu-item:hover {
+  color: #005373;
+  font-weight: bold;
+}
+.menu .menu-item.active {
+  font-weight: bold;
+}
+.white-theme #navbar {
+  color: #00202b;
+  background-color: white;
+}
+.white-theme #navbar .triangle {
+  border-color: #00202b transparent transparent transparent;
+}
+.white-theme #navbar .triangle.reversed {
+  border-width: 0px 5px 10px 5px;
+  border-color: transparent transparent #00202b transparent;
+}
+.white-theme .menu .menu-item {
+  background: #0d4a5f;
+  color: #ffffff;
+}

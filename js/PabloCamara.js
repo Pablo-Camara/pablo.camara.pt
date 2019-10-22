@@ -7,10 +7,15 @@ const PabloCamara = {
         El.show('skip_btn');
 
         // Hides the Home container, social media, and contact form:
-        El.hide('home');
+        PabloCamara.Views.HomePage.hide();
+        PabloCamara.Views.ClientArea.hide();
+		PabloCamara.Views.Services.hide();
         El.hide('social_media');
+		
         PabloCamara.Components.ContactForm.initialize();
         PabloCamara.Components.ContactForm.hide();
+		El.removeClass('mainbody','white-theme');
+		
       },
       show: function(skip,callback){
         // Sets up HomePage for the intro/animaitons:
@@ -28,18 +33,135 @@ const PabloCamara = {
                 El.fadeIn('social_media',50,function(){
                   // And only then we Initialize the navbar, only animates once
                   // TODO: Enable navbar after we create other pages then the Home page
-                  //PabloCamara.Components.Navbar.initialize(10,function(){
+                  PabloCamara.Components.Navbar.initialize(10,function(){
                       // Hides the Skip button
                       El.hide('skip_btn');
                       // and calls the callback in case its passed as a function
                       if(typeof callback === "function")callback();
-                  //});
+                  });
                 });
               });
             },Configs.Loading.skip === true ? 0 : 450);
 
         });
       },
+	  hide: function(){
+		  El.hide('home');
+	  }
+    },
+	ClientArea: {
+      initialize: function(skip){
+        // Skip button to fast forward animations:
+        Configs.Loading.skip = skip;
+        El.show('skip_btn');
+
+        // Hides the Home View, Client area, social media, and contact form:
+        PabloCamara.Views.HomePage.hide();
+        PabloCamara.Views.ClientArea.hide();
+		PabloCamara.Views.Services.hide();
+        El.hide('social_media');
+        PabloCamara.Components.ContactForm.hide();
+		El.addClass('mainbody','white-theme');
+		
+		var loginSubmit = El.getById('login_form_submit');
+		var loginFeedback = El.getById('login_form_feedback');
+		loginSubmit.onclick = function(){
+			loginFeedback.innerHTML = 'Email e/ou password invalido(s).';
+			loginFeedback.style.display = "block";
+		}
+		
+      },
+      show: function(skip,callback){
+        // Sets up ClientArea for the intro/animations:
+        PabloCamara.Views.ClientArea.initialize(skip);
+        // Writes the Intro Text with an animation effect:
+        PabloCamara.Components.IntroText.start(
+          'Área de Clientes',50, // 50ms each letter
+          function(){ // Callback After Intro Text has been written
+
+            setTimeout(function(){ // Waits 450ms and then:
+			
+              El.show('client_area'); // displays the Container
+			  
+			  //Initialize the navbar, only animates once
+			  // TODO: Enable navbar after we create other pages then the Home page
+			  PabloCamara.Components.Navbar.initialize(10,function(){
+				  // Hides the Skip button
+				  El.hide('skip_btn');
+				  // and calls the callback in case its passed as a function
+				  if(typeof callback === "function")callback();
+			  });
+			  
+            },Configs.Loading.skip === true ? 0 : 450);
+
+        });
+      },
+	  hide: function(){
+		// Hides de Client Area
+		El.hide('client_area');
+	  }
+    },
+	Services: {
+      initialize: function(skip){
+        // Skip button to fast forward animations:
+        Configs.Loading.skip = skip;
+        El.show('skip_btn');
+
+        // Hides the Home View, Client area, services, social media, and contact form:
+        PabloCamara.Views.HomePage.hide();
+        PabloCamara.Views.ClientArea.hide();
+        PabloCamara.Views.Services.hide();
+        El.hide('social_media');
+        PabloCamara.Components.ContactForm.hide();
+		El.removeClass('mainbody','white-theme');
+		
+      },
+      show: function(skip,callback){
+        // Sets up ClientArea for the intro/animations:
+        PabloCamara.Views.Services.initialize(skip);
+        // Writes the Intro Text with an animation effect:
+        PabloCamara.Components.IntroText.start(
+          'Serviços atualmente disponíveis:',100, // 50ms each letter
+          function(){ // Callback After Intro Text has been written
+
+            setTimeout(function(){ // Waits 450ms and then:
+			  
+			  
+              
+			  
+			  const servicesContainer = El.getById('services');
+			  const servicesItems = servicesContainer.getElementsByClassName('service-item');
+			  
+			  var fadeAfter = function(i){
+				  setTimeout(function(){
+					  El.fadeIn(servicesItems.item(i),50);
+				  },(i+1)*500);
+			  };
+			  
+			  for(var i = 0; i < servicesItems.length; i++){
+				  servicesItems.item(i).style.display = 'none';
+				  fadeAfter(i);
+			  }
+			
+			  El.show('services');
+			  
+			  //Initialize the navbar, only animates once
+			  // TODO: Enable navbar after we create other pages then the Home page
+			  PabloCamara.Components.Navbar.initialize(10,function(){
+				  // Hides the Skip button
+				  El.hide('skip_btn');
+				  // and calls the callback in case its passed as a function
+				  if(typeof callback === "function")callback();
+			  });
+			  
+            },Configs.Loading.skip === true ? 0 : 450);
+
+        });
+      },
+	  hide: function(){
+		// Hides the Services
+		El.hide('services');
+	  }
     },
   },
   Components: {
@@ -138,7 +260,7 @@ const PabloCamara = {
             ];
           },
         },
-        load: function(config,callback){
+		load: function(config,callback){
           if (typeof PabloCamara.Components.NameLoader._lettersConfigsToLoad === 'undefined') {
             PabloCamara.Components.NameLoader._lettersConfigsToLoad = config;
             PabloCamara.Components.NameLoader.getContainer.reset();
@@ -153,7 +275,6 @@ const PabloCamara = {
           for (var property in nextLetterPiece) {
               nextLetterPiece_element.style[property] = nextLetterPiece[property];
           }
-          nextLetterPiece_element.style.backgroundColor = 'white';
           nextLetterPiece_element.style.position = 'absolute';
           PabloCamara.Components.NameLoader.getContainer.el().appendChild(nextLetterPiece_element);
           setTimeout(function(){ PabloCamara.Components.NameLoader.Letters.load(config,callback); }, Configs.Loading.skip === true ? 0 : nextLetterPiece.time);
@@ -238,23 +359,34 @@ const PabloCamara = {
         },
         getTriangle: {
           isReversed: false,
+          el_id: function(){
+            return 'menu-triangle';
+          },
           el: function(){
-            return El.getById('menu-triangle');
+            return El.getById(PabloCamara.Components.Navbar.Menu.getTriangle.el_id());
           },
           toggle: function(){
             const el = PabloCamara.Components.Navbar.Menu.getTriangle.el();
+            const el_id = PabloCamara.Components.Navbar.Menu.getTriangle.el_id();
             const isReversed = PabloCamara.Components.Navbar.Menu.getTriangle.isReversed;
             // switches the triangle upside down and back
             if(isReversed){
-              el.style.borderWidth = '10px 5px 0 5px';
-              el.style.borderColor = 'white transparent transparent transparent';
+			  El.removeClass(el_id,'reversed');
             } else {
-              el.style.borderWidth = '0px 5px 10px 5px';
-              el.style.borderColor = 'transparent transparent white transparent';
+			  El.addClass(el_id,'reversed');
             }
             PabloCamara.Components.Navbar.Menu.getTriangle.isReversed = !isReversed;
           }
         },
+		resetActiveMenuItems: function(){
+		  const items = PabloCamara.Components.Navbar.Menu.getEl().getElementsByClassName('menu-item');
+          for(var i = 0; i < items.length; i++) {
+              const item = items[i];
+			  if (item.classList) {
+				item.classList.remove('active');
+			  }
+		  }
+		},
         initialize: function(){
           // Initializes only once
           if(PabloCamara.Components.Navbar.Menu.hasInitialized)return;
@@ -279,7 +411,11 @@ const PabloCamara = {
                 // Shows the View page the user clicked on (but only if it exists)
                 const viewName = e.target.getAttribute('data-view');
                 if(viewName && PabloCamara.Views.hasOwnProperty(viewName))
-                  PabloCamara.Views[viewName].show();
+					PabloCamara.Components.Navbar.Menu.resetActiveMenuItems();
+					if (menuItem.classList) {
+						menuItem.classList.add('active');
+				    }
+					PabloCamara.Views[viewName].show();
               };
           }
 
@@ -289,7 +425,7 @@ const PabloCamara = {
           // In this case, we get the Page Header which is my Name laoded, and we slide it down for the menu
           const nameLoaderContainer = PabloCamara.Components.NameLoader.getContainer.el();
           if(!nameLoaderContainer.style.marginTop)nameLoaderContainer.style.marginTop = '1px';
-          else nameLoaderContainer.style.marginTop = (parseInt(nameLoaderContainer.style.marginTop) + 2) + 'px';
+          else nameLoaderContainer.style.marginTop = (parseInt(nameLoaderContainer.style.marginTop) + 4) + 'px';
           if(parseInt(nameLoaderContainer.style.marginTop) < 190){
             setTimeout(function(){
               PabloCamara.Components.Navbar.Menu.prepareContentForMe();
@@ -298,13 +434,19 @@ const PabloCamara = {
         },
         normalizeContentForMe: function(){
           // In this case, we get the Page Header which is my Name laoded, and we slide it back up to its place
+		 
           const nameLoaderContainer = PabloCamara.Components.NameLoader.getContainer.el();
-          nameLoaderContainer.style.marginTop = (parseInt(nameLoaderContainer.style.marginTop) - 2) + 'px';
-          if(parseInt(nameLoaderContainer.style.marginTop) > 0){
-            setTimeout(function(){
-              PabloCamara.Components.Navbar.Menu.normalizeContentForMe();
-            },1);
-          }
+		  
+		   // Slide effect (slow):
+          // nameLoaderContainer.style.marginTop = (parseInt(nameLoaderContainer.style.marginTop) - 2) + 'px';
+          // if(parseInt(nameLoaderContainer.style.marginTop) > 0){
+            // setTimeout(function(){
+              // PabloCamara.Components.Navbar.Menu.normalizeContentForMe();
+            // },1);
+          // }
+		  
+		  nameLoaderContainer.style.marginTop = '0px';
+		  
         },
         show: function(){
 
@@ -315,7 +457,7 @@ const PabloCamara = {
           const menu = PabloCamara.Components.Navbar.Menu.getEl();
 
           // sliding the Menu into the screen
-          menu.style.top = (menu.offsetTop+2) + 'px';
+          menu.style.top = (menu.offsetTop+3) + 'px';
           if(menu.offsetTop < navbar.offsetHeight){
             setTimeout(function(){ PabloCamara.Components.Navbar.Menu.show(); },1);
           } else {
@@ -325,7 +467,7 @@ const PabloCamara = {
             PabloCamara.Components.Navbar.Menu.isOpen = true;
 
             // And toggles the navbar text color to yellow
-            El.toggleClass(PabloCamara.Components.Navbar.getElId(),'color-yellow');
+            El.toggleClass(PabloCamara.Components.Navbar.getElId(),'menu-open');
           }
 
         },
@@ -334,7 +476,8 @@ const PabloCamara = {
           const menu = PabloCamara.Components.Navbar.Menu.getEl();
 
 
-          menu.style.top = (menu.offsetTop-2) + 'px';
+          //menu.style.top = (menu.offsetTop-2) + 'px'; //Slow loading
+          menu.style.top = -menu.offsetHeight + 'px'; //instant loading
           if(menu.offsetTop > -menu.offsetHeight){
             setTimeout(function(){
               PabloCamara.Components.Navbar.Menu.hide();
@@ -343,7 +486,7 @@ const PabloCamara = {
             PabloCamara.Components.Navbar.Menu.isLoading = false;
             PabloCamara.Components.Navbar.Menu.isOpen = false;
             PabloCamara.Components.Navbar.Menu.getTriangle.toggle();
-            El.toggleClass(PabloCamara.Components.Navbar.getElId(),'color-yellow');
+            El.toggleClass(PabloCamara.Components.Navbar.getElId(),'menu-open');
           }
         },
         toggle: function(){
@@ -624,12 +767,12 @@ const PabloCamara = {
       }
     },
   },
-  Startup: function(){
-    Configs.Loading.skip = false; // Allow full Intro, unless user clicks the Skip button
+  showView: function(viewName, skip){
+    Configs.Loading.skip = skip; // Allow full Intro, unless user clicks the Skip button
 
     // Loads my Name and then Calls HomePage
     PabloCamara.Components.NameLoader.start(function(){
-      PabloCamara.Views.HomePage.show(Configs.Loading.skip,null);
+      PabloCamara.Views[viewName].show(Configs.Loading.skip,null);
     });
   }
 };
