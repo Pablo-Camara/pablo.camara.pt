@@ -1,6 +1,7 @@
 <?php
 session_start();
 $debug = true;
+header('Content-type: application/json; charset=utf-8');
 
 if(isset($_SESSION['uid'])){
     $res = json_encode([
