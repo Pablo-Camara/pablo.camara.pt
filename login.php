@@ -20,7 +20,7 @@ if($debug){
 }
 
 require_once 'php/functions.php';
-require_once 'vendor/php/Medoo.php';
+
 require_once 'vendor/php/PHPMailer/Exception.php';
 require_once 'vendor/php/PHPMailer/PHPMailer.php';
 require_once 'vendor/php/PHPMailer/SMTP.php';
@@ -67,7 +67,7 @@ function invalid_login(){
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-use Medoo\Medoo;
+
 
 try {
 	// Tries inserting into the Database
