@@ -12,8 +12,7 @@ const PabloCamara = {
 		PabloCamara.Views.Services.hide();
         El.hide('social_media');
 		
-        PabloCamara.Components.ContactForm.initialize();
-        PabloCamara.Components.ContactForm.hide();
+        
 		El.removeClass('mainbody','white-theme');
 		
       },
@@ -22,7 +21,7 @@ const PabloCamara = {
         PabloCamara.Views.HomePage.initialize(skip);
         // Writes the Intro Text with an animation effect:
         PabloCamara.Components.IntroText.start(
-          'Técnico de Gestão e Programação de Sistemas Informáticos',50, // 50ms each letter
+          'Técnico de Gestão e Programação de Sistemas Informáticos, Empreendedor, Freelancer',55, // 50ms each letter
           function(){ // Callback After Intro Text has been written
 
             setTimeout(function(){ // Waits 450ms and then:
@@ -47,6 +46,8 @@ const PabloCamara = {
       },
 	  hide: function(){
 		  El.hide('home');
+		  PabloCamara.Components.ContactForm.initialize();
+		  PabloCamara.Components.ContactForm.hide();
 	  }
     },
 	ClientArea: {
@@ -183,60 +184,60 @@ const PabloCamara = {
         List: {
           A: function(x,y){
             return [
-              { width: '4px', height: '30px', top: y + 'px', left: x + 'px', time: 170},
-              { width: '22px', height: '4px', top: y + 'px', left: (x + 4) + 'px', time: 150},
-              { width: '4px', height: '30px', top: y + 'px', left: (x + 22) + 'px', time: 130},
-              { width: '22px', height: '4px', top: (y + 15) + 'px', left: (x + 4) + 'px', time: 110}
+              { width: '4px', height: '30px', top: y + 'px', left: x + 'px', time: 130},
+              { width: '22px', height: '4px', top: y + 'px', left: (x + 4) + 'px', time: 110},
+              { width: '4px', height: '30px', top: y + 'px', left: (x + 22) + 'px', time: 90},
+              { width: '22px', height: '4px', top: (y + 15) + 'px', left: (x + 4) + 'px', time: 70}
             ]
           },
           B: function(x,y){
             return [
-              { width: '4px', height: '30px', top: y + 'px', left: x + 'px', time: 110},
-              { width: '22px', height: '4px', top: y + 'px', left: (x + 2) + 'px', time: 110},
-              { width: '22px', height: '4px', top: (y + 13) + 'px', left: (x + 2) + 'px', time: 100},
-              { width: '22px', height: '4px', top: (y + 26) + 'px', left: (x + 2) + 'px', time: 100},
-              { width: '4px', height: '12px', top: (y + 2) + 'px', left: (x + 23) + 'px', time: 100},
-              { width: '4px', height: '12px', top: (y + 16) + 'px', left: (x + 23) + 'px', time: 100}
+              { width: '4px', height: '30px', top: y + 'px', left: x + 'px', time: 70},
+              { width: '22px', height: '4px', top: y + 'px', left: (x + 2) + 'px', time: 70},
+              { width: '22px', height: '4px', top: (y + 13) + 'px', left: (x + 2) + 'px', time: 60},
+              { width: '22px', height: '4px', top: (y + 26) + 'px', left: (x + 2) + 'px', time: 50},
+              { width: '4px', height: '12px', top: (y + 2) + 'px', left: (x + 23) + 'px', time: 40},
+              { width: '4px', height: '12px', top: (y + 16) + 'px', left: (x + 23) + 'px', time: 30}
             ]
           },
           C: function(x,y){
             return [
-              { width: '4px', height: '30px', top: y + 'px', left: x + 'px', time: 140},
-              { width: '25px', height: '4px', top: y + 'px', left: (x + 4) + 'px', time: 140},
-              { width: '25px', height: '4px', top: (y + 26) + 'px', left: (x + 4) + 'px', time: 150}
+              { width: '4px', height: '30px', top: y + 'px', left: x + 'px', time: 60},
+              { width: '25px', height: '4px', top: y + 'px', left: (x + 4) + 'px', time: 80},
+              { width: '25px', height: '4px', top: (y + 26) + 'px', left: (x + 4) + 'px', time: 100}
             ];
           },
           L: function(x,y){
             return [
-              { width: '4px', height: '30px', top: y + 'px', left: x + 'px', time: 180},
-              { width: '25px', height: '4px', top: (y + 26) + 'px', left: (x + 1) + 'px', time: 140}
+              { width: '4px', height: '30px', top: y + 'px', left: x + 'px', time: 140},
+              { width: '25px', height: '4px', top: (y + 26) + 'px', left: (x + 1) + 'px', time: 100}
             ];
           },
           M: function(x,y){
             return [
-              { width: '4px', height: '30px', top: y + 'px', left: x + 'px', time: 100},
-              { width: '4px', height: '4px', top: y + 'px', left: (x + 4) + 'px', time: 100},
-              { width: '4px', height: '4px', top: (y + 4) + 'px', left: (x + 8) + 'px', time: 100},
-              { width: '4px', height: '4px', top: (y + 8) + 'px', left: (x + 12) + 'px', time: 100},
-              { width: '4px', height: '4px', top: (y + 4) + 'px', left: (x + 16) + 'px', time: 100},
-              { width: '4px', height: '4px', top: y + 'px', left: (x + 20) + 'px', time: 100},
-              { width: '4px', height: '30px', top: y + 'px', left: (x + 24) + 'px', time: 100}
+              { width: '4px', height: '30px', top: y + 'px', left: x + 'px', time: 60},
+              { width: '4px', height: '4px', top: y + 'px', left: (x + 4) + 'px', time: 60},
+              { width: '4px', height: '4px', top: (y + 4) + 'px', left: (x + 8) + 'px', time: 60},
+              { width: '4px', height: '4px', top: (y + 8) + 'px', left: (x + 12) + 'px', time: 60},
+              { width: '4px', height: '4px', top: (y + 4) + 'px', left: (x + 16) + 'px', time: 60},
+              { width: '4px', height: '4px', top: y + 'px', left: (x + 20) + 'px', time: 60},
+              { width: '4px', height: '30px', top: y + 'px', left: (x + 24) + 'px', time: 60}
             ];
           },
           O: function(x,y){
             return [
-              { width: '25px', height: '4px', top: y + 'px', left: x + 'px', time: 100},
-              { width: '25px', height: '4px', top: (y + 26) + 'px', left: x + 'px', time: 90},
-              { width: '4px', height: '27px', top: y + 'px', left: x + 'px', time: 85},
-              { width: '4px', height: '27px', top: y + 'px', left: (x + 21) + 'px', time: 65}
+              { width: '25px', height: '4px', top: y + 'px', left: x + 'px', time: 60},
+              { width: '25px', height: '4px', top: (y + 26) + 'px', left: x + 'px', time: 50},
+              { width: '4px', height: '27px', top: y + 'px', left: x + 'px', time: 45},
+              { width: '4px', height: '27px', top: y + 'px', left: (x + 21) + 'px', time: 25}
             ];
           },
           P: function(x,y){
             return [
-              { width: '4px', height: '30px', top: y + 'px', left: x + 'px', time: 250},
-              { width: '25px', height: '4px', top: y + 'px', left: (x + 4) + 'px', time: 230},
-              { width: '4px', height: '15px', top: (y + 4) + 'px', left: (x + 25) + 'px', time: 210},
-              { width: '25px', height: '4px', top: (y + 15) + 'px', left: (x + 4) + 'px', time: 190}
+              { width: '4px', height: '30px', top: y + 'px', left: x + 'px', time: 210},
+              { width: '25px', height: '4px', top: y + 'px', left: (x + 4) + 'px', time: 190},
+              { width: '4px', height: '15px', top: (y + 4) + 'px', left: (x + 25) + 'px', time: 170},
+              { width: '25px', height: '4px', top: (y + 15) + 'px', left: (x + 4) + 'px', time: 150}
             ];
           },
           R: function(x,y){
@@ -245,18 +246,18 @@ const PabloCamara = {
               { width: '25px', height: '4px', top: y + 'px', left: (x + 4) + 'px', time: 0},
               { width: '4px', height: '15px', top: (y + 4) + 'px', left: (x + 25) + 'px', time: 0},
               { width: '25px', height: '4px', top: (y + 15) + 'px', left: (x + 4) + 'px', time: 0},
-              { width: '4px', height: '4px', top: (y + 19) + 'px', left: (x + 16) + 'px', time: 100},
-              { width: '4px', height: '4px', top: (y + 23) + 'px', left: (x + 20) + 'px', time: 100},
-              { width: '4px', height: '4px', top: (y + 27) + 'px', left: (x + 24) + 'px', time: 100}
+              { width: '4px', height: '4px', top: (y + 19) + 'px', left: (x + 16) + 'px', time: 60},
+              { width: '4px', height: '4px', top: (y + 23) + 'px', left: (x + 20) + 'px', time: 60},
+              { width: '4px', height: '4px', top: (y + 27) + 'px', left: (x + 24) + 'px', time: 60}
             ];
           },
           Hat: function(x,y){
             return [
-              { width: '4px', height: '4px', top: y + 'px', left: x + 'px', time: 100},
-              { width: '4px', height: '4px', top: (y - 3) + 'px', left: (x + 4) + 'px', time: 100},
-              { width: '4px', height: '4px', top: (y - 6) + 'px', left: (x + 8) + 'px', time: 100},
-              { width: '4px', height: '4px', top: (y - 3) + 'px', left: (x + 12) + 'px', time: 100},
-              { width: '4px', height: '4px', top: y + 'px', left: (x + 15) + 'px', time: 100}
+              { width: '4px', height: '4px', top: y + 'px', left: x + 'px', time: 60},
+              { width: '4px', height: '4px', top: (y - 3) + 'px', left: (x + 4) + 'px', time: 60},
+              { width: '4px', height: '4px', top: (y - 6) + 'px', left: (x + 8) + 'px', time: 60},
+              { width: '4px', height: '4px', top: (y - 3) + 'px', left: (x + 12) + 'px', time: 60},
+              { width: '4px', height: '4px', top: y + 'px', left: (x + 15) + 'px', time: 60}
             ];
           },
         },
@@ -277,7 +278,7 @@ const PabloCamara = {
           }
           nextLetterPiece_element.style.position = 'absolute';
           PabloCamara.Components.NameLoader.getContainer.el().appendChild(nextLetterPiece_element);
-          setTimeout(function(){ PabloCamara.Components.NameLoader.Letters.load(config,callback); }, Configs.Loading.skip === true ? 0 : nextLetterPiece.time);
+          setTimeout(function(){ PabloCamara.Components.NameLoader.Letters.load(config,callback); }, Configs.Loading.skip === true ? 0 : nextLetterPiece.time); 
         }
       },
       // Letter pieces configs for name (width,height,x,y..)
@@ -767,7 +768,7 @@ const PabloCamara = {
       }
     },
   },
-  showView: function(viewName, skip){
+  showIntro: function(viewName, skip){
     Configs.Loading.skip = skip; // Allow full Intro, unless user clicks the Skip button
 
     // Loads my Name and then Calls HomePage

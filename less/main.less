@@ -118,19 +118,33 @@ body {
 #contact_form,
 #login_form {
   width: 100%;
-  max-width: 220px;
   margin: auto;
   margin-top: 20px;
+}
+
+#contact_form {
+  max-width: 220px;
+}
+
+#login_form {
+  max-width: 300px;
 }
 
 #contact_form.form-box input[type="text"],
 #contact_form.form-box input[type="email"],
 #contact_form.form-box input[type="password"],
-#contact_form.form-box textarea,
+#contact_form.form-box textarea
+{
+  max-width: 203px;
+  margin: auto;
+  margin-bottom: 5px;
+}
+
+
 #login_form.form-box input[type="email"],
 #login_form.form-box input[type="password"]
 {
-  max-width: 203px;
+  max-width: 283px;
   margin: auto;
   margin-bottom: 5px;
 }
