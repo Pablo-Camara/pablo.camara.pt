@@ -1,5 +1,7 @@
 <?php
 
+require_once 'vendor/php/Medoo.php';
+
 return new Medoo([
   	// required
   	'database_type' => 'mysql',
