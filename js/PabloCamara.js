@@ -66,8 +66,6 @@ const PabloCamara = {
 		
 		var loginSubmit = El.getById('login_form_submit');
 		var loginFeedback = El.getById('login_form_feedback');
-		var loginEmail = El.getById('login_email').value;
-		var loginPwd = El.getById('login_pwd').value;
 		
 		loginSubmit.onclick = function(){
 			
@@ -80,6 +78,10 @@ const PabloCamara = {
 			};
 			xhttp.open("POST", "login.php", true);
 			xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			
+			var loginEmail = El.getById('login_email').value;
+			var loginPwd = El.getById('login_pwd').value;
+		
 			xhttp.send("email="+loginEmail+"&password="+loginPwd);
 				
 		}
