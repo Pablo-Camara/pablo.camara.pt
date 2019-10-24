@@ -66,11 +66,22 @@ const PabloCamara = {
 		
 		var loginSubmit = El.getById('login_form_submit');
 		var loginFeedback = El.getById('login_form_feedback');
+		var loginEmail = El.getById('login_email');
+		var loginPwd = El.getById('login_pwd');
+		
 		loginSubmit.onclick = function(){
 			
-			
-			loginFeedback.innerHTML = 'Email e/ou password invalido(s).';
-			loginFeedback.style.display = "block";
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+						loginFeedback.innerHTML = this.responseText;
+						loginFeedback.style.display = "block";
+				}
+			};
+			xhttp.open("POST", "login.php", true);
+			xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			xhttp.send("email="+loginEmail+"&password="+loginPwd);
+				
 		}
 		
       },
