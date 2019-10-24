@@ -90,7 +90,7 @@ try {
 		"last_name"
 	], [
 		"email[~]" => $data['email'],
-		"password_hash" => hash($v, $data['password'], false)
+		"password_hash" => hash('sha256', $data['password'], false)
 	]);
 
 	$database->insert("login_attempts", [
