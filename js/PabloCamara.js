@@ -67,6 +67,8 @@ const PabloCamara = {
 		var loginSubmit = El.getById('login_form_submit');
 		var loginFeedback = El.getById('login_form_feedback');
 		loginSubmit.onclick = function(){
+			
+			
 			loginFeedback.innerHTML = 'Email e/ou password invalido(s).';
 			loginFeedback.style.display = "block";
 		}

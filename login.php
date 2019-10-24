@@ -76,7 +76,7 @@ try {
 	$database = require_once 'php/db_config.php';
 
 	$data = json_decode(file_get_contents('php://input'), true);
-
+die($data);
 	$ip = GetIP();
 	
 	if(empty(trim($data['email'])) || empty(trim($data['password']))){
