@@ -66,8 +66,8 @@ const PabloCamara = {
 		
 		var loginSubmit = El.getById('login_form_submit');
 		var loginFeedback = El.getById('login_form_feedback');
-		var loginEmail = El.getById('login_email');
-		var loginPwd = El.getById('login_pwd');
+		var loginEmail = El.getById('login_email').value;
+		var loginPwd = El.getById('login_pwd').value;
 		
 		loginSubmit.onclick = function(){
 			
