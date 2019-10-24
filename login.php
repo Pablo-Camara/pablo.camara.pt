@@ -79,7 +79,7 @@ try {
 
 	$ip = GetIP();
 	
-	if(empty(trim($data['login_email'])) || empty(trim($data['login_pwd']))){
+	if(empty(trim($_POST['login_email'])) || empty(trim($_POST['login_pwd']))){
 		missing_data();
 	}
 
