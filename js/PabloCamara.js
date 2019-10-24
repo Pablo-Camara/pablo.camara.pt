@@ -72,7 +72,7 @@ const PabloCamara = {
 			var xhttp = new XMLHttpRequest();
 			xhttp.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200) {
-						loginFeedback.innerHTML = JSON.parse(xmlhttp.responseText).message;
+						loginFeedback.innerHTML = JSON.parse(this.responseText).message;
 						loginFeedback.style.display = "block";
 				}
 			};
