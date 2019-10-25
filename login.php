@@ -5,7 +5,8 @@ header('Content-type: application/json; charset=utf-8');
 
 if(isset($_SESSION['uid'])){
     $res = json_encode([
-      'status' => 1
+      'status' => 1,
+	  'message' => 'Já tinhas iniciado sessão antes.'
     ]);
 
     echo $res;
@@ -75,8 +76,6 @@ try {
 
 	$database = require_once 'php/db_config.php';
 
-	$data = json_decode(file_get_contents('php://input'), true);
-
 	$ip = GetIP();
 	
 	if(empty(trim($_POST['email'])) || empty(trim($_POST['password']))){
@@ -89,12 +88,12 @@ try {
 		"first_name",
 		"last_name"
 	], [
-		"email[~]" => $data['email'],
-		"password_hash" => hash('sha256', $data['password'], false)
+		"email" => $_POST['email'],
+		"password_hash" => hash('sha256', $_POST['password'], false)
 	]);
 
 	$database->insert("login_attempts", [
-		"email" => $data['email'],
+		"email" => $_POST['email'],
 		"login_date" => date('Y-m-d H:i:s'),
 		"ip" => $ip
 	]);
