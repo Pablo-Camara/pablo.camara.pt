@@ -79,6 +79,14 @@ try {
 	$ip = GetIP();
 	
 	if(empty(trim($_POST['email'])) || empty(trim($_POST['password']))){
+		
+		$database->insert("login_attempts", [
+			"email" => $_POST['email'],
+			"login_date" => date('Y-m-d H:i:s'),
+			"ip" => $ip,
+			"status" => "missing_data"
+		]);
+		
 		missing_data();
 	}
 
@@ -92,19 +100,30 @@ try {
 		"password_hash" => hash('sha256', $_POST['password'], false)
 	]);
 
-	$database->insert("login_attempts", [
-		"email" => $_POST['email'],
-		"login_date" => date('Y-m-d H:i:s'),
-		"ip" => $ip
-	]);
-	
 	
 	if(count($user) > 0){
 		// gets first user data and stores into session
 		$_SESSION['uid'] = $user[0]['user_id'];
 		
+		$database->insert("login_attempts", [
+			"email" => $_POST['email'],
+			"login_date" => date('Y-m-d H:i:s'),
+			"ip" => $ip,
+			"status" => "login_success"
+		]);
+		
+		
 		login_success();
+		
+		
 	} else {
+		$database->insert("login_attempts", [
+			"email" => $_POST['email'],
+			"login_date" => date('Y-m-d H:i:s'),
+			"ip" => $ip,
+			"status" => "invalid_login"
+		]);
+		
 		invalid_login();
 	}
 	
