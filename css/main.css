@@ -238,11 +238,12 @@ body {
 }
 .img-webdev {
   background-image: url('../img/webdev.png');
-  width: 285px;
-  height: 147px;
+  width: 291px;
+  height: 153px;
   margin: auto;
   margin-top: 10px;
   margin-bottom: 10px;
+  background-size: contain;
 }
 .img-webmaintenance {
   background-image: url('../img/webmaintenance.jpg');
