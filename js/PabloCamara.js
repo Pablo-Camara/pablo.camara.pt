@@ -6,13 +6,14 @@ const PabloCamara = {
         Configs.Loading.skip = skip;
         El.show('skip_btn');
 
-        // Hides the Home container, social media, and contact form:
+        // Initialize home page contact form / cta
+		PabloCamara.Components.ContactForm.initialize();
+		// Hides the Home container, social media, and contact form:
         PabloCamara.Views.HomePage.hide();
         PabloCamara.Views.ClientArea.hide();
 		PabloCamara.Views.Services.hide();
-        El.hide('social_media');
 		
-        
+        // HomePage intended to use dark theme
 		El.removeClass('mainbody','white-theme');
 		
       },
@@ -45,9 +46,11 @@ const PabloCamara = {
         });
       },
 	  hide: function(){
-		  El.hide('home');
-		  PabloCamara.Components.ContactForm.initialize();
+		  El.hide(PabloCamara.Components.ContactForm.getCta.id());
 		  PabloCamara.Components.ContactForm.hide();
+		  El.hide('social_media');
+		  El.hide('home');
+		  
 	  }
     },
 	ClientArea: {
@@ -60,50 +63,9 @@ const PabloCamara = {
         PabloCamara.Views.HomePage.hide();
         PabloCamara.Views.ClientArea.hide();
 		PabloCamara.Views.Services.hide();
-        El.hide('social_media');
-        PabloCamara.Components.ContactForm.hide();
+		
+		// Client are uses the white theme
 		El.addClass('mainbody','white-theme');
-		
-		var loginForm = El.getById('login_form');
-		El.show('login_form');
-		
-		var loginSubmit = El.getById('login_form_submit');
-		var loginFeedback = El.getById('login_form_feedback');
-		loginFeedback.innerHTML = '';
-		loginFeedback.style.display = "none";
-		
-		loginSubmit.onclick = function(){
-			
-			var xhttp = new XMLHttpRequest();
-			xhttp.onreadystatechange = function() {
-				if (this.readyState == 4 && this.status == 200) {
-					var jsonObj = JSON.parse(this.responseText);
-					
-					if(jsonObj.status == 0){
-						loginFeedback.innerHTML = jsonObj.message;
-						loginFeedback.style.display = "block";
-					} else {
-						
-						// After login, reset feedback div, hide login form:
-						loginFeedback.innerHTML = '';
-						loginFeedback.style.display = "none";
-						El.hide('login_form');
-						
-						// Then show user components:
-					}
-					
-				}
-			};
-			xhttp.open("POST", "login.php", true);
-			xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-			
-			var loginEmail = El.getById('login_email').value;
-			var loginPwd = El.getById('login_pwd').value;
-		
-			xhttp.send("email="+loginEmail+"&password="+loginPwd);
-				
-		}
-		
       },
       show: function(skip,callback){
         // Sets up ClientArea for the intro/animations:
@@ -116,6 +78,7 @@ const PabloCamara = {
             setTimeout(function(){ // Waits 450ms and then:
 			
               El.show('client_area'); // displays the Container
+			  PabloCamara.Components.LoginForm.show();
 			  
 			  //Initialize the navbar, only animates once
 			  // TODO: Enable navbar after we create other pages then the Home page
@@ -132,6 +95,7 @@ const PabloCamara = {
       },
 	  hide: function(){
 		// Hides de Client Area
+		PabloCamara.Components.LoginForm.hide();
 		El.hide('client_area');
 	  }
     },
@@ -314,7 +278,6 @@ const PabloCamara = {
           setTimeout(function(){ PabloCamara.Components.NameLoader.Letters.load(config,callback); }, Configs.Loading.skip === true ? 0 : nextLetterPiece.time); 
         }
       },
-      // Letter pieces configs for name (width,height,x,y..)
       getNameConfigurations: function(){
         const Letters = PabloCamara.Components.NameLoader.Letters.List;
         var name = [];
@@ -571,7 +534,7 @@ const PabloCamara = {
         },
         el: function(){
           return El.getById(PabloCamara.Components.ContactForm.getCta.id());
-        },
+        }
       },
       getForm: {
         getElId: function(){
@@ -787,6 +750,9 @@ const PabloCamara = {
 
       },
       initialize: function(){
+		  
+		El.show(PabloCamara.Components.ContactForm.getCta.id());
+		  
         if(PabloCamara.Components.ContactForm.hasInitialized)return;
 
         PabloCamara.Components.ContactForm.getCta.el().onclick = function(){
@@ -800,6 +766,74 @@ const PabloCamara = {
         PabloCamara.Components.ContactForm.hasInitialized = true;
       }
     },
+	LoginForm: {
+		hasInitialized: false,
+		initialize: function(){
+			// Clear feedback data
+			PabloCamara.Components.LoginForm.Feedback.hide();
+			
+			var loginEmail = El.getById('login_email');
+			var loginPwd = El.getById('login_pwd');
+			
+			// Clear text inputs
+			loginEmail.value = '';
+			loginPwd.value = '';
+			
+			loginEmail.focus();
+			
+			if(PabloCamara.Components.LoginForm.hasInitialized === true)return;
+			
+			// Submit event
+			var loginSubmit = El.getById('login_form_submit');
+			loginSubmit.onclick = function(){
+				
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						var jsonObj = JSON.parse(this.responseText);
+						
+						if(jsonObj.status == 0){
+							loginFeedback.innerHTML = jsonObj.message;
+							loginFeedback.style.display = "block";
+						} else {
+							
+							PabloCamara.Components.LoginForm.hide();
+							
+							// Then show user components:
+						}
+						
+					}
+				};
+				xhttp.open("POST", "login.php", true);
+				xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			
+				xhttp.send("email="+loginEmail.value+"&password="+loginPwd.value);
+					
+			}
+			
+			PabloCamara.Components.LoginForm.hasInitialized = true;
+		}
+		show: function(){
+			
+			PabloCamara.Components.LoginForm.initialize();
+			El.show('login_form');
+			
+		},
+		hide: function(){
+			PabloCamara.Components.LoginForm.Feedback.hide();
+			El.hide('login_form');
+		},
+		Feedback: {
+			getEl: function(){
+				return El.getById('login_form_feedback');
+			},
+			hide: function(){
+				var fbEl = PabloCamara.Components.LoginForm.Feedback.getEl();
+				fbEl.innerHTML = '';
+				fbEl.style.display = "none";
+			}
+		}
+	}
   },
   showIntro: function(viewName, skip){
     Configs.Loading.skip = skip; // Allow full Intro, unless user clicks the Skip button
