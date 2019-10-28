@@ -78,7 +78,7 @@ const PabloCamara = {
             setTimeout(function(){ // Waits 450ms and then:
 			
               El.show('client_area'); // displays the Container
-			  PabloCamara.Components.LoginForm.show();
+			  PabloCamara.Components.LoginForm.authenticate();
 			  
 			  //Initialize the navbar, only animates once
 			  // TODO: Enable navbar after we create other pages then the Home page
@@ -769,6 +769,35 @@ const PabloCamara = {
 	LoginForm: {
 		isLoggedIn: false,
 		hasInitialized: false,
+		authenticate: function(){
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					var jsonObj = JSON.parse(this.responseText);
+					
+					if(jsonObj.status === 1 && jsonObj.message == 'already_logged_in'){
+						// Hides login form
+						PabloCamara.Components.LoginForm.hide();
+						
+						// Shows user components
+						PabloCamara.Components.UserComponents.show();
+						
+					} else {
+						// Shows login form
+						PabloCamara.Components.LoginForm.show();
+						
+						// Hides user components
+						PabloCamara.Components.UserComponents.hide();
+						
+					}
+					
+				}
+			};
+			xhttp.open("POST", "login.php", true);
+			xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		
+			xhttp.send("lcheck=true");
+		},
 		initialize: function(){
 			// Clear feedback data
 			PabloCamara.Components.LoginForm.Feedback.hide();
@@ -794,15 +823,12 @@ const PabloCamara = {
 						var jsonObj = JSON.parse(this.responseText);
 						
 						if(jsonObj.status == 0){
-							loginFeedback.innerHTML = jsonObj.message;
-							loginFeedback.style.display = "block";
+							PabloCamara.Components.LoginForm.Feedback.showMsg( jsonObj.message );
 						} else {
 							
 							PabloCamara.Components.LoginForm.hide();
 							
 							// Then show user components:
-							
-							PabloCamara.Components.AccountBar.show();
 							PabloCamara.Components.UserComponents.show();
 						}
 						
@@ -835,6 +861,11 @@ const PabloCamara = {
 				var fbEl = PabloCamara.Components.LoginForm.Feedback.getEl();
 				fbEl.innerHTML = '';
 				fbEl.style.display = "none";
+			},
+			showMsg: function(msg){
+				var fbEl = PabloCamara.Components.LoginForm.Feedback.getEl();
+				fbEl.innerHTML = msg;
+				fbEl.style.display = "block";
 			}
 		}
 	},
@@ -878,7 +909,10 @@ const PabloCamara = {
 	},
 	UserComponents: {
 		show: function(){
-			
+			PabloCamara.Components.AccountBar.show();
+		},
+		hide: function(){
+			PabloCamara.Components.AccountBar.hide();
 		}
 	}
 	

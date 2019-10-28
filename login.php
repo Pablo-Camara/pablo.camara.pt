@@ -19,6 +19,16 @@ if(isset($_SESSION['uid'])){
     die();
 }
 
+if(isset($_POST['lcheck']) && $_POST['lcheck'] == 'true'){
+	$res = json_encode([
+      'status' => 0,
+	  'message' => 'É necessário iniciar sessão.'
+    ]);
+
+    echo $res;
+    die();
+}
+
 if($debug){
   ini_set('display_errors', 1);
   ini_set('display_startup_errors', 1);
