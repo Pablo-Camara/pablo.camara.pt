@@ -812,7 +812,7 @@ const PabloCamara = {
 			}
 			
 			PabloCamara.Components.LoginForm.hasInitialized = true;
-		}
+		},
 		show: function(){
 			
 			PabloCamara.Components.LoginForm.initialize();
