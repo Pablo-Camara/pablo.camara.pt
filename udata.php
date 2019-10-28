@@ -80,8 +80,8 @@ try {
 			'status' => 1
 		];
 		
-		for($i = 0; $i < count($req_field); $i++){
-			$response[$req_field[$i]] = $user[0][$req_field[$i]];
+		for($i = 0; $i < count($req_fields); $i++){
+			$response[$req_fields[$i]] = $user[0][$req_fields[$i]];
 		}
 		
 		echo json_encode($response);
