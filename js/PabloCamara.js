@@ -64,16 +64,34 @@ const PabloCamara = {
         PabloCamara.Components.ContactForm.hide();
 		El.addClass('mainbody','white-theme');
 		
+		var loginForm = El.getById('login_form');
+		El.show('login_form');
+		
 		var loginSubmit = El.getById('login_form_submit');
 		var loginFeedback = El.getById('login_form_feedback');
+		loginFeedback.innerHTML = '';
+		loginFeedback.style.display = "none";
 		
 		loginSubmit.onclick = function(){
 			
 			var xhttp = new XMLHttpRequest();
 			xhttp.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200) {
-						loginFeedback.innerHTML = JSON.parse(this.responseText).message;
+					var jsonObj = JSON.parse(this.responseText);
+					
+					if(jsonObj.status == 0){
+						loginFeedback.innerHTML = jsonObj.message;
 						loginFeedback.style.display = "block";
+					} else {
+						
+						// After login, reset feedback div, hide login form:
+						loginFeedback.innerHTML = '';
+						loginFeedback.style.display = "none";
+						El.hide('login_form');
+						
+						// Then show user components:
+					}
+					
 				}
 			};
 			xhttp.open("POST", "login.php", true);

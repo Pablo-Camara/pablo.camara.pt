@@ -66,6 +66,15 @@ function invalid_login(){
 	die();
 }
 
+function log_login_attempt($database,$email,$ip,$status){
+	$database->insert("login_attempts", [
+		"email" => $email,
+		"login_date" => date('Y-m-d H:i:s'),
+		"ip" => $ip,
+		"status" => $status
+	]);
+}
+
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -80,13 +89,7 @@ try {
 	
 	if(empty(trim($_POST['email'])) || empty(trim($_POST['password']))){
 		
-		$database->insert("login_attempts", [
-			"email" => $_POST['email'],
-			"login_date" => date('Y-m-d H:i:s'),
-			"ip" => $ip,
-			"status" => "missing_data"
-		]);
-		
+		log_login_attempt($database,$_POST['email'],$ip,'missing_data');
 		missing_data();
 	}
 
@@ -105,25 +108,13 @@ try {
 		// gets first user data and stores into session
 		$_SESSION['uid'] = $user[0]['user_id'];
 		
-		$database->insert("login_attempts", [
-			"email" => $_POST['email'],
-			"login_date" => date('Y-m-d H:i:s'),
-			"ip" => $ip,
-			"status" => "login_success"
-		]);
-		
-		
+		log_login_attempt($database,$_POST['email'],$ip,'login_success');
 		login_success();
 		
 		
 	} else {
-		$database->insert("login_attempts", [
-			"email" => $_POST['email'],
-			"login_date" => date('Y-m-d H:i:s'),
-			"ip" => $ip,
-			"status" => "invalid_login"
-		]);
 		
+		log_login_attempt($database,$_POST['email'],$ip,'invalid_login');
 		invalid_login();
 	}
 	
