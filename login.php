@@ -1,12 +1,20 @@
 <?php
 session_start();
 $debug = true;
+
+if($_SERVER['REQUEST_METHOD'] !== 'POST'){
+	header('Location: /');
+	die();
+}
+
 header('Content-type: application/json; charset=utf-8');
+
+
 
 if(isset($_SESSION['uid'])){
     $res = json_encode([
       'status' => 1,
-	  'message' => 'Já tinhas iniciado sessão antes.'
+	  'message' => 'user_logged_in'
     ]);
 
     echo $res;
