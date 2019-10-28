@@ -9,19 +9,15 @@ if($_SERVER['REQUEST_METHOD'] !== 'POST'){
 
 header('Content-type: application/json; charset=utf-8');
 
-
-
 if(isset($_SESSION['uid'])){
     $res = json_encode([
       'status' => 1,
-	  'message' => 'user_logged_in'
+	  'message' => 'already_logged_in'
     ]);
 
     echo $res;
     die();
 }
-
-
 
 if($debug){
   ini_set('display_errors', 1);
@@ -31,9 +27,6 @@ if($debug){
 
 require_once 'php/functions.php';
 
-require_once 'vendor/php/PHPMailer/Exception.php';
-require_once 'vendor/php/PHPMailer/PHPMailer.php';
-require_once 'vendor/php/PHPMailer/SMTP.php';
 
 function login_failed(){
 	$res = json_encode([
@@ -47,7 +40,8 @@ function login_failed(){
 
 function login_success(){
 	$res = json_encode([
-	  'status' => 1
+	  'status' => 1,
+	  'message' => 'login_success'
 	]);
 
 	echo $res;
@@ -83,11 +77,6 @@ function log_login_attempt($database,$email,$ip,$status){
 	]);
 }
 
-
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-
-
 try {
 	// Tries inserting into the Database
 
@@ -115,6 +104,9 @@ try {
 	if(count($user) > 0){
 		// gets first user data and stores into session
 		$_SESSION['uid'] = $user[0]['user_id'];
+		$_SESSION['email'] = $user[0]['email'];
+		$_SESSION['first_name'] = $user[0]['first_name'];
+		$_SESSION['last_name'] = $user[0]['last_name'];
 		
 		log_login_attempt($database,$_POST['email'],$ip,'login_success');
 		login_success();

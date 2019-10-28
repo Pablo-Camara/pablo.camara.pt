@@ -767,6 +767,7 @@ const PabloCamara = {
       }
     },
 	LoginForm: {
+		isLoggedIn: false,
 		hasInitialized: false,
 		initialize: function(){
 			// Clear feedback data
@@ -800,6 +801,9 @@ const PabloCamara = {
 							PabloCamara.Components.LoginForm.hide();
 							
 							// Then show user components:
+							
+							PabloCamara.Components.AccountBar.show();
+							PabloCamara.Components.UserComponents.show();
 						}
 						
 					}
@@ -833,7 +837,44 @@ const PabloCamara = {
 				fbEl.style.display = "none";
 			}
 		}
+	},
+	AccountBar: {
+		getEl: {
+			id: function(){
+				return 'account_bar';
+			}
+		},
+		setUserName: function(uname){
+			El.getById('account_bar_user_name').innerText = uname;
+		},
+		initialize: function(){
+			var xhttp = new XMLHttpRequest();
+			
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					var jsonObj = JSON.parse(this.responseText);
+					
+					if(jsonObj.status === 1){
+						PabloCamara.Components.AccountBar.setUserName(jsonObj.first_name + ' ' + jsonObj.last_name);
+					}
+					
+				}
+			};
+			xhttp.open("POST", "udata.php", true);
+			xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		
+			xhttp.send("fields=first_name,last_name");
+		},
+		show: function(){
+			El.show(PabloCamara.Components.AccountBar.getEl.id());
+		}
+	},
+	UserComponents: {
+		show: function(){
+			
+		}
 	}
+	
   },
   showIntro: function(viewName, skip){
     Configs.Loading.skip = skip; // Allow full Intro, unless user clicks the Skip button
