@@ -839,6 +839,7 @@ const PabloCamara = {
 		}
 	},
 	AccountBar: {
+		hasInitialized: false,
 		getEl: {
 			id: function(){
 				return 'account_bar';
@@ -848,6 +849,8 @@ const PabloCamara = {
 			El.getById('account_bar_user_name').innerText = uname;
 		},
 		initialize: function(){
+			if(PabloCamara.Components.AccountBar.hasInitialized === true)return;
+			
 			var xhttp = new XMLHttpRequest();
 			
 			xhttp.onreadystatechange = function() {
@@ -864,8 +867,12 @@ const PabloCamara = {
 			xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		
 			xhttp.send("fields=first_name,last_name");
+			
+			PabloCamara.Components.AccountBar.hasInitialized = true;
 		},
 		show: function(){
+			PabloCamara.Components.AccountBar.initialize();
+			
 			El.show(PabloCamara.Components.AccountBar.getEl.id());
 		}
 	},
