@@ -905,6 +905,9 @@ const PabloCamara = {
 			PabloCamara.Components.AccountBar.initialize();
 			
 			El.show(PabloCamara.Components.AccountBar.getEl.id());
+		},
+		hide: function() {
+			El.hide(PabloCamara.Components.AccountBar.getEl.id());
 		}
 	},
 	UserComponents: {
