@@ -931,15 +931,20 @@ const PabloCamara = {
 					domainRow.setAttribute( 'class', 'panel-list-item' );
 					
 					var domainName = document.createElement("DIV");   
-					domainName.setAttribute( 'class', 'domain-name' );
+					domainName.setAttribute( 'class', 'domain-name mb-8' );
 					domainName.innerHTML = list[i].url;
 					
 					var domainStatus = document.createElement("DIV");   
 					domainStatus.setAttribute( 'class', 'h-14' );
 					domainStatus.innerHTML = 'status: <b style="color: '+list[i].hexcolor+'">'+list[i].domain_status_text+'</b>';
 					
+					var domainExpiryDate = document.createElement("DIV");   
+					domainExpiryDate.setAttribute( 'class', 'h-14' );
+					domainExpiryDate.innerHTML = 'valido até: <b>'+list[i].expiration_date+'</b>';
+					
 					domainRow.appendChild(domainName);
 					domainRow.appendChild(domainStatus);
+					domainRow.appendChild(domainExpiryDate);
 					
 					PabloCamara.Components.MyDomains.List.getEl().appendChild(domainRow);
 				}
