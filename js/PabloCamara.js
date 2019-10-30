@@ -993,6 +993,11 @@ const PabloCamara = {
 			
 		},
 		hide: function(){
+			
+			// hide domain list
+			PabloCamara.Components.MyDomains.List.hide();
+			
+			// hide container
 			El.hide(PabloCamara.Components.MyDomains.getContainerId());
 		}
 		
