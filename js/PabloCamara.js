@@ -914,32 +914,51 @@ const PabloCamara = {
 		getContainerId: function(){
 			return 'my_domains';
 		},
-		loadList: function(list){
-			
-			var domainListId = 'my_domains_list';
-			var myDomainslistElement = El.getById(domainListId);
-			
-			myDomainslistElement.innerHTML = '';
-			
-			for(var i = 0; i < list.length; i++){
+		List: {
+			getId: function(){
+				return 'my_domains_list';
+			},
+			getEl: function(){
+				var domainListId = PabloCamara.Components.MyDomains.getListId();
+				return El.getById(domainListId);
+			},
+			load: function(list){
 				
-				var node = document.createElement("DIV");   
-				node.setAttribute( 'id', 'domain_' + list[i].domain_id );
-				node.setAttribute( 'class', 'panel-list-item' );
+				for(var i = 0; i < list.length; i++){
+					
+					var node = document.createElement("DIV");   
+					node.setAttribute( 'id', 'domain_' + list[i].domain_id );
+					node.setAttribute( 'class', 'panel-list-item' );
+					
+					node.innerHTML = list[i].url;
+					PabloCamara.Components.MyDomains.List.getEl().appendChild(node);
+				}
 				
-				node.innerHTML = list[i].url;
-				myDomainslistElement.appendChild(node);
-			}
-			
-			El.show(domainListId);
-		},
-		show: function(){
-			var el = El.getById(PabloCamara.Components.MyDomains.getContainerId());
-			El.show(el.id);
-			
-			// on click fetch domains and show the list
-			
-			el.onclick = function(){
+			},
+			clear: function(){
+				PabloCamara.Components.MyDomains.List.getEl().innerHTML = '<div class="panel-list-item">A carregar dados..</div>';
+			},
+			isVisible: false,
+			show: function(list){
+				El.show(PabloCamara.Components.MyDomains.List.getElId());
+				PabloCamara.Components.MyDomains.List.isVisible = true;
+			},
+			hide: function(){
+				El.hide(PabloCamara.Components.MyDomains.List.getElId());
+				PabloCamara.Components.MyDomains.List.isVisible = false;
+			},
+			toggle: function(){
+				if(PabloCamara.Components.MyDomains.List.isVisible){
+					PabloCamara.Components.MyDomains.List.hide();
+				} else {
+					PabloCamara.Components.MyDomains.List.fetch();
+					PabloCamara.Components.MyDomains.List.show();
+				}
+				
+			},
+			fetch: function(){
+				PabloCamara.Components.MyDomains.List.clear();
+				
 				var xhttp = new XMLHttpRequest();
 			
 				xhttp.onreadystatechange = function() {
@@ -947,7 +966,7 @@ const PabloCamara = {
 						var jsonObj = JSON.parse(this.responseText);
 						
 						if(jsonObj.status === 1){
-							PabloCamara.Components.MyDomains.loadList(jsonObj.domains);
+							PabloCamara.Components.MyDomains.List.load(jsonObj.domains);
 						}
 						
 					}
@@ -956,6 +975,16 @@ const PabloCamara = {
 				xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 			
 				xhttp.send();
+			}
+		},
+		show: function(){
+			var el = El.getById(PabloCamara.Components.MyDomains.getContainerId());
+			El.show(el.id);
+			
+			// on click fetch domains and show the list
+			
+			el.onclick = function(){
+				PabloCamara.Components.MyDomains.List.toggle();
 			};
 			
 		},
