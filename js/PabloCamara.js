@@ -934,26 +934,30 @@ const PabloCamara = {
 			El.show(domainListId);
 		},
 		show: function(){
-			El.show(PabloCamara.Components.MyDomains.getContainerId());
+			var el = El.getById(PabloCamara.Components.MyDomains.getContainerId());
+			El.show(el.id);
 			
-			// fetch domains
+			// on click fetch domains and show the list
 			
-			var xhttp = new XMLHttpRequest();
+			el.onclick = function(){
+				var xhttp = new XMLHttpRequest();
 			
-			xhttp.onreadystatechange = function() {
-				if (this.readyState == 4 && this.status == 200) {
-					var jsonObj = JSON.parse(this.responseText);
-					
-					if(jsonObj.status === 1){
-						PabloCamara.Components.MyDomains.loadList(jsonObj.domains);
+				xhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						var jsonObj = JSON.parse(this.responseText);
+						
+						if(jsonObj.status === 1){
+							PabloCamara.Components.MyDomains.loadList(jsonObj.domains);
+						}
+						
 					}
-					
-				}
+				};
+				xhttp.open("POST", "domains.php", true);
+				xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			
+				xhttp.send();
 			};
-			xhttp.open("POST", "domains.php", true);
-			xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		
-			xhttp.send();;
+			
 		},
 		hide: function(){
 			El.hide(PabloCamara.Components.MyDomains.getContainerId());
