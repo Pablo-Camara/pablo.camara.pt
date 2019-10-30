@@ -919,7 +919,7 @@ const PabloCamara = {
 				return 'my_domains_list';
 			},
 			getEl: function(){
-				var domainListId = PabloCamara.Components.MyDomains.getListId();
+				var domainListId = PabloCamara.Components.MyDomains.List.getId();
 				return El.getById(domainListId);
 			},
 			load: function(list){
