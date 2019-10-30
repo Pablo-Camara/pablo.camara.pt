@@ -80,7 +80,7 @@ try {
 		$req_fields = explode(',',$_POST['fields']);
 		
 		$response = [
-			'status' => 1
+			'status' => 1,
 			'user' => []
  		];
 		
