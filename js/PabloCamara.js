@@ -164,6 +164,7 @@ const PabloCamara = {
   },
   Components: {
     NameLoader: {
+	  startedOnce: false,
       getContainer: {
         id: function(){
           return 'pablocamara'; // html Container ID for the letter pieces that will be loading for the name
@@ -299,10 +300,17 @@ const PabloCamara = {
         return name;
       },
       start: function(callback){
+		if(PabloCamara.Components.NameLoader.startedOnce === false){
+			PabloCamara.Components.NameLoader.getContainer.el().onclick = function(){
+				PabloCamara.Components.NameLoader.start(null);
+			};
+		}  
+		
         PabloCamara.Components.NameLoader.Letters.load(
           PabloCamara.Components.NameLoader.getNameConfigurations(),
           function(){
-            if(typeof callback === "function"){
+            PabloCamara.Components.NameLoader.startedOnce = true;
+			if(typeof callback === "function"){
               callback();
             }
         });
