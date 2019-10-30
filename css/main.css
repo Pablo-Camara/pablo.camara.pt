@@ -312,11 +312,21 @@ body {
   max-width: 290px;
 }
 .panel-icon {
-  background-image: contain;
+  background-size: contain;
   margin: 10px auto;
 }
 .panel-icon.domain-icon {
   width: 70px;
   height: 57px;
   background: transparent url('../img/domain-icon.png') no-repeat;
+}
+.panel-list {
+  text-align: left;
+  background: #a5a5a5;
+}
+.panel-list .panel-list-item {
+  color: #032935;
+  padding: 10px;
+  margin-bottom: 2px;
+  background: white;
 }

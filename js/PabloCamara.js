@@ -889,7 +889,7 @@ const PabloCamara = {
 					var jsonObj = JSON.parse(this.responseText);
 					
 					if(jsonObj.status === 1){
-						PabloCamara.Components.AccountBar.setUserName(jsonObj.first_name + ' ' + jsonObj.last_name);
+						PabloCamara.Components.AccountBar.setUserName(jsonObj.user.first_name + ' ' + jsonObj.user.last_name);
 					}
 					
 				}
@@ -910,12 +910,67 @@ const PabloCamara = {
 			El.hide(PabloCamara.Components.AccountBar.getEl.id());
 		}
 	},
+	MyDomains: {
+		getContainerId: function(){
+			return 'my_domains';
+		},
+		loadList: function(list){
+			
+			var domainListId = 'my_domains_list';
+			var myDomainslistElement = El.getById(domainListId);
+			
+			myDomainslistElement.innerHTML = '';
+			
+			for(var i = 0; i < list.length; i++){
+				
+				var node = document.createElement("DIV");   
+				node.setAttribute( 'id', 'domain_' + list[i].domain_id );
+				
+				node.innerHTML = list[i].url;
+				myDomainslistElement.appendChild(node);
+			}
+			
+			El.show(domainListId);
+		},
+		show: function(){
+			El.show(PabloCamara.Components.MyDomains.getContainerId());
+			
+			// fetch domains
+			
+			var xhttp = new XMLHttpRequest();
+			
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					var jsonObj = JSON.parse(this.responseText);
+					
+					if(jsonObj.status === 1){
+						PabloCamara.Components.MyDomains.loadList(jsonObj.domains);
+					}
+					
+				}
+			};
+			xhttp.open("POST", "domains.php", true);
+			xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		
+			xhttp.send();;
+		},
+		hide: function(){
+			El.hide(PabloCamara.Components.MyDomains.getContainerId());
+		}
+		
+	},
 	UserComponents: {
 		show: function(){
 			PabloCamara.Components.AccountBar.show();
+			
+			//TODO: Fetch from DB user component list and only show these.
+			PabloCamara.Components.MyDomains.show();
 		},
 		hide: function(){
 			PabloCamara.Components.AccountBar.hide();
+			
+			//TODO: hide components that were previously fetched from the database and shown.
+			PabloCamara.Components.MyDomains.hide();
 		}
 	}
 	
