@@ -936,6 +936,9 @@ const PabloCamara = {
 				
 			},
 			clear: function(){
+				PabloCamara.Components.MyDomains.List.getEl().innerHTML = '';
+			},
+			setLoading: function(){
 				PabloCamara.Components.MyDomains.List.getEl().innerHTML = '<div class="panel-list-item">A carregar dados..</div>';
 			},
 			isVisible: false,
@@ -957,7 +960,7 @@ const PabloCamara = {
 				
 			},
 			fetch: function(){
-				PabloCamara.Components.MyDomains.List.clear();
+				PabloCamara.Components.MyDomains.List.setLoading();
 				
 				var xhttp = new XMLHttpRequest();
 			
@@ -966,6 +969,7 @@ const PabloCamara = {
 						var jsonObj = JSON.parse(this.responseText);
 						
 						if(jsonObj.status === 1){
+							PabloCamara.Components.MyDomains.List.clear();
 							PabloCamara.Components.MyDomains.List.load(jsonObj.domains);
 						}
 						
