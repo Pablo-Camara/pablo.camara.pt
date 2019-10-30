@@ -940,11 +940,11 @@ const PabloCamara = {
 			},
 			isVisible: false,
 			show: function(list){
-				El.show(PabloCamara.Components.MyDomains.List.getElId());
+				El.show(PabloCamara.Components.MyDomains.List.getId());
 				PabloCamara.Components.MyDomains.List.isVisible = true;
 			},
 			hide: function(){
-				El.hide(PabloCamara.Components.MyDomains.List.getElId());
+				El.hide(PabloCamara.Components.MyDomains.List.getId());
 				PabloCamara.Components.MyDomains.List.isVisible = false;
 			},
 			toggle: function(){
