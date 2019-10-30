@@ -925,6 +925,7 @@ const PabloCamara = {
 				
 				var node = document.createElement("DIV");   
 				node.setAttribute( 'id', 'domain_' + list[i].domain_id );
+				node.setAttribute( 'class', 'panel-list-item' );
 				
 				node.innerHTML = list[i].url;
 				myDomainslistElement.appendChild(node);
