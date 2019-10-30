@@ -926,12 +926,22 @@ const PabloCamara = {
 				
 				for(var i = 0; i < list.length; i++){
 					
-					var node = document.createElement("DIV");   
-					node.setAttribute( 'id', 'domain_' + list[i].domain_id );
-					node.setAttribute( 'class', 'panel-list-item' );
+					var domainRow = document.createElement("DIV");   
+					domainRow.setAttribute( 'id', 'domain_' + list[i].domain_id );
+					domainRow.setAttribute( 'class', 'panel-list-item' );
 					
-					node.innerHTML = list[i].url;
-					PabloCamara.Components.MyDomains.List.getEl().appendChild(node);
+					var domainName = document.createElement("DIV");   
+					domainName.setAttribute( 'class', 'domain-name' );
+					domainName.innerHTML = list[i].url;
+					
+					var domainStatus = document.createElement("DIV");   
+					domainStatus.setAttribute( 'class', 'h-14' );
+					domainStatus.innerHTML = 'status: <b style="color: '+list[i].hexcolor+'">'+list[i].domain_status_text+'</b>';
+					
+					domainRow.appendChild(domainName);
+					domainRow.appendChild(domainStatus);
+					
+					PabloCamara.Components.MyDomains.List.getEl().appendChild(domainRow);
 				}
 				
 			},
