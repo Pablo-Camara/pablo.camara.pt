@@ -940,7 +940,7 @@ const PabloCamara = {
 					
 					var domainExpiryDate = document.createElement("DIV");   
 					domainExpiryDate.setAttribute( 'class', 'h-14' );
-					domainExpiryDate.innerHTML = 'valido até: <b>'+list[i].expiration_date+'</b>';
+					domainExpiryDate.innerHTML = 'valido até: <b>'+(new Date(list[i].expiration_date)).toLocaleDateString();+'</b>';
 					
 					domainRow.appendChild(domainName);
 					domainRow.appendChild(domainStatus);
