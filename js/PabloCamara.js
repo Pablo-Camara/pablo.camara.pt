@@ -66,6 +66,9 @@ const PabloCamara = {
 		
 		// Client are uses the white theme
 		El.addClass('mainbody','white-theme');
+		
+		El.removeClass(PabloCamara.Components.IntroText.getElId(),'fs-23');
+		El.addClass(PabloCamara.Components.IntroText.getElId(),'fs-23');
       },
       show: function(skip,callback){
         // Sets up ClientArea for the intro/animations:
@@ -318,9 +321,9 @@ const PabloCamara = {
     },
     IntroText: {
       getElId: function(){
-        return 'view_intro_text';
-      },
-      getEl: function(){
+		  return 'view_intro_text';
+	  },
+	  getEl: function(){
         return El.getById(PabloCamara.Components.IntroText.getElId());
       },
       load: function(text,interval,callback){
