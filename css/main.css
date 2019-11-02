@@ -380,3 +380,9 @@ body {
 .mt-10 {
   margin-top: 10px;
 }
+#logout_link {
+  color: #032935;
+  margin-top: 8px;
+  cursor: pointer;
+  display: none;
+}

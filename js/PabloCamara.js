@@ -890,6 +890,43 @@ const PabloCamara = {
 		setUserName: function(uname){
 			El.getById('account_bar_user_name').innerText = uname;
 		},
+		LogOffBtn: {
+			hasInitialized: false,
+			getEl: function(){
+				return El.getById('logout_link');
+			},
+			show: function(){
+			
+				const el = PabloCamara.Components.AccountBar.LogOffBtn.getEl();
+				El.show(el.id);
+				
+				if(!PabloCamara.Components.AccountBar.LogOffBtn.hasInitialized){
+					el.onclick = function(){
+						var xhttp = new XMLHttpRequest();
+						xhttp.onreadystatechange = function() {
+						if (this.readyState == 4 && this.status == 200) {
+								var jsonObj = JSON.parse(this.responseText);
+								
+								if(jsonObj.status === 1){
+									PabloCamara.Components.LoginForm.authenticate();
+								}
+								
+							}
+						};
+						xhttp.open("POST", "logout.php", true);
+						xhttp.send();
+						
+					};
+					
+					PabloCamara.Components.AccountBar.LogOffBtn.hasInitialized = true;
+				}
+			},
+			hide: function(){
+				const el = PabloCamara.Components.AccountBar.LogOffBtn.getEl();
+				El.hide(el.id);
+			}
+
+		},
 		initialize: function(){
 			if(PabloCamara.Components.AccountBar.hasInitialized === true)return;
 			
@@ -901,6 +938,7 @@ const PabloCamara = {
 					
 					if(jsonObj.status === 1){
 						PabloCamara.Components.AccountBar.setUserName(jsonObj.user.first_name + ' ' + jsonObj.user.last_name);
+						PabloCamara.Components.AccountBar.LogOffBtn.show();
 					}
 					
 				}
