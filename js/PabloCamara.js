@@ -957,6 +957,7 @@ const PabloCamara = {
 		},
 		hide: function() {
 			El.hide(PabloCamara.Components.AccountBar.getEl.id());
+			PabloCamara.Components.AccountBar.LogOffBtn.hide();
 		}
 	},
 	MyDomains: {
