@@ -31,13 +31,13 @@ const Stats = {
 
 		
 		var output = {
-			isFirefox: isFirefox,
-			isChrome: isChrome,
-			isSafari: isSafari,
-			isOpera: isOpera,
-			isIE: isIE,
-			isEdge: isEdge,
-			isBlink: isBlink
+			isFirefox: isFirefox ? 1 : 0,
+			isChrome: isChrome ? 1 : 0,
+			isSafari: isSafari ? 1 : 0,
+			isOpera: isOpera ? 1 : 0,
+			isIE: isIE ? 1 : 0,
+			isEdge: isEdge ? 1 : 0,
+			isBlink: isBlink ? 1 : 0
 		};
 		
 		return output;
