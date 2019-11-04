@@ -22,8 +22,7 @@ try {
 	// Tries inserting into the Database
 
 	$database = require_once 'php/db_config.php';
-
-	$data = json_decode(file_get_contents('php://input'), true);
+	
 
 	$ip = GetIP();
 
@@ -31,9 +30,9 @@ try {
 		"impression_datetime" => date('Y-m-d H:i:s'),
 		"url" => $_SERVER["HTTP_HOST"] . $_SERVER["HTTP_REFERER"],
 		"ip" => $ip,
-		"screen_width" => $data['sw'],
-		"screen_height" => $data['sh'],
-		"browser" => $data['browser'],
+		"screen_width" => $_POST['sw'],
+		"screen_height" => $_POST['sh'],
+		"browser" => $_POST['browser'],
 	]);
   
 	$res = json_encode([
