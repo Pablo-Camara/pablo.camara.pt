@@ -31,14 +31,7 @@ try {
 		"url" => $_SERVER["HTTP_REFERER"],
 		"ip" => $ip,
 		"screen_width" => $_POST['sw'],
-		"screen_height" => $_POST['sh'],
-		"isFirefox" => $_POST['isFirefox'],
-		"isChrome" => $_POST['isChrome'],
-		"isSafari" => $_POST['isSafari'],
-		"isOpera" => $_POST['isOpera'],
-		"isIE" => $_POST['isIE'],
-		"isEdge" => $_POST['isEdge'],
-		"isBlink" => $_POST['isBlink']
+		"screen_height" => $_POST['sh']
 	]);
   
 	$res = json_encode([
