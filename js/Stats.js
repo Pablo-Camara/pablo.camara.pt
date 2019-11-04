@@ -3,8 +3,9 @@ const Stats = {
 		var xhttp = new XMLHttpRequest();
 		xhttp.open("POST", "impressions.php", true);
 		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	
-		xhttp.send("sw=" + screen.availWidth + "&sh=" + screen.availHeight + "&browser=" + Stats.getBrowserString());
+		
+		const bs = Stats.getBrowserString();
+		xhttp.send("sw=" + screen.availWidth + "&sh=" + screen.availHeight + "&isFirefox=" + bs.isFirefox + "&isSafari=" + bs.isSafari + "&isOpera=" + bs.isOpera + "&isIE=" + bs.isIE + "&isEdge=" + bs.isEdge + "&isBlink=" + bs.isBlink + "&isChrome=" + bs.isChrome);
 	},
 	getBrowserString: function(){
 		// Opera 8.0+
@@ -28,14 +29,16 @@ const Stats = {
 		// Blink engine detection
 		var isBlink = (isChrome || isOpera) && !!window.CSS;
 
-
-		var output = 'isFirefox: ' + isFirefox + ',';
-		output += 'isChrome: ' + isChrome + ',';
-		output += 'isSafari: ' + isSafari + ',';
-		output += 'isOpera: ' + isOpera + ',';
-		output += 'isIE: ' + isIE + ',';
-		output += 'isEdge: ' + isEdge + ',';
-		output += 'isBlink: ' + isBlink;
+		
+		var output = {
+			isFirefox: isFirefox,
+			isChrome: isChrome,
+			isSafari: isSafari,
+			isOpera: isOpera,
+			isIE: isIE,
+			isEdge: isEdge,
+			isBlink: isBlink
+		};
 		
 		return output;
 	}

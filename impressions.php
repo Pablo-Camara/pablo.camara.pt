@@ -28,7 +28,7 @@ try {
 
 	$database->insert("impressions", [
 		"impression_datetime" => date('Y-m-d H:i:s'),
-		"url" => $_SERVER["HTTP_HOST"] . $_SERVER["HTTP_REFERER"],
+		"url" => $_SERVER["HTTP_REFERER"],
 		"ip" => $ip,
 		"screen_width" => $_POST['sw'],
 		"screen_height" => $_POST['sh'],
