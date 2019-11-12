@@ -264,7 +264,7 @@ const PabloCamara = {
 			// Set skip btn click event
 			El.getById('skip_btn').onclick = function(){
 			  Configs.Loading.skip = true;
-			  Stats.click(skipButton_cid);
+			  Stats.click(skipButton_cid,'');
 			};
 			
 			PabloCamara.Components.SkipButton.hasInitialized = true;
