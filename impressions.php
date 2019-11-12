@@ -28,6 +28,7 @@ try {
 
 	$database->insert("impressions", [
 		"impression_datetime" => date('Y-m-d H:i:s'),
+		"user_id" => isset($_SESSION['uid']) ? $_SESSION['uid'] : null,
 		"url" => $_SERVER["HTTP_REFERER"],
 		"ip" => $ip,
 		"screen_width" => $_POST['sw'],
