@@ -22,7 +22,8 @@
     <link href="css/main.css?t=2019-11-12 00:44" rel="stylesheet"/>
 	
 	
-	<script type="text/javascript" src="js/Stats.js?v=1.0&d=2019-11-04 18:01"></script>
+	<script type="text/javascript" src="js/API.js?v=1.0&d=2019-11-12 03:18"></script>
+	<script type="text/javascript" src="js/Stats.js?v=1.0&d=2019-11-12 03:18"></script>
 	
   </head>
   <body id="mainbody">
@@ -67,7 +68,7 @@
       </div>
 
 
-      <div id="social_media">
+      <div id="social_media" style="display: none">
         <!-- <a href="https://www.facebook.com/pablo.camara.5" target="_blank"> -->
           <!-- <img src="img/icons/fb-icon.svg" width="30px" height="30px" /> -->
         <!-- </a> -->
@@ -77,13 +78,13 @@
         <!-- <a href="#" target="_blank"> -->
           <!-- <img src="img/icons/youtube.svg" width="30px" height="30px" /> -->
         <!-- </a> -->
-        <a href="https://www.linkedin.com/in/pablo-camara/" target="_blank">
+        <a href="https://www.linkedin.com/in/pablo-camara/" target="_blank" id="social_media_linkedin">
           <img src="img/icons/linkedin.svg" width="30px" height="30px" />
         </a>
-        <a href="skype:pablo.camara96?chat" target="_blank">
+        <a href="skype:pablo.camara96?chat" target="_blank" id="social_media_skype">
           <img src="img/icons/skype.svg" width="30px" height="30px" />
         </a>
-        <a href="mailto:pablo@camara.pt" target="_blank">
+        <a href="mailto:pablo@camara.pt" target="_blank" id="social_media_mailto">
           <img src="img/icons/email.svg" width="30px" height="30px" />
         </a>
       </div>
@@ -180,14 +181,17 @@
 		</div>
 	</div>
 
-    <div id="skip_btn" style="display: none"></div>
+    <div id="skip_btn" style="display: none" 
+	 data-text-pt="Avançar" 
+	 data-text-es="Continuar" 
+	 data-text-en="Skip animations"></div>
 
-    <script type="text/javascript" src="js/Configs.js?v=1.0&d=2019-11-12 00:38"></script>
-    <script type="text/javascript" src="js/Page.js?v=1.0&d=2019-10-24 01:33"></script>
-    <script type="text/javascript" src="js/El.js?v=1.0&d=2019-10-22 14:13"></script>
-    <script type="text/javascript" src="js/Validator.js?v=1.0&d=2019-05-13 12:22"></script>
-    <script type="text/javascript" src="js/Translator.js?v=1.0&d=2019-11-12 00:38"></script>
-    <script type="text/javascript" src="js/PabloCamara.js?v=1.0&d=2019-11-12 00:38"></script>
+    <script type="text/javascript" src="js/Configs.js?v=1.0&d=2019-11-12 03:18"></script>
+    <script type="text/javascript" src="js/Page.js?v=1.0&d=2019-11-12 03:18"></script>
+    <script type="text/javascript" src="js/El.js?v=1.0&d=2019-11-12 03:18"></script>
+    <script type="text/javascript" src="js/Validator.js?v=1.0&d=2019-11-12 03:18"></script>
+    <script type="text/javascript" src="js/Translator.js?v=1.0&d=2019-11-12 03:18"></script>
+    <script type="text/javascript" src="js/PabloCamara.js?v=1.0&d=2019-11-12 03:18"></script>
     <script type="text/javascript">
 		PabloCamara.showIntro("Language",true);
     </script>

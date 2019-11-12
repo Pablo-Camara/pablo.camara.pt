@@ -15,7 +15,9 @@ const PabloCamara = {
         // HomePage intended to use dark theme
 		El.removeClass('mainbody','white-theme');
 		
+		const language_cid = 1;
 		var setLang = function(lang){
+			Stats.select(language_cid,lang);
 			Translator.setLang(lang);
 			PabloCamara.Views.Language.hide();
 			PabloCamara.Components.IntroText.clean();
@@ -121,7 +123,7 @@ const PabloCamara = {
 	  hide: function(){
 		  El.hide(PabloCamara.Components.ContactForm.getCta.id());
 		  PabloCamara.Components.ContactForm.hide();
-		  El.hide('social_media');
+		  PabloCamara.Components.SocialMedia.hide();
 		  El.hide('home');
 		  
 	  }
@@ -186,13 +188,17 @@ const PabloCamara = {
 		return El.getById('services');
 	  },		  
       initialize: function(skip){
+		  // Skip button to fast forward animations:
+        PabloCamara.Components.SkipButton.show(skip);
+		
         // Hides the Home View, Client area, services, social media, and contact form:
 		PabloCamara.Views.Language.hide();
         PabloCamara.Views.HomePage.hide();
         PabloCamara.Views.ClientArea.hide();
         PabloCamara.Views.Services.hide();
-        El.hide('social_media');
+        PabloCamara.Components.SocialMedia.hide();
         PabloCamara.Components.ContactForm.hide();
+		
 		El.removeClass('mainbody','white-theme');
 		
       },
@@ -250,31 +256,26 @@ const PabloCamara = {
   },
   Components: {
 	SkipButton: {
-		setText: function(text){
-			PabloCamara.Components.SkipButton.getEl().innerText = text;
+		hasInitialized: false,
+		init: function(){
+			if(PabloCamara.Components.SkipButton.hasInitialized)return;
+			
+			const skipButton_cid = 2;
+			// Set skip btn click event
+			El.getById('skip_btn').onclick = function(){
+			  Configs.Loading.skip = true;
+			  Stats.click(skipButton_cid);
+			};
+			
+			PabloCamara.Components.SkipButton.hasInitialized = true;
 		},
 		getEl: function(){ 
 			return El.getById('skip_btn');
 		},
 		show: function(skip){
+			PabloCamara.Components.SkipButton.init();
 			Configs.Loading.skip = skip;
-			
-			var skipBtnTxt = '';
-			
-			switch(Translator.getLang()){
-				case 'pt':
-					skipBtnTxt = 'Avançar';
-					break;
-				case 'es':
-					skipBtnTxt = 'Continuar';
-					break;
-				case 'en':
-					skipBtnTxt = 'Skip animations';
-					break;
-			}
-			
-			PabloCamara.Components.SkipButton.setText(skipBtnTxt);
-			
+			Translator.Translate.dt(Translator.getLang(),PabloCamara.Components.SkipButton.getEl());
 			El.show('skip_btn');
 		},
 		hide: function(){ El.hide('skip_btn'); },
@@ -465,6 +466,9 @@ const PabloCamara = {
     },
     Navbar: {
       hasInitialized: false,
+	  getId: function(){
+		return 3;  
+	  },
       getElId: function(){
         return 'navbar';
       },
@@ -545,6 +549,9 @@ const PabloCamara = {
                 }
                 // Shows the View page the user clicked on (but only if it exists)
                 const viewName = e.target.getAttribute('data-view');
+				
+				Stats.click(PabloCamara.Components.Navbar.getId(),viewName);
+				
                 if(viewName && PabloCamara.Views.hasOwnProperty(viewName))
 					PabloCamara.Components.Navbar.Menu.resetActiveMenuItems();
 					if (menuItem.classList) {
@@ -656,6 +663,7 @@ const PabloCamara = {
              return false;
            }
 
+		   Stats.click(PabloCamara.Components.Navbar.getId(),'toggle-menu');
            PabloCamara.Components.Navbar.Menu.toggle();
          };
 
@@ -664,6 +672,9 @@ const PabloCamara = {
       }
     },
     ContactForm: {
+	  getId: function(){
+		return 4;
+	  },		  
       hasInitialized: false,
       isOpen: false,
       getCta: {
@@ -677,14 +688,13 @@ const PabloCamara = {
 			Translator.Translate.dt(Translator.getLang(),PabloCamara.Components.ContactForm.getCta.el());
 			El.fadeIn('contact_cta',50,function(){
 			// And then the Social Media
-				El.fadeIn('social_media',50,function(){
+				PabloCamara.Components.SocialMedia.fadeIn(50, function(){
 				  // And only then we Initialize the navbar, only animates once
 				  // TODO: Enable navbar after we create other pages then the Home page
 				  PabloCamara.Components.Navbar.initialize(10,function(){
 					  // Hides the Skip button
 					  PabloCamara.Components.SkipButton.hide();
-					  // and calls the callback in case its passed as a function
-					  if(typeof callback === "function")callback();
+					  
 				  });
 				});
 			});
@@ -925,10 +935,12 @@ const PabloCamara = {
         if(PabloCamara.Components.ContactForm.hasInitialized)return;
 
         PabloCamara.Components.ContactForm.getCta.el().onclick = function(){
+		  Stats.click(PabloCamara.Components.ContactForm.getId(),'toggle-form-cta');
           PabloCamara.Components.ContactForm.toggle();
         };
 
         PabloCamara.Components.ContactForm.getSendBtn().onclick = function(){
+		  Stats.click(PabloCamara.Components.ContactForm.getId(),'send-message');
           PabloCamara.Components.ContactForm.send();
         };
 
@@ -1249,6 +1261,45 @@ const PabloCamara = {
 			El.hide(PabloCamara.Components.MyDomains.getContainerId());
 		}
 		
+	},
+	SocialMedia: {
+		getId: function(){
+			return 5;
+		},
+		hasInit: false,
+		init: function(){
+			if(PabloCamara.Components.SocialMedia.hasInit)return;
+			
+			
+			El.getById('social_media_linkedin').onclick = function(){
+				Stats.click(PabloCamara.Components.SocialMedia.getId(),'linkedin');
+			};
+			
+			El.getById('social_media_skype').onclick = function(){
+				Stats.click(PabloCamara.Components.SocialMedia.getId(),'skype');
+			};
+			
+			El.getById('social_media_mailto').onclick = function(){
+				Stats.click(PabloCamara.Components.SocialMedia.getId(),'mailto');
+			};
+			
+			PabloCamara.Components.SocialMedia.hasInit = true;
+		},
+		fadeIn: function(interval,callback){
+			PabloCamara.Components.SocialMedia.init();
+			
+			El.fadeIn('social_media',interval,function(){
+				// and calls the callback in case its passed as a function
+					  if(typeof callback === "function")callback();
+			});
+		},
+		show: function(){
+			PabloCamara.Components.SocialMedia.init();
+			El.show('social_media');
+		},
+		hide: function(){
+			El.hide('social_media');
+		}
 	},
 	UserComponents: {
 		show: function(){
