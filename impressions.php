@@ -30,6 +30,7 @@ try {
 		"impression_datetime" => date('Y-m-d H:i:s'),
 		"user_id" => isset($_SESSION['uid']) ? $_SESSION['uid'] : null,
 		"url" => $_SERVER["HTTP_REFERER"],
+		"country_code" => $_SERVER["HTTP_CF_IPCOUNTRY"],
 		"ip" => $ip,
 		"screen_width" => $_POST['sw'],
 		"screen_height" => $_POST['sh']
