@@ -1,14 +1,91 @@
 const PabloCamara = {
   Views: {
-    HomePage: {
+	Language: {
+      currentLanguage: null,
       initialize: function(skip){
         // Skip button to fast forward animations:
         Configs.Loading.skip = skip;
-        El.show('skip_btn');
+   
+		// Hides the Home container, social media, and contact form:
+        PabloCamara.Views.Language.hide();
+        PabloCamara.Views.HomePage.hide();
+        PabloCamara.Views.ClientArea.hide();
+		PabloCamara.Views.Services.hide();
+		
+        // HomePage intended to use dark theme
+		El.removeClass('mainbody','white-theme');
+		
+		var setLang = function(lang){
+			Translator.setLang(lang);
+			PabloCamara.Views.Language.hide();
+			PabloCamara.Components.IntroText.clean();
+			PabloCamara.Components.SkipButton.show(skip);
+			PabloCamara.showIntro("HomePage",false);
+		};
+		
+		
+		
+		El.getById('language-pt').onclick = function(){
+			setLang('pt');
+		};
+		El.getById('language-en').onclick = function(){
+			setLang('en');
+		};
+		
+		El.getById('language-es').onclick = function(){
+			setLang('es');
+		};
+		
+      },
+      show: function(skip,callback){
+        // Sets up HomePage for the intro/animaitons:
+        PabloCamara.Views.Language.initialize(skip);
+        // Writes the Intro Text with an animation effect:
+        PabloCamara.Components.IntroText.start(
+          'Escolha o idioma do site | Choose the website\'s language | Seleccione su idioma',35, // 50ms each letter
+          function(){ // Callback After Intro Text has been written
+
+            setTimeout(function(){ // Waits 450ms and then:
+              El.show('language'); // displays the Container
+            
+                El.fadeIn('language-pt',50,function(){
+					El.fadeIn('language-en',50,function(){
+						El.fadeIn('language-es',50,function(){
+							  // Hides the Skip button
+							  PabloCamara.Components.SkipButton.hide();
+							  // and calls the callback in case its passed as a function
+							  if(typeof callback === "function")callback();
+						
+						});
+					});                 
+                });
+
+               
+           
+            },Configs.Loading.skip === true ? 0 : 450);
+
+        });
+      },
+	  hide: function(){
+		  El.hide('language');
+		  El.hide('language-pt');
+		  El.hide('language-en');
+		  El.hide('language-es');
+		  
+	  }
+    },
+    HomePage: {
+      getEl: function(){
+		return El.getById('home');
+	  },
+	  initialize: function(skip){
+        // Skip button to fast forward animations:
+        PabloCamara.Components.SkipButton.show(skip);
 
         // Initialize home page contact form / cta
 		PabloCamara.Components.ContactForm.initialize();
 		// Hides the Home container, social media, and contact form:
+		PabloCamara.Views.Language.hide();
         PabloCamara.Views.HomePage.hide();
         PabloCamara.Views.ClientArea.hide();
 		PabloCamara.Views.Services.hide();
@@ -21,26 +98,22 @@ const PabloCamara = {
         // Sets up HomePage for the intro/animaitons:
         PabloCamara.Views.HomePage.initialize(skip);
         // Writes the Intro Text with an animation effect:
+		
+		const lang = Translator.getLang();
+		
+		
+		const phrase = Translator.Translate.getDataAttrResult(lang,PabloCamara.Views.HomePage.getEl(),'data-intro-text');
+		Translator.Translate.dt(lang,PabloCamara.Components.ContactForm.getSendBtn());
+			
+		
         PabloCamara.Components.IntroText.start(
-          'Técnico de Gestão e Programação de Sistemas Informáticos, Empreendedor, Freelancer',55, // 50ms each letter
+          phrase,55, // 50ms each letter
           function(){ // Callback After Intro Text has been written
 
             setTimeout(function(){ // Waits 450ms and then:
               El.show('home'); // displays the Container
               // Then we fade in the CTA,
-              El.fadeIn('contact_cta',50,function(){
-                // And then the Social Media
-                El.fadeIn('social_media',50,function(){
-                  // And only then we Initialize the navbar, only animates once
-                  // TODO: Enable navbar after we create other pages then the Home page
-                  PabloCamara.Components.Navbar.initialize(10,function(){
-                      // Hides the Skip button
-                      El.hide('skip_btn');
-                      // and calls the callback in case its passed as a function
-                      if(typeof callback === "function")callback();
-                  });
-                });
-              });
+			  PabloCamara.Components.ContactForm.getCta.show();
             },Configs.Loading.skip === true ? 0 : 450);
 
         });
@@ -54,12 +127,15 @@ const PabloCamara = {
 	  }
     },
 	ClientArea: {
+	  getEl: function(){
+		 return El.getById('client_area');
+	  },
       initialize: function(skip){
         // Skip button to fast forward animations:
-        Configs.Loading.skip = skip;
-        El.show('skip_btn');
+        PabloCamara.Components.SkipButton.show(skip);
 
         // Hides the Home View, Client area, social media, and contact form:
+		PabloCamara.Views.Language.hide();
         PabloCamara.Views.HomePage.hide();
         PabloCamara.Views.ClientArea.hide();
 		PabloCamara.Views.Services.hide();
@@ -74,8 +150,11 @@ const PabloCamara = {
         // Sets up ClientArea for the intro/animations:
         PabloCamara.Views.ClientArea.initialize(skip);
         // Writes the Intro Text with an animation effect:
+		
+		const phrase = Translator.Translate.getDataAttrResult(Translator.getLang(),PabloCamara.Views.ClientArea.getEl(),'data-intro-text');
+		
         PabloCamara.Components.IntroText.start(
-          'Área de Clientes',50, // 50ms each letter
+          phrase,50, // 50ms each letter
           function(){ // Callback After Intro Text has been written
 
             setTimeout(function(){ // Waits 450ms and then:
@@ -87,7 +166,7 @@ const PabloCamara = {
 			  // TODO: Enable navbar after we create other pages then the Home page
 			  PabloCamara.Components.Navbar.initialize(10,function(){
 				  // Hides the Skip button
-				  El.hide('skip_btn');
+				  PabloCamara.Components.SkipButton.hide();
 				  // and calls the callback in case its passed as a function
 				  if(typeof callback === "function")callback();
 			  });
@@ -103,12 +182,12 @@ const PabloCamara = {
 	  }
     },
 	Services: {
+	  getEl: function(){
+		return El.getById('services');
+	  },		  
       initialize: function(skip){
-        // Skip button to fast forward animations:
-        Configs.Loading.skip = skip;
-        El.show('skip_btn');
-
         // Hides the Home View, Client area, services, social media, and contact form:
+		PabloCamara.Views.Language.hide();
         PabloCamara.Views.HomePage.hide();
         PabloCamara.Views.ClientArea.hide();
         PabloCamara.Views.Services.hide();
@@ -121,8 +200,11 @@ const PabloCamara = {
         // Sets up ClientArea for the intro/animations:
         PabloCamara.Views.Services.initialize(skip);
         // Writes the Intro Text with an animation effect:
+		
+		const phrase = Translator.Translate.getDataAttrResult(Translator.getLang(),PabloCamara.Views.Services.getEl(),'data-intro-text');
+		
         PabloCamara.Components.IntroText.start(
-          'Serviços atualmente disponíveis:',100, // 50ms each letter
+          phrase,100, // 50ms each letter
           function(){ // Callback After Intro Text has been written
 
             setTimeout(function(){ // Waits 450ms and then:
@@ -141,6 +223,7 @@ const PabloCamara = {
 			  
 			  for(var i = 0; i < servicesItems.length; i++){
 				  servicesItems.item(i).style.display = 'none';
+				  Translator.Translate.childrenDtAndCode(Translator.getLang(),servicesItems.item(i));
 				  fadeAfter(i);
 			  }
 			
@@ -150,7 +233,7 @@ const PabloCamara = {
 			  // TODO: Enable navbar after we create other pages then the Home page
 			  PabloCamara.Components.Navbar.initialize(10,function(){
 				  // Hides the Skip button
-				  El.hide('skip_btn');
+				  PabloCamara.Components.SkipButton.hide();
 				  // and calls the callback in case its passed as a function
 				  if(typeof callback === "function")callback();
 			  });
@@ -166,6 +249,36 @@ const PabloCamara = {
     },
   },
   Components: {
+	SkipButton: {
+		setText: function(text){
+			PabloCamara.Components.SkipButton.getEl().innerText = text;
+		},
+		getEl: function(){ 
+			return El.getById('skip_btn');
+		},
+		show: function(skip){
+			Configs.Loading.skip = skip;
+			
+			var skipBtnTxt = '';
+			
+			switch(Translator.getLang()){
+				case 'pt':
+					skipBtnTxt = 'Avançar';
+					break;
+				case 'es':
+					skipBtnTxt = 'Continuar';
+					break;
+				case 'en':
+					skipBtnTxt = 'Skip animations';
+					break;
+			}
+			
+			PabloCamara.Components.SkipButton.setText(skipBtnTxt);
+			
+			El.show('skip_btn');
+		},
+		hide: function(){ El.hide('skip_btn'); },
+	},
     NameLoader: {
 	  startedOnce: false,
       getContainer: {
@@ -341,6 +454,9 @@ const PabloCamara = {
         PabloCamara.Components.IntroText.getEl().innerHTML += PabloCamara.Components.IntroText._lettersToLoad.shift();
         setTimeout(function(){ PabloCamara.Components.IntroText.load(text,interval,callback); }, Configs.Loading.skip === true ? 0 : interval);
       },
+	  clean: function(){
+		  PabloCamara.Components.IntroText.getEl().innerHTML = '';
+	  },
       start: function(intro_text,interval,callback){
         PabloCamara.Components.IntroText.load(intro_text,interval,function(){
           if(typeof callback === "function")callback();
@@ -399,16 +515,27 @@ const PabloCamara = {
           // Initializes only once
           if(PabloCamara.Components.Navbar.Menu.hasInitialized)return;
           // Sets the Menu Y position equals to 0 minus the Menu height
-          const menuEl = PabloCamara.Components.Navbar.Menu.getEl();
+		  
+		  const menuEl = PabloCamara.Components.Navbar.Menu.getEl();
+		  
+		  // Sets up, the Menu items texts before Height calculation
+          const menuItems = menuEl.getElementsByClassName('menu-item');
+          for(var i = 0; i < menuItems.length; i++) {
+              const menuItem = menuItems[i];
+			  Translator.Translate.dt(Translator.getLang(),menuItem);
+		  }
+		  
+		  
+          
           if(menuEl.style.top === ""){
             menuEl.style.top = (-menuEl.offsetHeight) + 'px';
           }
 
-          // Sets up, the Menu items events
-          const menuItems = menuEl.getElementsByClassName('menu-item');
+          // Sets up, the Menu items 
           for(var i = 0; i < menuItems.length; i++) {
               const menuItem = menuItems[i];
-
+			  Translator.Translate.dt(Translator.getLang(),menuItem);
+				
               // ON Click: Hides the Menu and Shows the View the user clicked on
               menuItem.onclick = function(e){
                 if(PabloCamara.Components.Navbar.Menu.isLoading)return false;
@@ -545,7 +672,23 @@ const PabloCamara = {
         },
         el: function(){
           return El.getById(PabloCamara.Components.ContactForm.getCta.id());
-        }
+        },
+		show: function(){
+			Translator.Translate.dt(Translator.getLang(),PabloCamara.Components.ContactForm.getCta.el());
+			El.fadeIn('contact_cta',50,function(){
+			// And then the Social Media
+				El.fadeIn('social_media',50,function(){
+				  // And only then we Initialize the navbar, only animates once
+				  // TODO: Enable navbar after we create other pages then the Home page
+				  PabloCamara.Components.Navbar.initialize(10,function(){
+					  // Hides the Skip button
+					  PabloCamara.Components.SkipButton.hide();
+					  // and calls the callback in case its passed as a function
+					  if(typeof callback === "function")callback();
+				  });
+				});
+			});
+		}
       },
       getForm: {
         getElId: function(){
@@ -696,6 +839,21 @@ const PabloCamara = {
         PabloCamara.Components.ContactForm.fields.name.getEl().focus();
         PabloCamara.Components.ContactForm.isOpen = true;
 
+		const lang = Translator.getLang();
+		
+		const contactForm = PabloCamara.Components.ContactForm.getForm.getEl();
+		
+		var contactForm_children = contactForm.children;
+		for (var i = 0; i < contactForm_children.length; i++) {
+			
+		  var child = contactForm_children[i];
+		  // Translate placeholders:
+		  Translator.Translate.dataAttr(lang,child,'placeholder');
+		  // And elements Text
+		  Translator.Translate.dt(lang,child);
+		  
+		}
+		
         El.addClass(PabloCamara.Components.ContactForm.getCta.id(),'active');
       },
       hide: function(){
@@ -778,9 +936,21 @@ const PabloCamara = {
       }
     },
 	LoginForm: {
+		getEl: function(){
+			return El.getById('login_form');
+		},
 		isLoggedIn: false,
 		hasInitialized: false,
 		authenticate: function(){
+			
+			if(Configs.debugMode){
+				// Shows login form
+				PabloCamara.Components.LoginForm.show();
+				// Hides user components
+				PabloCamara.Components.UserComponents.hide();
+				return true;
+			}
+			
 			var xhttp = new XMLHttpRequest();
 			xhttp.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200) {
@@ -855,7 +1025,20 @@ const PabloCamara = {
 			PabloCamara.Components.LoginForm.hasInitialized = true;
 		},
 		show: function(){
-			
+			const lang = Translator.getLang();
+		
+			const loginForm = PabloCamara.Components.LoginForm.getEl();
+			var loginForm_children = loginForm.children;
+			for (var i = 0; i < loginForm_children.length; i++) {
+				
+			  var child = loginForm_children[i];
+			  // Translate placeholders:
+			  Translator.Translate.dataAttr(lang,child,'placeholder');
+			  // And elements Text
+			  Translator.Translate.dt(lang,child);
+			  
+			}
+		
 			PabloCamara.Components.LoginForm.initialize();
 			El.show('login_form');
 			

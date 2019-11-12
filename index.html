@@ -21,6 +21,7 @@
     <link href="css/navbar.css?t=2019-10-22 14:13" rel="stylesheet"/>
     <link href="css/main.css?t=2019-11-02 09:01" rel="stylesheet"/>
 	
+	
 	<script type="text/javascript" src="js/Stats.js?v=1.0&d=2019-11-04 18:01"></script>
 	
   </head>
@@ -30,27 +31,39 @@
       <div class="triangle" id="menu-triangle"></div>
     </div>
     <div class="menu" id="menu">
-      <div class="menu-item active" data-view="HomePage">Pagina Inícial / Contacto</div>
-      <div class="menu-item" data-view="Services">Serviços</div>
-      <!-- <div class="menu-item" data-view="Portfolio">Portfólio</div> -->
-      <div class="menu-item" data-view="ClientArea">Área de Clientes</div>
+      <div class="menu-item active" data-view="HomePage" data-text-pt="Pagina Inícial | Contacto" data-text-es="Inicio | Contacto" data-text-en="Home | Contact"></div>
+      <div class="menu-item" data-view="Services" data-text-pt="Serviços" data-text-en="Services" data-text-es="Servicios"></div>
+      <div class="menu-item" data-view="ClientArea" data-text-en="Customers area" data-text-es="Área de Clientes" data-text-pt="Área do Cliente"></div>
     </div>
 
     <div id="pablocamara"></div>
     <div id="view_intro_text"></div>
+	<div id="language" style="display: none">
+		<ul style="margin-top: 20px">
+			<li id="language-pt" style="background-image: url('img/flag-pt.png');"> Português</li> 
+			<li id="language-en" style="background-image: url('img/flag-en.png');">English</li> 
+			<li id="language-es" style="background-image: url('img/flag-es.png');">Español</li>    
+		</ul>
+	</div>
 
-    <div id="home" class="view" style="display: none">
+    <div id="home" class="view" style="display: none"
+		data-intro-text-pt='Técnico de Gestão e Programação de Sistemas Informáticos, Empreendedor, Freelancer' 
+		data-intro-text-en='Software Developer, Entrepreneur, Freelancer' 
+		data-intro-text-es='Desarrollador de Software, Emprendedor, Freelancer' >
 
-      <div class="btn" id="contact_cta">Entrar em Contacto</div>
+      <div class="btn" id="contact_cta" 
+		data-text-pt='Contactar'
+		data-text-en='Contact form'
+		data-text-es='Contáctame' ></div>
 
       <div class="form-box" id="contact_form">
-        <input type="text" name="name" placeholder="O seu nome?" id="contact_form_name"/>
-        <input type="text" name="phone" placeholder="Telefone" id="contact_form_phone"/>
+        <input type="text" name="name" data-placeholder-pt="O seu nome?" data-placeholder-es="¿Su nombre?" data-placeholder-en="Your name?" id="contact_form_name"/>
+        <input type="text" name="phone" data-placeholder-pt="Telefone" data-placeholder-es="Telefono" data-placeholder-en="Phone" id="contact_form_phone"/>
         <input type="email" name="email" placeholder="Email" id="contact_form_email"/>
-        <input type="email" name="subject" placeholder="Assunto" id="contact_form_subject"/>
-        <textarea name="message" placeholder="Mensagem" rows="10" id="contact_form_msg"></textarea>
+        <input type="email" name="subject" data-placeholder-pt="Assunto" data-placeholder-es="Asunto" data-placeholder-en="Subject" id="contact_form_subject"/>
+        <textarea name="message" data-placeholder-pt="Mensagem" data-placeholder-es="Mensaje" data-placeholder-en="Message" rows="10" id="contact_form_msg"></textarea>
         <div id="contact_form_feedback" class="error_msg" style="display: none"></div>
-        <div class="form-button" id="contact_form_send_btn">Enviar mensagem</div>
+        <div class="form-button" id="contact_form_send_btn" data-text-en="Send message" data-text-es="Enviar mensaje" data-text-pt="Enviar mensagem"></div>
       </div>
 
 
@@ -77,12 +90,15 @@
 
     </div>
 
-	<div id="client_area" class="view" style="display: none">
+	<div id="client_area" class="view" style="display: none"
+		data-intro-text-pt='Área do Cliente' 
+		data-intro-text-es='Área de Clientes'
+		data-intro-text-en='Customers area'>
 		<div class="form-box" id="login_form" style="display: none">
 			<input type="email" name="login_email" placeholder="Email" id="login_email"/>
-			<input type="password" name="login_pwd" placeholder="Palavra-passe" id="login_pwd"/>
+			<input type="password" name="login_pwd" data-placeholder-en="Password" data-placeholder-es="Contraseña" data-placeholder-pt="Palavra-passe" id="login_pwd"/>
 			<div id="login_form_feedback" class="error_msg h-12"></div>
-			<div class="form-button reversed" id="login_form_submit">Entrar</div>
+			<div class="form-button reversed" id="login_form_submit" data-text-pt="Iniciar sessão" data-text-es="Iniciar sesión" data-text-en="Login">Entrar</div>
 		</div>
 		
 		<div id="account_bar" style="display: none">
@@ -113,44 +129,67 @@
 		
 	</div>
 	
-	<div id="services" style="display: none">
+	<div id="services" class="view" style="display: none" 
+		data-intro-text-pt='Serviços atualmente disponíveis:' 
+		data-intro-text-es='Servicios actualmente disponibles:'
+		data-intro-text-en='Currently available services:'>
 		<div class="service-item" style="display: none">
 			<div class="h-18">
-				<b>Web Design + Desenvolvimento</b>
+				<b data-text-pt="Web Design + Desenvolvimento"
+				   data-text-en="Web Design + Development"
+				   data-text-es="Diseño web + Desarrollo"></b>
 			</div>
 			<div class="img-webdev"></div>
-			<div class="h-14">
-				Criação de sites / aplicações web á medida,<br/>
+			<div class="h-14"
+				data-code-pt="Criação de sites / aplicações web á medida,<br/>
 				de acordo com as necessidades<br/>
-				do seu negócio ou ideia.
-			</div>
+				do seu negócio ou ideia."
+				data-code-es="Creación de sitios/aplicaciones web, <br/>
+				de acuerdo a las necesidades <br/>
+				de tu negocio o idea."
+				data-code-en="Creation of websites / web applications, <br/>
+				according to the needs <br/>
+				of your business or idea."
+			></div>
 			<!-- <div class="btn-white-rounded">Saber mais..</div> -->
 		</div>
 		
 		<div class="service-item bg-light-blue no-border-radius bg-hex-color pb-20 pt-5" style="display: none">
 			<div class="h-20 mt-10">
-				<b>Gestão e Otimização de Sites</b>
+				<b 
+					data-text-es="Gestión y Optimización de Sitios Web"
+					data-text-en="Website Management and Optimization"
+					data-text-pt="Gestão e Otimização de Sites"></b>
 			</div>
 			<div class="img-webmaintenance"></div>
-			<div class="h-15">
-				Gestão de sites atualmente existentes,<br>
+			<div class="h-15"
+				data-code-pt="Gestão de sites atualmente existentes,<br>
     			desenvolvimento do design visual,<br>
 				de funcionalidades novas ou existentes..<br>
-    			Otimização de performance, entre outros.
-			</div>
+    			Otimização do desempenho, entre outros."
+				data-code-en="Management of currently existing websites, <br>
+				development of the visual design, <br>
+				of new or existing features .. <br>
+				Performance optimization, among others."
+				data-code-es="Gestión de sitios web ya existentes,<br>
+    			desarrollo del diseño visual,<br>
+				de funcionalidades nuevas o ya existentes..<br>
+    			Optimización del desempeño, entre otros."
+			></div>
 			<!-- <div class="btn-dark-rounded">Saber mais..</div> -->
 		</div>
 	</div>
 
-    <div id="skip_btn">avançar</div>
+    <div id="skip_btn" style="display: none"></div>
 
-    <script type="text/javascript" src="js/Configs.js?v=1.0&d=2019-05-13 12:22"></script>
+    <script type="text/javascript" src="js/Configs.js?v=1.0&d=2019-11-12 00:38"></script>
     <script type="text/javascript" src="js/Page.js?v=1.0&d=2019-10-24 01:33"></script>
     <script type="text/javascript" src="js/El.js?v=1.0&d=2019-10-22 14:13"></script>
     <script type="text/javascript" src="js/Validator.js?v=1.0&d=2019-05-13 12:22"></script>
-    <script type="text/javascript" src="js/PabloCamara.js?v=1.0&d=2019-11-02 09:01"></script>
+    <script type="text/javascript" src="js/Translator.js?v=1.0&d=2019-11-12 00:38"></script>
+    <script type="text/javascript" src="js/PabloCamara.js?v=1.0&d=2019-11-12 00:38"></script>
     <script type="text/javascript">
-      PabloCamara.showIntro("HomePage",false);
+		PabloCamara.showIntro("Language",true);
     </script>
   </body>
 </html>
