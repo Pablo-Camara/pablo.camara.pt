@@ -1271,6 +1271,10 @@ const PabloCamara = {
 			if(PabloCamara.Components.SocialMedia.hasInit)return;
 			
 			
+			El.getById('social_media_github').onclick = function(){
+				Stats.click(PabloCamara.Components.SocialMedia.getId(),'github');
+			};
+			
 			El.getById('social_media_linkedin').onclick = function(){
 				Stats.click(PabloCamara.Components.SocialMedia.getId(),'linkedin');
 			};
