@@ -1,11 +1,23 @@
 <?php
-session_start();
-$debug = true;
 
 if($_SERVER['REQUEST_METHOD'] !== 'POST'){
 	header('Location: /');
 	die();
 }
+
+$debug = true;
+if($debug){
+	ini_set('display_errors', 1);
+	ini_set('display_startup_errors', 1);
+	error_reporting(E_ALL);
+}
+
+
+session_start();
+require_once '../../classes/Translation.php';
+$translationStrings = require '../../configs/translation/strings.php';
+$lang = Translation::getLanguage();
+$translator = new Translation($translationStrings,$lang);
 
 header('Content-type: application/json; charset=utf-8');
 
@@ -22,26 +34,23 @@ if(isset($_SESSION['uid'])){
 if(isset($_POST['lcheck']) && $_POST['lcheck'] == 'true'){
 	$res = json_encode([
       'status' => 0,
-	  'message' => 'É necessário iniciar sessão.'
+	  'message' => $translator->get('login_required_text')
     ]);
 
     echo $res;
     die();
 }
 
-if($debug){
-  ini_set('display_errors', 1);
-  ini_set('display_startup_errors', 1);
-  error_reporting(E_ALL);
-}
 
-require_once 'php/functions.php';
+
+require_once '../../classes/UserConnection.php';
 
 
 function login_failed(){
+	global $translator;
 	$res = json_encode([
 	  'status' => 0,
-	  'message' => "Não foi possível iniciar sessão. Por favor tente mais tarde."
+	  'message' => $translator->get('login_failed_text')
 	]);
 
 	echo $res;
@@ -59,9 +68,10 @@ function login_success(){
 }
 
 function missing_data(){
+	global $translator;
 	$res = json_encode([
 	  'status' => 0,
-	  'message' => "Preêncha todos os campos correctamente."
+	  'message' => $translator->get('missing_fields_text')
 	]);
 
 	echo $res;
@@ -69,9 +79,10 @@ function missing_data(){
 }
 
 function invalid_login(){
+	global $translator;
 	$res = json_encode([
 	  'status' => 0,
-	  'message' => "Email e/ou palavra-passe incorrectos."
+	  'message' => $translator->get('invalid_login')
 	]);
 
 	echo $res;
@@ -90,9 +101,9 @@ function log_login_attempt($database,$email,$ip,$status){
 try {
 	// Tries inserting into the Database
 
-	$database = require_once 'php/db_config.php';
+	$database = require_once '../../configs/database/config.php';
 
-	$ip = GetIP();
+	$ip = UserConnection::GetIP();
 	
 	if(empty(trim($_POST['email'])) || empty(trim($_POST['password']))){
 		

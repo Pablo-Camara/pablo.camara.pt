@@ -1,7 +1,7 @@
 <?php
 
 
-require_once 'vendor/php/Medoo.php';
+require_once '../../../vendor/php/Medoo.php';
 use Medoo\Medoo;
 
 return new Medoo([

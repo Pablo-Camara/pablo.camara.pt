@@ -15,23 +15,25 @@ if($debug){
   error_reporting(E_ALL);
 }
 
-require_once 'php/functions.php';
+require_once '../../classes/UserConnection.php';
 
 
 try {
 	// Tries inserting into the Database
 
-	$database = require_once 'php/db_config.php';
+	$database = require_once '../../configs/config.php';
 	
 
-	$ip = GetIP();
+	$ip = UserConnection::GetIP();
 
-	$database->insert("impressions", [
-		"impression_datetime" => date('Y-m-d H:i:s'),
+	$database->insert("user_actions", [
+		"action_datetime" => date('Y-m-d H:i:s'),
+		"action_id" => $_POST['action_id'],
+		"component_id" => $_POST['component_id'],
+		"value" => isset($_POST['value']) && !empty($_POST['value']) ? $_POST['value'] : null,
 		"user_id" => isset($_SESSION['uid']) ? $_SESSION['uid'] : null,
-		"url" => $_SERVER["HTTP_REFERER"],
-		"country_code" => $_SERVER["HTTP_CF_IPCOUNTRY"],
 		"ip" => $ip,
+		"url" => $_SERVER["HTTP_REFERER"],
 		"screen_width" => $_POST['sw'],
 		"screen_height" => $_POST['sh']
 	]);
@@ -47,9 +49,6 @@ try {
 } catch (Exception $e) {
     // Do nothing
 }
-
-
-
 
 
 ?>

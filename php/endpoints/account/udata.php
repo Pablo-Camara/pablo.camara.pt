@@ -7,6 +7,10 @@ if($_SERVER['REQUEST_METHOD'] !== 'POST'){
 }
 
 session_start();
+require_once '../../classes/Translation.php';
+$translationStrings = require '../../configs/translation/strings.php';
+$lang = Translation::getLanguage();
+$translator = new Translation($translationStrings,$lang);
 
 // Debug messages:
 $debug = true;
@@ -32,14 +36,15 @@ if(!isset($_SESSION['uid']) || empty($_SESSION['uid'])){
 }
 
 
-require_once 'php/functions.php';
+require_once '../../classes/UserConnection.php';
 
 
 function check_request_data(){
+	global $transator;
 	if( empty( trim( $_POST['fields'] ) ) ){
 		$res = json_encode([
 		  'status' => 0,
-		  'message' => "Parâmetro em falta."
+		  'message' => $translator->get('missing_parameter')
 		]);
 
 		echo $res;
@@ -48,9 +53,10 @@ function check_request_data(){
 }
 
 function fetch_failed_response(){
+	global $transator;
 	$res = json_encode([
 	  'status' => 0,
-	  'message' => "Não foi possível obter os dados do utilizador."
+	  'message' => $translator->get('failed_to_get_user_data')
 	]);
 
 	echo $res;
@@ -60,7 +66,7 @@ function fetch_failed_response(){
 try {
 	// Tries inserting into the Database
 
-	$database = require_once 'php/db_config.php';
+	$database = require_once '../../configs/database/config.php';
 
 	
 	check_request_data();

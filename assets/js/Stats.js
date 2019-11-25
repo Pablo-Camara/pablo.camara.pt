@@ -1,9 +1,9 @@
 const Stats = {
 	impression: function(){
-		API.simplePost("impressions.php","application/x-www-form-urlencoded","sw=" + screen.availWidth + "&sh=" + screen.availHeight);
+		API.request('POST',"php/endpoints/tracking/impressions.php",null,"sw=" + screen.availWidth + "&sh=" + screen.availHeight);
 	},
 	action: function(component_id,action_id,value){
-		API.simplePost("user_actions.php","application/x-www-form-urlencoded","action_id=" + action_id + "&component_id=" + component_id + "&sw=" + screen.availWidth + "&sh=" + screen.availHeight + "&value=" + value);
+		API.request('POST',"php/endpoints/tracking/user_actions.php",null,"action_id=" + action_id + "&component_id=" + component_id + "&sw=" + screen.availWidth + "&sh=" + screen.availHeight + "&value=" + value);
 	},
 	click: function(component_id,value){
 		const action_id = 1;

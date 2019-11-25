@@ -1,11 +1,15 @@
 <?php
 session_start();
 $debug = false;
+require_once '../../classes/Translation.php';
+$translationStrings = require '../../configs/translation/strings.php';
+$translator = new Translation($translationStrings);
+$lang = Translation::getLanguage();
 
 if(!$debug && isset($_SESSION['msg_sent'])){
     $res = json_encode([
       'status' => 0,
-      'message' => 'Você já enviou uma mensagem, por favor aguarde pela resposta ou entre em contacto através de outros meios, obrigado.'
+      'message' => $translator->get('form_message_already_sent')
     ]);
 
     echo $res;
@@ -20,10 +24,10 @@ if($debug){
   error_reporting(E_ALL);
 }
 
-require_once 'php/functions.php';
-require_once 'vendor/php/PHPMailer/Exception.php';
-require_once 'vendor/php/PHPMailer/PHPMailer.php';
-require_once 'vendor/php/PHPMailer/SMTP.php';
+require_once '../../classes/UserConnection.php';
+require_once '../../../vendor/php/PHPMailer/Exception.php';
+require_once '../../../vendor/php/PHPMailer/PHPMailer.php';
+require_once '../../../vendor/php/PHPMailer/SMTP.php';
 
 
 use PHPMailer\PHPMailer\PHPMailer;
@@ -32,11 +36,11 @@ use PHPMailer\PHPMailer\Exception;
 try {
   // Tries inserting into the Database
 
-  $database = require_once 'php/db_config.php';
+  $database = require_once '../../configs/database/config.php';
 
   $data = json_decode(file_get_contents('php://input'), true);
 
-  $ip = GetIP();
+  $ip = UserConnection::GetIP();
 
 
   $database->insert("messages", [
@@ -93,7 +97,7 @@ try {
 
   $res = json_encode([
     'status' => 1,
-    'message' => 'Mensagem enviada com successo! Entrarei em contacto muito em breve, obrigado!'
+    'message' => ''
   ]);
 
   $_SESSION['msg_sent'] = true;

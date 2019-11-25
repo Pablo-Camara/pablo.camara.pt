@@ -7,6 +7,10 @@ if($_SERVER['REQUEST_METHOD'] !== 'POST'){
 }
 
 session_start();
+require_once '../../classes/Translation.php';
+$translationStrings = require '../../configs/translation/strings.php';
+$lang = Translation::getLanguage();
+$translator = new Translation($translationStrings,$lang);
 
 // Debug messages:
 $debug = true;
@@ -32,13 +36,14 @@ if(!isset($_SESSION['uid']) || empty($_SESSION['uid'])){
 }
 
 
-require_once 'php/functions.php';
+require_once '../../classes/UserConnection.php';
 
 
 function fetch_failed(){
+	global $transator;
 	$res = json_encode([
 	  'status' => 0,
-	  'message' => 'Não foi possível obter os dados do utilizador.'
+	  'message' => $translator->get('failed_to_get_user_data')
 	]);
 
 	echo $res;
@@ -47,7 +52,7 @@ function fetch_failed(){
 
 try {
 
-	$database = require_once 'php/db_config.php';
+	$database = require_once '../../configs/database/config.php';
 
 
 	// fetch user domains

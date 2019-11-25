@@ -2,6 +2,9 @@ const PabloCamara = {
   Views: {
 	Language: {
       currentLanguage: null,
+      getEl: function(){
+        return El.getById('language');
+      },
       initialize: function(skip){
         // Skip button to fast forward animations:
         Configs.Loading.skip = skip;
@@ -10,7 +13,7 @@ const PabloCamara = {
         PabloCamara.Views.Language.hide();
         PabloCamara.Views.HomePage.hide();
         PabloCamara.Views.ClientArea.hide();
-		PabloCamara.Views.Services.hide();
+		    PabloCamara.Views.Services.hide();
 		
         // HomePage intended to use dark theme
 		El.removeClass('mainbody','white-theme');
@@ -19,13 +22,7 @@ const PabloCamara = {
 		var setLang = function(lang){
 			Stats.select(language_cid,lang);
 			Translator.setLang(lang);
-			PabloCamara.Views.Language.hide();
-			PabloCamara.Components.IntroText.clean();
-			PabloCamara.Components.SkipButton.show(skip);
-			PabloCamara.showIntro("HomePage",false);
 		};
-		
-		
 		
 		El.getById('language-pt').onclick = function(){
 			setLang('pt');
@@ -44,7 +41,7 @@ const PabloCamara = {
         PabloCamara.Views.Language.initialize(skip);
         // Writes the Intro Text with an animation effect:
         PabloCamara.Components.IntroText.start(
-          'Escolha o idioma do site | Choose the website\'s language | Seleccione su idioma',35, // 50ms each letter
+          PabloCamara.Views.Language.getEl().getAttribute('data-intro-text'),35, // 50ms each letter
           function(){ // Callback After Intro Text has been written
 
             setTimeout(function(){ // Waits 450ms and then:
@@ -83,7 +80,6 @@ const PabloCamara = {
 	  initialize: function(skip){
         // Skip button to fast forward animations:
         PabloCamara.Components.SkipButton.show(skip);
-
         // Initialize home page contact form / cta
 		PabloCamara.Components.ContactForm.initialize();
 		// Hides the Home container, social media, and contact form:
@@ -99,14 +95,10 @@ const PabloCamara = {
       show: function(skip,callback){
         // Sets up HomePage for the intro/animaitons:
         PabloCamara.Views.HomePage.initialize(skip);
+         
         // Writes the Intro Text with an animation effect:
 		
-		const lang = Translator.getLang();
-		
-		
-		const phrase = Translator.Translate.getDataAttrResult(lang,PabloCamara.Views.HomePage.getEl(),'data-intro-text');
-		Translator.Translate.dt(lang,PabloCamara.Components.ContactForm.getSendBtn());
-			
+		  const phrase = PabloCamara.Views.HomePage.getEl().getAttribute('data-intro-text');
 		
         PabloCamara.Components.IntroText.start(
           phrase,55, // 50ms each letter
@@ -153,7 +145,7 @@ const PabloCamara = {
         PabloCamara.Views.ClientArea.initialize(skip);
         // Writes the Intro Text with an animation effect:
 		
-		const phrase = Translator.Translate.getDataAttrResult(Translator.getLang(),PabloCamara.Views.ClientArea.getEl(),'data-intro-text');
+		const phrase = PabloCamara.Views.ClientArea.getEl().getAttribute('data-intro-text');
 		
         PabloCamara.Components.IntroText.start(
           phrase,50, // 50ms each letter
@@ -207,7 +199,7 @@ const PabloCamara = {
         PabloCamara.Views.Services.initialize(skip);
         // Writes the Intro Text with an animation effect:
 		
-		const phrase = Translator.Translate.getDataAttrResult(Translator.getLang(),PabloCamara.Views.Services.getEl(),'data-intro-text');
+		const phrase = PabloCamara.Views.Services.getEl().getAttribute('data-intro-text');
 		
         PabloCamara.Components.IntroText.start(
           phrase,100, // 50ms each letter
@@ -229,7 +221,6 @@ const PabloCamara = {
 			  
 			  for(var i = 0; i < servicesItems.length; i++){
 				  servicesItems.item(i).style.display = 'none';
-				  Translator.Translate.childrenDtAndCode(Translator.getLang(),servicesItems.item(i));
 				  fadeAfter(i);
 			  }
 			
@@ -255,33 +246,32 @@ const PabloCamara = {
     },
   },
   Components: {
-	SkipButton: {
-		hasInitialized: false,
-		init: function(){
-			if(PabloCamara.Components.SkipButton.hasInitialized)return;
-			
-			const skipButton_cid = 2;
-			// Set skip btn click event
-			El.getById('skip_btn').onclick = function(){
-			  Configs.Loading.skip = true;
-			  Stats.click(skipButton_cid,'');
-			};
-			
-			PabloCamara.Components.SkipButton.hasInitialized = true;
-		},
-		getEl: function(){ 
-			return El.getById('skip_btn');
-		},
-		show: function(skip){
-			PabloCamara.Components.SkipButton.init();
-			Configs.Loading.skip = skip;
-			Translator.Translate.dt(Translator.getLang(),PabloCamara.Components.SkipButton.getEl());
-			El.show('skip_btn');
-		},
-		hide: function(){ El.hide('skip_btn'); },
-	},
+    SkipButton: {
+      hasInitialized: false,
+      init: function(){
+        if(PabloCamara.Components.SkipButton.hasInitialized)return;
+        
+        const skipButton_cid = 2;
+        // Set skip btn click event
+        El.getById('skip_btn').onclick = function(){
+          Configs.Loading.skip = true;
+          Stats.click(skipButton_cid,'');
+        };
+        
+        PabloCamara.Components.SkipButton.hasInitialized = true;
+      },
+      getEl: function(){ 
+        return El.getById('skip_btn');
+      },
+      show: function(skip){
+        PabloCamara.Components.SkipButton.init();
+        Configs.Loading.skip = skip;
+        El.show('skip_btn');
+      },
+      hide: function(){ El.hide('skip_btn'); },
+    },
     NameLoader: {
-	  startedOnce: false,
+	    startedOnce: false,
       getContainer: {
         id: function(){
           return 'pablocamara'; // html Container ID for the letter pieces that will be loading for the name
@@ -435,9 +425,9 @@ const PabloCamara = {
     },
     IntroText: {
       getElId: function(){
-		  return 'view_intro_text';
-	  },
-	  getEl: function(){
+		    return 'view_intro_text';
+	    },
+	    getEl: function(){
         return El.getById(PabloCamara.Components.IntroText.getElId());
       },
       load: function(text,interval,callback){
@@ -466,9 +456,9 @@ const PabloCamara = {
     },
     Navbar: {
       hasInitialized: false,
-	  getId: function(){
-		return 3;  
-	  },
+      getId: function(){
+        return 3;  
+      },
       getElId: function(){
         return 'navbar';
       },
@@ -522,14 +512,8 @@ const PabloCamara = {
 		  
 		  const menuEl = PabloCamara.Components.Navbar.Menu.getEl();
 		  
-		  // Sets up, the Menu items texts before Height calculation
+	
           const menuItems = menuEl.getElementsByClassName('menu-item');
-          for(var i = 0; i < menuItems.length; i++) {
-              const menuItem = menuItems[i];
-			  Translator.Translate.dt(Translator.getLang(),menuItem);
-		  }
-		  
-		  
           
           if(menuEl.style.top === ""){
             menuEl.style.top = (-menuEl.offsetHeight) + 'px';
@@ -538,7 +522,6 @@ const PabloCamara = {
           // Sets up, the Menu items 
           for(var i = 0; i < menuItems.length; i++) {
               const menuItem = menuItems[i];
-			  Translator.Translate.dt(Translator.getLang(),menuItem);
 				
               // ON Click: Hides the Menu and Shows the View the user clicked on
               menuItem.onclick = function(e){
@@ -672,9 +655,9 @@ const PabloCamara = {
       }
     },
     ContactForm: {
-	  getId: function(){
-		return 4;
-	  },		  
+      getId: function(){
+        return 4;
+      },		  
       hasInitialized: false,
       isOpen: false,
       getCta: {
@@ -684,21 +667,20 @@ const PabloCamara = {
         el: function(){
           return El.getById(PabloCamara.Components.ContactForm.getCta.id());
         },
-		show: function(){
-			Translator.Translate.dt(Translator.getLang(),PabloCamara.Components.ContactForm.getCta.el());
-			El.fadeIn('contact_cta',50,function(){
-			// And then the Social Media
-				PabloCamara.Components.SocialMedia.fadeIn(50, function(){
-				  // And only then we Initialize the navbar, only animates once
-				  // TODO: Enable navbar after we create other pages then the Home page
-				  PabloCamara.Components.Navbar.initialize(10,function(){
-					  // Hides the Skip button
-					  PabloCamara.Components.SkipButton.hide();
-					  
-				  });
-				});
-			});
-		}
+        show: function(){
+          El.fadeIn('contact_cta',50,function(){
+          // And then the Social Media
+            PabloCamara.Components.SocialMedia.fadeIn(50, function(){
+              // And only then we Initialize the navbar, only animates once
+              // TODO: Enable navbar after we create other pages then the Home page
+              PabloCamara.Components.Navbar.initialize(10,function(){
+                // Hides the Skip button
+                PabloCamara.Components.SkipButton.hide();
+                
+              });
+            });
+          });
+        }
       },
       getForm: {
         getElId: function(){
@@ -751,12 +733,12 @@ const PabloCamara = {
             }
 
             if(name.value.length > 65){
-              PabloCamara.Components.ContactForm.fields.name.lastError = 'Prêencha o seu nome correctamente (nome muito grande)';
+              PabloCamara.Components.ContactForm.fields.name.lastError = name.getAttribute('data-feedback-too-big');
               return false;
             }
 
             if(name_count < 2){
-              PabloCamara.Components.ContactForm.fields.name.lastError = 'Prêencha o seu nome correctamente';
+              PabloCamara.Components.ContactForm.fields.name.lastError = name.getAttribute('data-feedback-invalid');
               return false;
             }
 
@@ -773,7 +755,7 @@ const PabloCamara = {
           isValid: function(){
             const phone = PabloCamara.Components.ContactForm.fields.phone.getEl();
             if(phone.value.length < 9 || phone.value.length > 16 || !Validator.isNumeric(phone.value)){
-              PabloCamara.Components.ContactForm.fields.phone.lastError = 'Prêencha o telefone correctamente (sem espaços, apenas numeros)';
+              PabloCamara.Components.ContactForm.fields.phone.lastError = phone.getAttribute('data-feedback-invalid');
               return false;
             }
             return true;
@@ -789,7 +771,7 @@ const PabloCamara = {
           isValid: function(){
             const email = PabloCamara.Components.ContactForm.fields.email.getEl();
             if(!Validator.validateEmail(email.value)){
-              PabloCamara.Components.ContactForm.fields.email.lastError = 'Prêencha o email correctamente';
+              PabloCamara.Components.ContactForm.fields.email.lastError = email.getAttribute('data-feedback-invalid');
               return false;
             }
             return true;
@@ -805,12 +787,12 @@ const PabloCamara = {
           isValid: function(){
             const subject = PabloCamara.Components.ContactForm.fields.subject.getEl();
             if(subject.value.length <= 10){
-              PabloCamara.Components.ContactForm.fields.subject.lastError = 'Por favor desenvolva melhor o assunto, obrigado';
+              PabloCamara.Components.ContactForm.fields.subject.lastError = subject.getAttribute('data-feedback-too-small');
               return false;
             }
 
             if(subject.value.length > 255){
-              PabloCamara.Components.ContactForm.fields.subject.lastError = 'Assunto muito grande, desenvolva antes a sua mensagem e diminua o tamanho do assunto, obrigado';
+              PabloCamara.Components.ContactForm.fields.subject.lastError = subject.getAttribute('data-feedback-too-big');
               return false;
             }
 
@@ -827,7 +809,7 @@ const PabloCamara = {
           isValid: function(){
             const msg = PabloCamara.Components.ContactForm.fields.msg.getEl()
             if(msg.value.length <= 10){
-              PabloCamara.Components.ContactForm.fields.msg.lastError = 'Por favor desenvolva melhor a sua mensagem, obrigado';
+              PabloCamara.Components.ContactForm.fields.msg.lastError = msg.getAttribute('data-feedback-too-small');
               return false;
             }
             return true;
@@ -848,22 +830,6 @@ const PabloCamara = {
         Page.scrollToY(PabloCamara.Components.IntroText.getEl().offsetTop - PabloCamara.Components.Navbar.getEl().offsetHeight,500);
         PabloCamara.Components.ContactForm.fields.name.getEl().focus();
         PabloCamara.Components.ContactForm.isOpen = true;
-
-		const lang = Translator.getLang();
-		
-		const contactForm = PabloCamara.Components.ContactForm.getForm.getEl();
-		
-		var contactForm_children = contactForm.children;
-		for (var i = 0; i < contactForm_children.length; i++) {
-			
-		  var child = contactForm_children[i];
-		  // Translate placeholders:
-		  Translator.Translate.dataAttr(lang,child,'placeholder');
-		  // And elements Text
-		  Translator.Translate.dt(lang,child);
-		  
-		}
-		
         El.addClass(PabloCamara.Components.ContactForm.getCta.id(),'active');
       },
       hide: function(){
@@ -897,35 +863,31 @@ const PabloCamara = {
         if(!PabloCamara.Components.ContactForm.validateFields()){
           return false;
         }
+        const formEl = PabloCamara.Components.ContactForm.getForm.getEl();
 
-        PabloCamara.Components.ContactForm.feedback.set('A enviar mensagem..','sending_msg');
+        PabloCamara.Components.ContactForm.feedback.set(formEl.getAttribute('data-sending-msg'),'sending_msg');
         PabloCamara.Components.ContactForm.feedback.show();
 
-
-        const xhr = new XMLHttpRequest();
-        xhr.open('PUT', 'msg.php');
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                const response = JSON.parse(xhr.responseText);
-
-                if(response.status){
-                    PabloCamara.Components.ContactForm.feedback.set(response.message,'success_msg');
-                    PabloCamara.Components.ContactForm.hideFields();
-                } else {
-                    const _error_msg = response.message ? response.message : 'Ups.. não foi possível enviar a mensagem, tente mais tarde ou envie um email directamente, ou entre em contacto pelas redes sociais.';
-                    PabloCamara.Components.ContactForm.feedback.set(_error_msg,'error_msg');
-                }
-            }
-        };
-
-        xhr.send(JSON.stringify({
+        API.request('PUT','php/endpoints/notification/msg.php','application/json',JSON.stringify({
             name: PabloCamara.Components.ContactForm.fields.name.getEl().value,
             phone: PabloCamara.Components.ContactForm.fields.phone.getEl().value,
             email: PabloCamara.Components.ContactForm.fields.email.getEl().value,
             subject: PabloCamara.Components.ContactForm.fields.subject.getEl().value,
             message: PabloCamara.Components.ContactForm.fields.msg.getEl().value
-        }));
+        }),function() {
+          if (this.readyState == 4 && this.status == 200) {
+              const response = JSON.parse(this.responseText);
+
+              if(response.status){
+                  PabloCamara.Components.ContactForm.feedback.set(response.message,'success_msg');
+                  PabloCamara.Components.ContactForm.hideFields();
+              } else {
+                  const _error_msg = response.message ? response.message : PabloCamara.Components.ContactForm.getForm.getEl().getAttribute('data-send-msg-failed');
+                  PabloCamara.Components.ContactForm.feedback.set(_error_msg,'error_msg');
+              }
+          }
+        });
+      
 
       },
       initialize: function(){
@@ -962,9 +924,8 @@ const PabloCamara = {
 				PabloCamara.Components.UserComponents.hide();
 				return true;
 			}
-			
-			var xhttp = new XMLHttpRequest();
-			xhttp.onreadystatechange = function() {
+      
+      API.request('POST','php/endpoints/account/login.php',null,'lcheck=true',function() {
 				if (this.readyState == 4 && this.status == 200) {
 					var jsonObj = JSON.parse(this.responseText);
 					
@@ -985,11 +946,7 @@ const PabloCamara = {
 					}
 					
 				}
-			};
-			xhttp.open("POST", "login.php", true);
-			xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		
-			xhttp.send("lcheck=true");
+			});
 		},
 		initialize: function(){
 			// Clear feedback data
@@ -1009,9 +966,7 @@ const PabloCamara = {
 			// Submit event
 			var loginSubmit = El.getById('login_form_submit');
 			loginSubmit.onclick = function(){
-				
-				var xhttp = new XMLHttpRequest();
-				xhttp.onreadystatechange = function() {
+        API.request('POST','php/endpoints/account/login.php',null,"email="+loginEmail.value+"&password="+loginPwd.value,function() {
 					if (this.readyState == 4 && this.status == 200) {
 						var jsonObj = JSON.parse(this.responseText);
 						
@@ -1026,34 +981,14 @@ const PabloCamara = {
 						}
 						
 					}
-				};
-				xhttp.open("POST", "login.php", true);
-				xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-			
-				xhttp.send("email="+loginEmail.value+"&password="+loginPwd.value);
-					
+				});
 			}
 			
 			PabloCamara.Components.LoginForm.hasInitialized = true;
 		},
 		show: function(){
-			const lang = Translator.getLang();
-		
-			const loginForm = PabloCamara.Components.LoginForm.getEl();
-			var loginForm_children = loginForm.children;
-			for (var i = 0; i < loginForm_children.length; i++) {
-				
-			  var child = loginForm_children[i];
-			  // Translate placeholders:
-			  Translator.Translate.dataAttr(lang,child,'placeholder');
-			  // And elements Text
-			  Translator.Translate.dt(lang,child);
-			  
-			}
-		
 			PabloCamara.Components.LoginForm.initialize();
 			El.show('login_form');
-			
 		},
 		hide: function(){
 			PabloCamara.Components.LoginForm.Feedback.hide();
@@ -1097,19 +1032,16 @@ const PabloCamara = {
 				
 				if(!PabloCamara.Components.AccountBar.LogOffBtn.hasInitialized){
 					el.onclick = function(){
-						var xhttp = new XMLHttpRequest();
-						xhttp.onreadystatechange = function() {
-						if (this.readyState == 4 && this.status == 200) {
-								var jsonObj = JSON.parse(this.responseText);
-								
-								if(jsonObj.status === 1){
-									PabloCamara.Components.LoginForm.authenticate();
-								}
-								
-							}
-						};
-						xhttp.open("POST", "logout.php", true);
-						xhttp.send();
+              
+            API.request('POST','php/endpoints/account/logout.php',null,null,function() {
+                if (this.readyState == 4 && this.status == 200) {
+                  var jsonObj = JSON.parse(this.responseText);
+                  
+                  if(jsonObj.status === 1){
+                    PabloCamara.Components.LoginForm.authenticate();
+                  }
+                }
+              });
 						
 					};
 					
@@ -1124,10 +1056,8 @@ const PabloCamara = {
 		},
 		initialize: function(){
 			if(PabloCamara.Components.AccountBar.hasInitialized === true)return;
-			
-			var xhttp = new XMLHttpRequest();
-			
-			xhttp.onreadystatechange = function() {
+      
+      API.request('POST','php/endpoints/account/udata.php',null,'fields=first_name,last_name',function() {
 				if (this.readyState == 4 && this.status == 200) {
 					var jsonObj = JSON.parse(this.responseText);
 					
@@ -1137,11 +1067,7 @@ const PabloCamara = {
 					}
 					
 				}
-			};
-			xhttp.open("POST", "udata.php", true);
-			xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		
-			xhttp.send("fields=first_name,last_name");
+			});
 			
 			PabloCamara.Components.AccountBar.hasInitialized = true;
 		},
@@ -1220,11 +1146,9 @@ const PabloCamara = {
 				
 			},
 			fetch: function(){
-				PabloCamara.Components.MyDomains.List.setLoading();
-				
-				var xhttp = new XMLHttpRequest();
-			
-				xhttp.onreadystatechange = function() {
+        PabloCamara.Components.MyDomains.List.setLoading();
+        
+        API.request('POST','php/endpoints/domain/domains.php',null,null,function() {
 					if (this.readyState == 4 && this.status == 200) {
 						var jsonObj = JSON.parse(this.responseText);
 						
@@ -1234,11 +1158,7 @@ const PabloCamara = {
 						}
 						
 					}
-				};
-				xhttp.open("POST", "domains.php", true);
-				xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-			
-				xhttp.send();
+				});
 			}
 		},
 		show: function(){
@@ -1321,9 +1241,11 @@ const PabloCamara = {
 	}
 	
   },
-  showIntro: function(viewName, skip){
+  showIntro: function(viewName, skip, showSkipBtn){
     Configs.Loading.skip = skip; // Allow full Intro, unless user clicks the Skip button
-
+    // Skip button to fast forward animations:
+    if(showSkipBtn)
+      PabloCamara.Components.SkipButton.show(skip);
     // Loads my Name and then Calls HomePage
     PabloCamara.Components.NameLoader.start(function(){
       PabloCamara.Views[viewName].show(Configs.Loading.skip,null);
