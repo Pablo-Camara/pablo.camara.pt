@@ -3,8 +3,9 @@ session_start();
 $debug = false;
 require_once '../../classes/Translation.php';
 $translationStrings = require '../../configs/translation/strings.php';
-$translator = new Translation($translationStrings);
 $lang = Translation::getLanguage();
+$translator = new Translation($translationStrings,$lang);
+
 
 if(!$debug && isset($_SESSION['msg_sent'])){
     $res = json_encode([
