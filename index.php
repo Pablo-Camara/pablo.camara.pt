@@ -3,7 +3,7 @@
 	$translationStrings = require 'php/configs/translation/strings.php';
 	$lang = Translation::getLanguage();
 	$translator = new Translation($translationStrings,$lang);
-	$breakCache = true; $curDate = $breakCache ? date('Y-m-d H:i:s') : '2019-11-25 11:53:00'; 
+	$breakCache = false; $curDate = $breakCache ? date('Y-m-d H:i:s') : '2019-11-25 14:38:00'; 
 ?><!DOCTYPE html>
 <html lang="<?= $lang ?>">
   <head>
