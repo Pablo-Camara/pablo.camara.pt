@@ -3,7 +3,7 @@
 	$translationStrings = require 'php/configs/translation/strings.php';
 	$lang = Translation::getLanguage();
 	$translator = new Translation($translationStrings,$lang);
-
+	$breakCache = true; $curDate = $breakCache ? date('Y-m-d H:i:s') : '2019-11-25 11:53:00'; 
 ?><!DOCTYPE html>
 <html lang="<?= $lang ?>">
   <head>
@@ -23,13 +23,14 @@
 
     <title>Pablo Câmara - Freelancer</title>
 
+	
     <link href="https://fonts.googleapis.com/css?family=Karla:400,700" rel="stylesheet">
-    <link href="assets/css/navbar.css?t=2019-11-12 00:44" rel="stylesheet"/>
-    <link href="assets/css/main.css?t=2019-11-12 00:44" rel="stylesheet"/>
+    <link href="assets/css/navbar.css?t=<?= $curDate; ?>" rel="stylesheet"/>
+    <link href="assets/css/main.css?t=<?= $curDate; ?>" rel="stylesheet"/>
 	
 	
-	<script type="text/javascript" src="assets/js/API.js?v=1.0&d=2019-11-12 03:18"></script>
-	<script type="text/javascript" src="assets/js/Stats.js?v=1.0&d=2019-11-12 03:18"></script>
+	<script type="text/javascript" src="assets/js/API.js?v=1.0&d=<?= $curDate; ?>"></script>
+	<script type="text/javascript" src="assets/js/Stats.js?v=1.0&d=<?= $curDate; ?>"></script>
 	
   </head>
   <body id="mainbody">
@@ -176,12 +177,13 @@
 
     <div id="skip_btn" style="display: none"><?= $translator->get('skip_button_text'); ?></div>
 
-    <script type="text/javascript" src="assets/js/Configs.js?v=1.0&d=2019-11-12 03:18"></script>
-    <script type="text/javascript" src="assets/js/Page.js?v=1.0&d=2019-11-12 03:18"></script>
-    <script type="text/javascript" src="assets/js/El.js?v=1.0&d=2019-11-12 03:18"></script>
-    <script type="text/javascript" src="assets/js/Validator.js?v=1.0&d=2019-11-12 03:18"></script>
-    <script type="text/javascript" src="assets/js/Translator.js?v=1.0&d=2019-11-12 03:18"></script>
-	<script type="text/javascript" src="assets/js/PabloCamara.js?v=1.0&d=2019-11-13 11:24"></script>
+	
+    <script type="text/javascript" src="assets/js/Configs.js?v=1.0&d=<?= $curDate; ?>"></script>
+    <script type="text/javascript" src="assets/js/Page.js?v=1.0&d=<?= $curDate; ?>"></script>
+    <script type="text/javascript" src="assets/js/El.js?v=1.0&d=<?= $curDate; ?>"></script>
+    <script type="text/javascript" src="assets/js/Validator.js?v=1.0&d=<?= $curDate; ?>"></script>
+    <script type="text/javascript" src="assets/js/Translator.js?v=1.0&d=<?= $curDate; ?>"></script>
+	<script type="text/javascript" src="assets/js/PabloCamara.js?v=1.0&d=<?= $curDate; ?>"></script>
 	
 	<?php if(!$translator->wasLanguageSelectedByUser()): ?>
 		<script type="text/javascript">
