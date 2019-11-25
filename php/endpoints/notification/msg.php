@@ -98,7 +98,7 @@ try {
 
   $res = json_encode([
     'status' => 1,
-    'message' => ''
+    'message' => $translator->get('form_message_sent')
   ]);
 
   $_SESSION['msg_sent'] = true;
