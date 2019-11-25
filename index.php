@@ -182,9 +182,8 @@
 	</div>
 
 	
-	<?php if($translator->wasLanguageSelectedByUser()): ?>
-		<div id="change_language"></div>
-	<?php endif; ?>
+	
+	<div id="change_language"></div>
 
     <div id="skip_btn" style="display: none"><?= $translator->get('skip_button_text'); ?></div>
 
