@@ -21,7 +21,7 @@ require_once '../../classes/UserConnection.php';
 try {
 	// Tries inserting into the Database
 
-	$database = require_once '../../configs/config.php';
+	$database = require_once '../../configs/database/config.php';
 	
 
 	$ip = UserConnection::GetIP();
