@@ -1,11 +1,14 @@
 const Translator = { 
-	_currentLanguage: null,
+	currentLanguage: null,
 	
 	getLang: function(){
-		return Translator._currentLanguage;
+		return Translator.currentLanguage;
 	},
 	setLang: function(lang){
-		Translator._currentLanguage = lang;
+		Translator.currentLanguage = lang;
+	},
+	setSessionLang: function(lang){
+		Translator.currentLanguage = lang;
 		API.request('GET','php/endpoints/account/language.php?lang=' + lang,null/*uses default*/,null,function(){
 			if (this.readyState == 4 && this.status == 200) {
 				window.location.reload();

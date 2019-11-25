@@ -1,7 +1,6 @@
 const PabloCamara = {
   Views: {
-	Language: {
-      currentLanguage: null,
+	  Language: {
       getEl: function(){
         return El.getById('language');
       },
@@ -13,7 +12,8 @@ const PabloCamara = {
         PabloCamara.Views.Language.hide();
         PabloCamara.Views.HomePage.hide();
         PabloCamara.Views.ClientArea.hide();
-		    PabloCamara.Views.Services.hide();
+        PabloCamara.Views.Services.hide();
+        PabloCamara.Components.ChangeLanguage.hide();
 		
         // HomePage intended to use dark theme
 		El.removeClass('mainbody','white-theme');
@@ -21,7 +21,7 @@ const PabloCamara = {
 		const language_cid = 1;
 		var setLang = function(lang){
 			Stats.select(language_cid,lang);
-			Translator.setLang(lang);
+			Translator.setSessionLang(lang);
 		};
 		
 		El.getById('language-pt').onclick = function(){
@@ -86,7 +86,8 @@ const PabloCamara = {
 		PabloCamara.Views.Language.hide();
         PabloCamara.Views.HomePage.hide();
         PabloCamara.Views.ClientArea.hide();
-		PabloCamara.Views.Services.hide();
+    PabloCamara.Views.Services.hide();
+    PabloCamara.Components.ChangeLanguage.hide();
 		
         // HomePage intended to use dark theme
 		El.removeClass('mainbody','white-theme');
@@ -107,7 +108,7 @@ const PabloCamara = {
             setTimeout(function(){ // Waits 450ms and then:
               El.show('home'); // displays the Container
               // Then we fade in the CTA,
-			  PabloCamara.Components.ContactForm.getCta.show();
+			        PabloCamara.Components.ContactForm.getCta.show();
             },Configs.Loading.skip === true ? 0 : 450);
 
         });
@@ -120,10 +121,10 @@ const PabloCamara = {
 		  
 	  }
     },
-	ClientArea: {
-	  getEl: function(){
-		 return El.getById('client_area');
-	  },
+	  ClientArea: {
+      getEl: function(){
+        return El.getById('client_area');
+      },
       initialize: function(skip){
         // Skip button to fast forward animations:
         PabloCamara.Components.SkipButton.show(skip);
@@ -133,11 +134,11 @@ const PabloCamara = {
         PabloCamara.Views.HomePage.hide();
         PabloCamara.Views.ClientArea.hide();
 		PabloCamara.Views.Services.hide();
-		
+		PabloCamara.Components.ChangeLanguage.hide();
 		// Client are uses the white theme
 		El.addClass('mainbody','white-theme');
 		
-		El.removeClass(PabloCamara.Components.IntroText.getElId(),'fs-23');
+		
 		El.addClass(PabloCamara.Components.IntroText.getElId(),'fs-23');
       },
       show: function(skip,callback){
@@ -170,9 +171,10 @@ const PabloCamara = {
         });
       },
 	  hide: function(){
-		// Hides de Client Area
-		PabloCamara.Components.LoginForm.hide();
-		El.hide('client_area');
+      // Hides de Client Area
+      PabloCamara.Components.LoginForm.hide();
+      El.removeClass(PabloCamara.Components.IntroText.getElId(),'fs-23');
+      El.hide('client_area');
 	  }
     },
 	Services: {
@@ -190,7 +192,8 @@ const PabloCamara = {
         PabloCamara.Views.Services.hide();
         PabloCamara.Components.SocialMedia.hide();
         PabloCamara.Components.ContactForm.hide();
-		
+        PabloCamara.Components.ChangeLanguage.hide();
+
 		El.removeClass('mainbody','white-theme');
 		
       },
@@ -213,16 +216,18 @@ const PabloCamara = {
 			  const servicesContainer = El.getById('services');
 			  const servicesItems = servicesContainer.getElementsByClassName('service-item');
 			  
-			  var fadeAfter = function(i){
-				  setTimeout(function(){
-					  El.fadeIn(servicesItems.item(i),50);
-				  },(i+1)*500);
+			  var fadeAfter = function(i,cb){
+				  setTimeout(cb(),(i+1)*500);
 			  };
 			  
 			  for(var i = 0; i < servicesItems.length; i++){
 				  servicesItems.item(i).style.display = 'none';
-				  fadeAfter(i);
-			  }
+				  fadeAfter(i,function() { El.fadeIn(servicesItems.item(i),50); } );
+        }
+        
+        fadeAfter(servicesItems.length,function(){
+          PabloCamara.Components.ChangeLanguage.show();
+        });
 			
 			  El.show('services');
 			  
@@ -674,6 +679,7 @@ const PabloCamara = {
               // And only then we Initialize the navbar, only animates once
               // TODO: Enable navbar after we create other pages then the Home page
               PabloCamara.Components.Navbar.initialize(10,function(){
+                PabloCamara.Components.ChangeLanguage.show();
                 // Hides the Skip button
                 PabloCamara.Components.SkipButton.hide();
                 
@@ -939,7 +945,9 @@ const PabloCamara = {
 					} else {
 						// Shows login form
 						PabloCamara.Components.LoginForm.show();
-						
+            
+            PabloCamara.Components.ChangeLanguage.show();
+            
 						// Hides user components
 						PabloCamara.Components.UserComponents.hide();
 						
@@ -1230,15 +1238,39 @@ const PabloCamara = {
 			PabloCamara.Components.AccountBar.show();
 			
 			//TODO: Fetch from DB user component list and only show these.
-			PabloCamara.Components.MyDomains.show();
+      PabloCamara.Components.MyDomains.show();
 		},
 		hide: function(){
 			PabloCamara.Components.AccountBar.hide();
 			
 			//TODO: hide components that were previously fetched from the database and shown.
-			PabloCamara.Components.MyDomains.hide();
+      PabloCamara.Components.MyDomains.hide();
+      
+
 		}
-	}
+  },
+  ChangeLanguage: {
+    getId: function(){
+      return 'change_language';
+    },
+    hasInitialized: false,
+    initialize: function(){
+      if(!PabloCamara.Components.ChangeLanguage.hasInitialized){
+        El.getById(PabloCamara.Components.ChangeLanguage.getId()).onclick = function(){
+          PabloCamara.Views.Language.show(true);
+        };
+        PabloCamara.Components.ChangeLanguage.hasInitialized = true;
+      }
+    },
+    show: function(){
+      PabloCamara.Components.ChangeLanguage.initialize();
+      if(Translator.getLang())
+        El.show(PabloCamara.Components.ChangeLanguage.getId());
+    },
+    hide: function(){
+      El.hide(PabloCamara.Components.ChangeLanguage.getId());
+    }
+  }
 	
   },
   showIntro: function(viewName, skip, showSkipBtn){

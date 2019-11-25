@@ -31,7 +31,12 @@
 	
 	<script type="text/javascript" src="assets/js/API.js?v=1.0&d=<?= $curDate; ?>"></script>
 	<script type="text/javascript" src="assets/js/Stats.js?v=1.0&d=<?= $curDate; ?>"></script>
-	
+	<script type="text/javascript" src="assets/js/Translator.js?v=1.0&d=<?= $curDate; ?>"></script>
+
+	<script type="text/javascript">
+		Stats.impression();
+		Translator.setLang('<?= $lang ?>');
+	</script>
   </head>
   <body id="mainbody">
     <div id="navbar">
@@ -45,7 +50,8 @@
     </div>
 
     <div id="pablocamara"></div>
-    <div id="view_intro_text"></div>
+	<div id="view_intro_text"></div>
+	
 	<div id="language" style="display: none"
 		data-intro-text="Escolha o idioma do site | Choose the website's language | Seleccione su idioma"
 		>
@@ -175,6 +181,11 @@
 
 	</div>
 
+	
+	<?php if($translator->wasLanguageSelectedByUser()): ?>
+		<div id="change_language"></div>
+	<?php endif; ?>
+
     <div id="skip_btn" style="display: none"><?= $translator->get('skip_button_text'); ?></div>
 
 	
@@ -182,7 +193,6 @@
     <script type="text/javascript" src="assets/js/Page.js?v=1.0&d=<?= $curDate; ?>"></script>
     <script type="text/javascript" src="assets/js/El.js?v=1.0&d=<?= $curDate; ?>"></script>
     <script type="text/javascript" src="assets/js/Validator.js?v=1.0&d=<?= $curDate; ?>"></script>
-    <script type="text/javascript" src="assets/js/Translator.js?v=1.0&d=<?= $curDate; ?>"></script>
 	<script type="text/javascript" src="assets/js/PabloCamara.js?v=1.0&d=<?= $curDate; ?>"></script>
 	
 	<?php if(!$translator->wasLanguageSelectedByUser()): ?>
@@ -192,6 +202,8 @@
 	<?php else: ?>
 		<script type="text/javascript">
 			PabloCamara.showIntro("HomePage",false,true);
+
+			El.getById('change_language').setAttribute('style',El.getById('language-<?= $lang ?>').getAttribute('style'));
 		</script>
 	<?php endif; ?>
   </body>

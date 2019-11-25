@@ -14,6 +14,3 @@ const Stats = {
 		Stats.action(component_id,action_id,value);
 	},
 };
-
-// Trigger impression on script load
-Stats.impression();
