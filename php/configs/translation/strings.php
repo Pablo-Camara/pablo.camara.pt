@@ -56,7 +56,7 @@ return [
         'en' => 'You have already sent a message, please wait for the reply or contact us through other means, thanks.',
         'es' => 'Ya ha enviado un mensaje, espere la respuesta o contáctenos por otros medios, gracias.',
     ],
-    'form_message_send' =>  [
+    'form_message_sent' =>  [
         'pt' => 'Mensagem enviada com successo! Entrarei em contacto muito em breve, obrigado!',
         'en' => 'Message sent successfully! I will contact you very soon, thanks!',
         'es' => 'Mensaje enviado con éxito! Te contactaré muy pronto, gracias!',
