@@ -137,9 +137,9 @@ return [
         'es' => 'Cerrar sesión',
     ],
     'my_domains_text'  =>  [
-        'pt' => 'Os Meus Domínios',
-        'en' => 'My Domains',
-        'es' => 'Mis dominios',
+        'pt' => 'Gestor de Domínios',
+        'en' => 'Domain Manager',
+        'es' => 'Gestor de Dominios',
     ],
     'my_designs_text'  =>  [
         'pt' => 'Os Meus Designs',
