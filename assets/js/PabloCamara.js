@@ -1291,7 +1291,7 @@ const PabloCamara = {
         const el = El.getById(el_id);
         el.onclick = function(){
           Stats.click(PabloCamara.Components.ProfilePicture.getComponentId(),'profile_picture');
-          PabloCamara.Components.ContactForm.getCta.el().scrollIntoView(false);
+          PabloCamara.Components.SocialMedia.getEl().scrollIntoView(false);
         };
         PabloCamara.Components.ProfilePicture.hasInitialized = true;
       },
