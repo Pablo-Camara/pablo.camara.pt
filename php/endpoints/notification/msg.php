@@ -58,7 +58,7 @@ try {
       if(empty($value)){
         $res = json_encode([
           'status' => 0,
-          'message' => $translator->get('form_missing_fields')
+          'message' => $translator->get('form_missing_fields') . ':' . $key
         ]);
         echo $res;
         exit;
