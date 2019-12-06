@@ -3,7 +3,7 @@
 	$translationStrings = require 'php/configs/translation/strings.php';
 	$lang = Translation::getLanguage();
 	$translator = new Translation($translationStrings,$lang);
-	$breakCache = false; $curDate = $breakCache ? date('Y-m-d H:i:s') : '2019-11-25 14:51:00'; 
+	$breakCache = true; $curDate = $breakCache ? date('Y-m-d H:i:s') : '2019-12-06 16:23:00'; 
 ?><!DOCTYPE html>
 <html lang="<?= $lang ?>">
   <head>
@@ -39,6 +39,7 @@
 	</script>
   </head>
   <body id="mainbody">
+	<div id="profile-pic-preload" style="url('assets/img/pablocamara.png') no-repeat -9999px -9999px;"></div>
     <div id="navbar">
       MENU
       <div class="triangle" id="menu-triangle"></div>
@@ -51,7 +52,7 @@
 
     <div id="pablocamara"></div>
 	<div id="view_intro_text"></div>
-	
+	<div id="profile_picture" style="display: none; background-image: url('assets/img/pablocamara.png');"></div>
 	<div id="language" style="display: none"
 		data-intro-text="Escolha o idioma do site | Choose the website's language | Seleccione su idioma"
 		>

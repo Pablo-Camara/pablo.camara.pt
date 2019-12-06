@@ -3,8 +3,12 @@ const El = {
     getById: function(el_id){
       return document.getElementById(el_id);
     },
-    show: function(el_id){
+    show: function(el_id,callback){
       El.getById(el_id).style.display = 'block';
+
+      if(typeof callback === 'function'){
+        callback();
+      }
     },
     hide: function(el_id){
       El.getById(el_id).style.display = 'none';
@@ -21,6 +25,22 @@ const El = {
       if(parseFloat(element.style.opacity) < 1){
         setTimeout(function(){
           El.fadeIn(el_id,interval,callback);
+        },Configs.Loading.skip === true ? 0 : interval);
+      } else {
+        if(typeof callback === "function")callback();
+      }
+    },
+    fadeOut: function(el_id, interval, callback){
+      var element = typeof el_id === 'string' ? El.getById(el_id) : el_id;
+
+      if(element.style.display === 'none' || element.style.opacity == ''){
+        return true;
+      }
+
+      element.style.opacity = parseFloat(element.style.opacity) - 0.05;
+      if(parseFloat(element.style.opacity) > 0){
+        setTimeout(function(){
+          El.fadeOut(el_id,interval,callback);
         },Configs.Loading.skip === true ? 0 : interval);
       } else {
         if(typeof callback === "function")callback();

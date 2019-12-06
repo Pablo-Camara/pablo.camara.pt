@@ -88,7 +88,7 @@ const PabloCamara = {
         PabloCamara.Views.ClientArea.hide();
     PabloCamara.Views.Services.hide();
     PabloCamara.Components.ChangeLanguage.hide();
-		
+		PabloCamara.Components.ProfilePicture.hide();
         // HomePage intended to use dark theme
 		El.removeClass('mainbody','white-theme');
 		
@@ -104,9 +104,14 @@ const PabloCamara = {
         PabloCamara.Components.IntroText.start(
           phrase,55, // 50ms each letter
           function(){ // Callback After Intro Text has been written
-
+            
             setTimeout(function(){ // Waits 450ms and then:
-              El.show('home'); // displays the Container
+             
+              El.show('home',function(){
+                setTimeout(function(){
+                  PabloCamara.Components.ProfilePicture.show();
+                }, 4000);
+              }); // displays the Container
               // Then we fade in the CTA,
 			        PabloCamara.Components.ContactForm.getCta.show();
             },Configs.Loading.skip === true ? 0 : 450);
@@ -116,7 +121,8 @@ const PabloCamara = {
 	  hide: function(){
 		  El.hide(PabloCamara.Components.ContactForm.getCta.id());
 		  PabloCamara.Components.ContactForm.hide();
-		  PabloCamara.Components.SocialMedia.hide();
+      PabloCamara.Components.SocialMedia.hide();
+      PabloCamara.Components.ProfilePicture.hide();
 		  El.hide('home');
 		  
 	  }
@@ -833,7 +839,7 @@ const PabloCamara = {
       },
       show: function(){
         El.show(PabloCamara.Components.ContactForm.getForm.getElId());
-        Page.scrollToY(PabloCamara.Components.IntroText.getEl().offsetTop - PabloCamara.Components.Navbar.getEl().offsetHeight,500);
+        PabloCamara.Components.ContactForm.getCta.el().scrollIntoView(false);
         PabloCamara.Components.ContactForm.fields.name.getEl().focus();
         PabloCamara.Components.ContactForm.isOpen = true;
         El.addClass(PabloCamara.Components.ContactForm.getCta.id(),'active');
@@ -903,7 +909,7 @@ const PabloCamara = {
         if(PabloCamara.Components.ContactForm.hasInitialized)return;
 
         PabloCamara.Components.ContactForm.getCta.el().onclick = function(){
-		  Stats.click(PabloCamara.Components.ContactForm.getId(),'toggle-form-cta');
+		      Stats.click(PabloCamara.Components.ContactForm.getId(),'toggle-form-cta');
           PabloCamara.Components.ContactForm.toggle();
         };
 
@@ -915,362 +921,397 @@ const PabloCamara = {
         PabloCamara.Components.ContactForm.hasInitialized = true;
       }
     },
-	LoginForm: {
-		getEl: function(){
-			return El.getById('login_form');
-		},
-		isLoggedIn: false,
-		hasInitialized: false,
-		authenticate: function(){
-			
-			if(Configs.debugMode){
-				// Shows login form
-				PabloCamara.Components.LoginForm.show();
-				// Hides user components
-				PabloCamara.Components.UserComponents.hide();
-				return true;
-			}
-      
-      API.request('POST','php/endpoints/account/login.php',null,'lcheck=true',function() {
-				if (this.readyState == 4 && this.status == 200) {
-					var jsonObj = JSON.parse(this.responseText);
-					
-					if(jsonObj.status === 1 && jsonObj.message == 'already_logged_in'){
-						// Hides login form
-						PabloCamara.Components.LoginForm.hide();
-						
-						// Shows user components
-						PabloCamara.Components.UserComponents.show();
-						
-					} else {
-						// Shows login form
-						PabloCamara.Components.LoginForm.show();
-            
-            PabloCamara.Components.ChangeLanguage.show();
-            
-						// Hides user components
-						PabloCamara.Components.UserComponents.hide();
-						
-					}
-					
-				}
-			});
-		},
-		initialize: function(){
-			// Clear feedback data
-			PabloCamara.Components.LoginForm.Feedback.hide();
-			
-			var loginEmail = El.getById('login_email');
-			var loginPwd = El.getById('login_pwd');
-			
-			// Clear text inputs
-			loginEmail.value = '';
-			loginPwd.value = '';
-			
-			loginEmail.focus();
-			
-			if(PabloCamara.Components.LoginForm.hasInitialized === true)return;
-			
-			// Submit event
-			var loginSubmit = El.getById('login_form_submit');
-			loginSubmit.onclick = function(){
-        API.request('POST','php/endpoints/account/login.php',null,"email="+loginEmail.value+"&password="+loginPwd.value,function() {
-					if (this.readyState == 4 && this.status == 200) {
-						var jsonObj = JSON.parse(this.responseText);
-						
-						if(jsonObj.status == 0){
-							PabloCamara.Components.LoginForm.Feedback.showMsg( jsonObj.message );
-						} else {
-							
-							PabloCamara.Components.LoginForm.hide();
-							
-							// Then show user components:
-							PabloCamara.Components.UserComponents.show();
-						}
-						
-					}
-				});
-			}
-			
-			PabloCamara.Components.LoginForm.hasInitialized = true;
-		},
-		show: function(){
-			PabloCamara.Components.LoginForm.initialize();
-			El.show('login_form');
-		},
-		hide: function(){
-			PabloCamara.Components.LoginForm.Feedback.hide();
-			El.hide('login_form');
-		},
-		Feedback: {
-			getEl: function(){
-				return El.getById('login_form_feedback');
-			},
-			hide: function(){
-				var fbEl = PabloCamara.Components.LoginForm.Feedback.getEl();
-				fbEl.innerHTML = '';
-				fbEl.style.display = "none";
-			},
-			showMsg: function(msg){
-				var fbEl = PabloCamara.Components.LoginForm.Feedback.getEl();
-				fbEl.innerHTML = msg;
-				fbEl.style.display = "block";
-			}
-		}
-	},
-	AccountBar: {
-		hasInitialized: false,
-		getEl: {
-			id: function(){
-				return 'account_bar';
-			}
-		},
-		setUserName: function(uname){
-			El.getById('account_bar_user_name').innerText = uname;
-		},
-		LogOffBtn: {
-			hasInitialized: false,
-			getEl: function(){
-				return El.getById('logout_link');
-			},
-			show: function(){
-			
-				const el = PabloCamara.Components.AccountBar.LogOffBtn.getEl();
-				El.show(el.id);
-				
-				if(!PabloCamara.Components.AccountBar.LogOffBtn.hasInitialized){
-					el.onclick = function(){
-              
-            API.request('POST','php/endpoints/account/logout.php',null,null,function() {
-                if (this.readyState == 4 && this.status == 200) {
-                  var jsonObj = JSON.parse(this.responseText);
-                  
-                  if(jsonObj.status === 1){
-                    PabloCamara.Components.LoginForm.authenticate();
-                  }
-                }
-              });
-						
-					};
-					
-					PabloCamara.Components.AccountBar.LogOffBtn.hasInitialized = true;
-				}
-			},
-			hide: function(){
-				const el = PabloCamara.Components.AccountBar.LogOffBtn.getEl();
-				El.hide(el.id);
-			}
-
-		},
-		initialize: function(){
-			if(PabloCamara.Components.AccountBar.hasInitialized === true)return;
-      
-      API.request('POST','php/endpoints/account/udata.php',null,'fields=first_name,last_name',function() {
-				if (this.readyState == 4 && this.status == 200) {
-					var jsonObj = JSON.parse(this.responseText);
-					
-					if(jsonObj.status === 1){
-						PabloCamara.Components.AccountBar.setUserName(jsonObj.user.first_name + ' ' + jsonObj.user.last_name);
-						PabloCamara.Components.AccountBar.LogOffBtn.show();
-					}
-					
-				}
-			});
-			
-			PabloCamara.Components.AccountBar.hasInitialized = true;
-		},
-		show: function(){
-			PabloCamara.Components.AccountBar.initialize();
-			
-			El.show(PabloCamara.Components.AccountBar.getEl.id());
-		},
-		hide: function() {
-			El.hide(PabloCamara.Components.AccountBar.getEl.id());
-			PabloCamara.Components.AccountBar.LogOffBtn.hide();
-		}
-	},
-	MyDomains: {
-		getContainerId: function(){
-			return 'my_domains';
-		},
-		List: {
-			getId: function(){
-				return 'my_domains_list';
-			},
-			getEl: function(){
-				var domainListId = PabloCamara.Components.MyDomains.List.getId();
-				return El.getById(domainListId);
-			},
-			load: function(list){
-				
-				for(var i = 0; i < list.length; i++){
-					
-					var domainRow = document.createElement("DIV");   
-					domainRow.setAttribute( 'id', 'domain_' + list[i].domain_id );
-					domainRow.setAttribute( 'class', 'panel-list-item' );
-					
-					var domainName = document.createElement("DIV");   
-					domainName.setAttribute( 'class', 'domain-name mb-8' );
-					domainName.innerHTML = list[i].url;
-					
-					var domainStatus = document.createElement("DIV");   
-					domainStatus.setAttribute( 'class', 'h-14' );
-					domainStatus.innerHTML = 'status: <b style="color: '+list[i].hexcolor+'">'+list[i].domain_status_text+'</b>';
-					
-					var domainExpiryDate = document.createElement("DIV");   
-					domainExpiryDate.setAttribute( 'class', 'h-14' );
-					domainExpiryDate.innerHTML = 'valido até: <b>'+(new Date(list[i].expiration_date)).toLocaleDateString();+'</b>';
-					
-					domainRow.appendChild(domainName);
-					domainRow.appendChild(domainStatus);
-					domainRow.appendChild(domainExpiryDate);
-					
-					PabloCamara.Components.MyDomains.List.getEl().appendChild(domainRow);
-				}
-				
-			},
-			clear: function(){
-				PabloCamara.Components.MyDomains.List.getEl().innerHTML = '';
-			},
-			setLoading: function(){
-				PabloCamara.Components.MyDomains.List.getEl().innerHTML = '<div class="panel-list-item">A carregar dados..</div>';
-			},
-			isVisible: false,
-			show: function(list){
-				El.show(PabloCamara.Components.MyDomains.List.getId());
-				PabloCamara.Components.MyDomains.List.isVisible = true;
-			},
-			hide: function(){
-				El.hide(PabloCamara.Components.MyDomains.List.getId());
-				PabloCamara.Components.MyDomains.List.isVisible = false;
-			},
-			toggle: function(){
-				if(PabloCamara.Components.MyDomains.List.isVisible){
-					PabloCamara.Components.MyDomains.List.hide();
-				} else {
-					PabloCamara.Components.MyDomains.List.fetch();
-					PabloCamara.Components.MyDomains.List.show();
-				}
-				
-			},
-			fetch: function(){
-        PabloCamara.Components.MyDomains.List.setLoading();
+    LoginForm: {
+      getEl: function(){
+        return El.getById('login_form');
+      },
+      isLoggedIn: false,
+      hasInitialized: false,
+      authenticate: function(){
         
-        API.request('POST','php/endpoints/domain/domains.php',null,null,function() {
-					if (this.readyState == 4 && this.status == 200) {
-						var jsonObj = JSON.parse(this.responseText);
-						
-						if(jsonObj.status === 1){
-							PabloCamara.Components.MyDomains.List.clear();
-							PabloCamara.Components.MyDomains.List.load(jsonObj.domains);
-						}
-						
-					}
-				});
-			}
-		},
-		show: function(){
-			var el = El.getById(PabloCamara.Components.MyDomains.getContainerId());
-			El.show(el.id);
-			
-			// on click fetch domains and show the list
-			
-			el.onclick = function(){
-				PabloCamara.Components.MyDomains.List.toggle();
-			};
-			
-		},
-		hide: function(){
-			
-			// hide domain list
-			PabloCamara.Components.MyDomains.List.hide();
-			
-			// hide container
-			El.hide(PabloCamara.Components.MyDomains.getContainerId());
-		}
-		
-	},
-	SocialMedia: {
-		getId: function(){
-			return 5;
-		},
-		hasInit: false,
-		init: function(){
-			if(PabloCamara.Components.SocialMedia.hasInit)return;
-			
-			
-			El.getById('social_media_github').onclick = function(){
-				Stats.click(PabloCamara.Components.SocialMedia.getId(),'github');
-			};
-			
-			El.getById('social_media_linkedin').onclick = function(){
-				Stats.click(PabloCamara.Components.SocialMedia.getId(),'linkedin');
-			};
-			
-			El.getById('social_media_skype').onclick = function(){
-				Stats.click(PabloCamara.Components.SocialMedia.getId(),'skype');
-			};
-			
-			El.getById('social_media_mailto').onclick = function(){
-				Stats.click(PabloCamara.Components.SocialMedia.getId(),'mailto');
-			};
-			
-			PabloCamara.Components.SocialMedia.hasInit = true;
-		},
-		fadeIn: function(interval,callback){
-			PabloCamara.Components.SocialMedia.init();
-			
-			El.fadeIn('social_media',interval,function(){
-				// and calls the callback in case its passed as a function
-					  if(typeof callback === "function")callback();
-			});
-		},
-		show: function(){
-			PabloCamara.Components.SocialMedia.init();
-			El.show('social_media');
-		},
-		hide: function(){
-			El.hide('social_media');
-		}
-	},
-	UserComponents: {
-		show: function(){
-			PabloCamara.Components.AccountBar.show();
-			
-			//TODO: Fetch from DB user component list and only show these.
-      PabloCamara.Components.MyDomains.show();
-		},
-		hide: function(){
-			PabloCamara.Components.AccountBar.hide();
-			
-			//TODO: hide components that were previously fetched from the database and shown.
-      PabloCamara.Components.MyDomains.hide();
-      
-
-		}
-  },
-  ChangeLanguage: {
-    getId: function(){
-      return 'change_language';
-    },
-    hasInitialized: false,
-    initialize: function(){
-      if(!PabloCamara.Components.ChangeLanguage.hasInitialized){
-        El.getById(PabloCamara.Components.ChangeLanguage.getId()).onclick = function(){
-          PabloCamara.Views.Language.show(true);
-        };
-        PabloCamara.Components.ChangeLanguage.hasInitialized = true;
+        if(Configs.debugMode){
+          // Shows login form
+          PabloCamara.Components.LoginForm.show();
+          // Hides user components
+          PabloCamara.Components.UserComponents.hide();
+          return true;
+        }
+        
+        API.request('POST','php/endpoints/account/login.php',null,'lcheck=true',function() {
+          if (this.readyState == 4 && this.status == 200) {
+            var jsonObj = JSON.parse(this.responseText);
+            
+            if(jsonObj.status === 1 && jsonObj.message == 'already_logged_in'){
+              // Hides login form
+              PabloCamara.Components.LoginForm.hide();
+              
+              // Shows user components
+              PabloCamara.Components.UserComponents.show();
+              
+            } else {
+              // Shows login form
+              PabloCamara.Components.LoginForm.show();
+              
+              PabloCamara.Components.ChangeLanguage.show();
+              
+              // Hides user components
+              PabloCamara.Components.UserComponents.hide();
+              
+            }
+            
+          }
+        });
+      },
+      initialize: function(){
+        // Clear feedback data
+        PabloCamara.Components.LoginForm.Feedback.hide();
+        
+        var loginEmail = El.getById('login_email');
+        var loginPwd = El.getById('login_pwd');
+        
+        // Clear text inputs
+        loginEmail.value = '';
+        loginPwd.value = '';
+        
+        loginEmail.focus();
+        
+        if(PabloCamara.Components.LoginForm.hasInitialized === true)return;
+        
+        // Submit event
+        var loginSubmit = El.getById('login_form_submit');
+        loginSubmit.onclick = function(){
+          API.request('POST','php/endpoints/account/login.php',null,"email="+loginEmail.value+"&password="+loginPwd.value,function() {
+            if (this.readyState == 4 && this.status == 200) {
+              var jsonObj = JSON.parse(this.responseText);
+              
+              if(jsonObj.status == 0){
+                PabloCamara.Components.LoginForm.Feedback.showMsg( jsonObj.message );
+              } else {
+                
+                PabloCamara.Components.LoginForm.hide();
+                
+                // Then show user components:
+                PabloCamara.Components.UserComponents.show();
+              }
+              
+            }
+          });
+        }
+        
+        PabloCamara.Components.LoginForm.hasInitialized = true;
+      },
+      show: function(){
+        PabloCamara.Components.LoginForm.initialize();
+        El.show('login_form');
+      },
+      hide: function(){
+        PabloCamara.Components.LoginForm.Feedback.hide();
+        El.hide('login_form');
+      },
+      Feedback: {
+        getEl: function(){
+          return El.getById('login_form_feedback');
+        },
+        hide: function(){
+          var fbEl = PabloCamara.Components.LoginForm.Feedback.getEl();
+          fbEl.innerHTML = '';
+          fbEl.style.display = "none";
+        },
+        showMsg: function(msg){
+          var fbEl = PabloCamara.Components.LoginForm.Feedback.getEl();
+          fbEl.innerHTML = msg;
+          fbEl.style.display = "block";
+        }
       }
     },
-    show: function(){
-      PabloCamara.Components.ChangeLanguage.initialize();
-      if(Translator.getLang())
-        El.show(PabloCamara.Components.ChangeLanguage.getId());
+    AccountBar: {
+      hasInitialized: false,
+      getEl: {
+        id: function(){
+          return 'account_bar';
+        }
+      },
+      setUserName: function(uname){
+        El.getById('account_bar_user_name').innerText = uname;
+      },
+      LogOffBtn: {
+        hasInitialized: false,
+        getEl: function(){
+          return El.getById('logout_link');
+        },
+        show: function(){
+        
+          const el = PabloCamara.Components.AccountBar.LogOffBtn.getEl();
+          El.show(el.id);
+          
+          if(!PabloCamara.Components.AccountBar.LogOffBtn.hasInitialized){
+            el.onclick = function(){
+                
+              API.request('POST','php/endpoints/account/logout.php',null,null,function() {
+                  if (this.readyState == 4 && this.status == 200) {
+                    var jsonObj = JSON.parse(this.responseText);
+                    
+                    if(jsonObj.status === 1){
+                      PabloCamara.Components.LoginForm.authenticate();
+                    }
+                  }
+                });
+              
+            };
+            
+            PabloCamara.Components.AccountBar.LogOffBtn.hasInitialized = true;
+          }
+        },
+        hide: function(){
+          const el = PabloCamara.Components.AccountBar.LogOffBtn.getEl();
+          El.hide(el.id);
+        }
+
+      },
+      initialize: function(){
+        if(PabloCamara.Components.AccountBar.hasInitialized === true)return;
+        
+        API.request('POST','php/endpoints/account/udata.php',null,'fields=first_name,last_name',function() {
+          if (this.readyState == 4 && this.status == 200) {
+            var jsonObj = JSON.parse(this.responseText);
+            
+            if(jsonObj.status === 1){
+              PabloCamara.Components.AccountBar.setUserName(jsonObj.user.first_name + ' ' + jsonObj.user.last_name);
+              PabloCamara.Components.AccountBar.LogOffBtn.show();
+            }
+            
+          }
+        });
+        
+        PabloCamara.Components.AccountBar.hasInitialized = true;
+      },
+      show: function(){
+        PabloCamara.Components.AccountBar.initialize();
+        
+        El.show(PabloCamara.Components.AccountBar.getEl.id());
+      },
+      hide: function() {
+        El.hide(PabloCamara.Components.AccountBar.getEl.id());
+        PabloCamara.Components.AccountBar.LogOffBtn.hide();
+      }
     },
-    hide: function(){
-      El.hide(PabloCamara.Components.ChangeLanguage.getId());
+    MyDomains: {
+      getContainerId: function(){
+        return 'my_domains';
+      },
+      List: {
+        getId: function(){
+          return 'my_domains_list';
+        },
+        getEl: function(){
+          var domainListId = PabloCamara.Components.MyDomains.List.getId();
+          return El.getById(domainListId);
+        },
+        load: function(list){
+          
+          for(var i = 0; i < list.length; i++){
+            
+            var domainRow = document.createElement("DIV");   
+            domainRow.setAttribute( 'id', 'domain_' + list[i].domain_id );
+            domainRow.setAttribute( 'class', 'panel-list-item' );
+            
+            var domainName = document.createElement("DIV");   
+            domainName.setAttribute( 'class', 'domain-name mb-8' );
+            domainName.innerHTML = list[i].url;
+            
+            var domainStatus = document.createElement("DIV");   
+            domainStatus.setAttribute( 'class', 'h-14' );
+            domainStatus.innerHTML = 'status: <b style="color: '+list[i].hexcolor+'">'+list[i].domain_status_text+'</b>';
+            
+            var domainExpiryDate = document.createElement("DIV");   
+            domainExpiryDate.setAttribute( 'class', 'h-14' );
+            domainExpiryDate.innerHTML = 'valido até: <b>'+(new Date(list[i].expiration_date)).toLocaleDateString();+'</b>';
+            
+            domainRow.appendChild(domainName);
+            domainRow.appendChild(domainStatus);
+            domainRow.appendChild(domainExpiryDate);
+            
+            PabloCamara.Components.MyDomains.List.getEl().appendChild(domainRow);
+          }
+          
+        },
+        clear: function(){
+          PabloCamara.Components.MyDomains.List.getEl().innerHTML = '';
+        },
+        setLoading: function(){
+          PabloCamara.Components.MyDomains.List.getEl().innerHTML = '<div class="panel-list-item">A carregar dados..</div>';
+        },
+        isVisible: false,
+        show: function(list){
+          El.show(PabloCamara.Components.MyDomains.List.getId());
+          PabloCamara.Components.MyDomains.List.isVisible = true;
+        },
+        hide: function(){
+          El.hide(PabloCamara.Components.MyDomains.List.getId());
+          PabloCamara.Components.MyDomains.List.isVisible = false;
+        },
+        toggle: function(){
+          if(PabloCamara.Components.MyDomains.List.isVisible){
+            PabloCamara.Components.MyDomains.List.hide();
+          } else {
+            PabloCamara.Components.MyDomains.List.fetch();
+            PabloCamara.Components.MyDomains.List.show();
+          }
+          
+        },
+        fetch: function(){
+          PabloCamara.Components.MyDomains.List.setLoading();
+          
+          API.request('POST','php/endpoints/domain/domains.php',null,null,function() {
+            if (this.readyState == 4 && this.status == 200) {
+              var jsonObj = JSON.parse(this.responseText);
+              
+              if(jsonObj.status === 1){
+                PabloCamara.Components.MyDomains.List.clear();
+                PabloCamara.Components.MyDomains.List.load(jsonObj.domains);
+              }
+              
+            }
+          });
+        }
+      },
+      show: function(){
+        var el = El.getById(PabloCamara.Components.MyDomains.getContainerId());
+        El.show(el.id);
+        
+        // on click fetch domains and show the list
+        
+        el.onclick = function(){
+          PabloCamara.Components.MyDomains.List.toggle();
+        };
+        
+      },
+      hide: function(){
+        
+        // hide domain list
+        PabloCamara.Components.MyDomains.List.hide();
+        
+        // hide container
+        El.hide(PabloCamara.Components.MyDomains.getContainerId());
+      }
+      
+    },
+    SocialMedia: {
+      getId: function(){
+        return 5;
+      },
+      getEl: function(){
+        return El.getById('social_media');
+      },
+      hasInit: false,
+      init: function(){
+        if(PabloCamara.Components.SocialMedia.hasInit)return;
+        
+        
+        El.getById('social_media_github').onclick = function(){
+          Stats.click(PabloCamara.Components.SocialMedia.getId(),'github');
+        };
+        
+        El.getById('social_media_linkedin').onclick = function(){
+          Stats.click(PabloCamara.Components.SocialMedia.getId(),'linkedin');
+        };
+        
+        El.getById('social_media_skype').onclick = function(){
+          Stats.click(PabloCamara.Components.SocialMedia.getId(),'skype');
+        };
+        
+        El.getById('social_media_mailto').onclick = function(){
+          Stats.click(PabloCamara.Components.SocialMedia.getId(),'mailto');
+        };
+        
+        PabloCamara.Components.SocialMedia.hasInit = true;
+      },
+      fadeIn: function(interval,callback){
+        PabloCamara.Components.SocialMedia.init();
+        
+        El.fadeIn('social_media',interval,function(){
+          // and calls the callback in case its passed as a function
+              if(typeof callback === "function")callback();
+        });
+      },
+      show: function(){
+        PabloCamara.Components.SocialMedia.init();
+        El.show('social_media');
+      },
+      hide: function(){
+        El.hide('social_media');
+      }
+    },
+    UserComponents: {
+      show: function(){
+        PabloCamara.Components.AccountBar.show();
+        
+        //TODO: Fetch from DB user component list and only show these.
+        PabloCamara.Components.MyDomains.show();
+      },
+      hide: function(){
+        PabloCamara.Components.AccountBar.hide();
+        
+        //TODO: hide components that were previously fetched from the database and shown.
+        PabloCamara.Components.MyDomains.hide();
+        
+
+      }
+    },
+    ChangeLanguage: {
+      getId: function(){
+        return 'change_language';
+      },
+      hasInitialized: false,
+      initialize: function(){
+        if(!PabloCamara.Components.ChangeLanguage.hasInitialized){
+          El.getById(PabloCamara.Components.ChangeLanguage.getId()).onclick = function(){
+            PabloCamara.Views.Language.show(true);
+          };
+          PabloCamara.Components.ChangeLanguage.hasInitialized = true;
+        }
+      },
+      show: function(){
+        PabloCamara.Components.ChangeLanguage.initialize();
+        if(Translator.getLang())
+          El.show(PabloCamara.Components.ChangeLanguage.getId());
+      },
+      hide: function(){
+        El.hide(PabloCamara.Components.ChangeLanguage.getId());
+      }
+    },
+    ProfilePicture: {
+      hasInitialized: false,
+      getComponentId: function(){
+        return 6;
+      },
+      initialize: function(){
+        if(PabloCamara.Components.hasInitialized)return;
+        const el_id = PabloCamara.Components.ProfilePicture.getElId();
+        const el = El.getById(el_id);
+        el.onclick = function(){
+          Stats.click(PabloCamara.Components.ProfilePicture.getComponentId(),'profile_picture');
+          PabloCamara.Components.ContactForm.getCta.el().scrollIntoView(false);
+        };
+        PabloCamara.Components.ProfilePicture.hasInitialized = true;
+      },
+      getElId: function(){
+        return 'profile_picture';
+      },
+      getEl: function(){
+        const el_id = PabloCamara.Components.ProfilePicture.getElId();
+        return El.getById(el_id);
+      },
+      show: function(){
+        PabloCamara.Components.ProfilePicture.initialize();
+        const el_id = PabloCamara.Components.ProfilePicture.getElId();
+        El.fadeIn(el_id,80);
+      },
+      hide: function(){
+        const el_id = PabloCamara.Components.ProfilePicture.getElId();
+        El.hide(el_id);
+      }
     }
-  }
 	
   },
   showIntro: function(viewName, skip, showSkipBtn){
