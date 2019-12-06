@@ -60,6 +60,7 @@ try {
           'status' => 0,
           'message' => $translator->get('form_missing_fields')
         ]);
+        echo $res;
         exit;
       }
     }
