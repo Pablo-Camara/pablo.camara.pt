@@ -43,31 +43,16 @@ try {
 
   $ip = UserConnection::GetIP();
 
-  $fdata = 
-    [
-      "name" => $data['name'],
-      "email" => $data['email'],
-      "phone" => $data['phone'],
-      "email" => $data['email'],
-      "subject" => $data['subject'],
-      "message" => $data['message']
-    ];
 
-
-    foreach($fdata as $key => $value){
-      if(empty($value)){
-        $res = json_encode([
-          'status' => 0,
-          'message' => $translator->get('form_missing_fields')
-        ]);
-        exit;
-      }
-    }
-
-    $fdata["ip"] = $ip;
-
-
-  $database->insert("messages", $fdata);
+  $database->insert("messages", [
+  	"name" => $data['name'],
+  	"email" => $data['email'],
+    "phone" => $data['phone'],
+    "email" => $data['email'],
+    "subject" => $data['subject'],
+    "message" => $data['message'],
+    "ip" => $ip
+  ]);
 } catch (Exception $e) {
     // Do nothing
 }

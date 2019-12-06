@@ -46,11 +46,6 @@ return [
         'en' => 'Sending message..',
         'es' => 'Enviando mensaje..',
     ],
-    'form_missing_fields' => [
-        'pt' => 'Por Favor, Preêncha todos os campos do formuláro..',
-        'en' => 'Fill in all fields of the form...',
-        'es' => 'Rellene todos los campos del formulario...',
-    ],
     'form_send_msg_failed'  =>  [
         'pt' => 'Ups.. não foi possível enviar a mensagem, tente mais tarde ou envie um email directamente, ou entre em contacto pelas redes sociais.',
         'en' => 'Oops ... we couldn\'t send the message, please try later or email us directly, or get in touch via social networks.',

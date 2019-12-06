@@ -1,0 +1,22 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"sqltools.connections": [
+			{
+				"database": "pablocamara",
+				"dialect": "MySQL",
+				"isActive": false,
+				"isConnected": false,
+				"name": "PabloCamaraDB",
+				"password": "pc_main_user_pwd2019",
+				"port": 3306,
+				"server": "178.128.201.209",
+				"username": "pc_main_user2019"
+			}
+		]
+	}
+}
