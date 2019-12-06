@@ -110,7 +110,7 @@ const PabloCamara = {
               El.show('home',function(){
                 setTimeout(function(){
                   PabloCamara.Components.ProfilePicture.show();
-                }, 4000);
+                }, Configs.Loading.skip === true ? 0 : 450);
               }); // displays the Container
               // Then we fade in the CTA,
 			        PabloCamara.Components.ContactForm.getCta.show();
