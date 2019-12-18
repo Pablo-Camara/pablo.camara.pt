@@ -95,7 +95,24 @@
 
 
       <div id="social_media" style="display: none">
-        <a href="https://www.facebook.com/pablo.camara.5" target="_blank">
+       
+	  	<a href="https://github.com/Pablo-Camara" target="_blank" id="social_media_github">
+          <img src="assets/img/icons/github.svg" width="50px" height="30px" />
+        </a>
+		
+        <a href="https://www.linkedin.com/in/pablo-camara/" target="_blank" id="social_media_linkedin">
+          <img src="assets/img/icons/linkedin.svg" width="30px" height="30px" />
+        </a>
+        <a href="skype:pablo.camara96?chat" target="_blank" id="social_media_skype">
+          <img src="assets/img/icons/skype.svg" width="30px" height="30px" />
+        </a>
+        <a href="mailto:pablo@camara.pt" target="_blank" id="social_media_mailto">
+          <img src="assets/img/icons/email.svg" width="30px" height="30px" />
+        </a>
+
+		<br/>
+
+		<a href="https://www.facebook.com/pablo.camara.5" target="_blank">
           <img src="assets/img/icons/fb-icon.svg" width="30px" height="30px" />
         </a>
     	<a href="https://www.instagram.com/camara.pt/" target="_blank">
@@ -109,21 +126,6 @@
           <img src="assets/img/icons/youtube.svg" width="30px" height="30px" />
         </a> 
 
-		<br/>
-
-        <a href="https://github.com/Pablo-Camara" target="_blank" id="social_media_github">
-          <img src="assets/img/icons/github.svg" width="50px" height="30px" />
-        </a>
-		
-        <a href="https://www.linkedin.com/in/pablo-camara/" target="_blank" id="social_media_linkedin">
-          <img src="assets/img/icons/linkedin.svg" width="30px" height="30px" />
-        </a>
-        <a href="skype:pablo.camara96?chat" target="_blank" id="social_media_skype">
-          <img src="assets/img/icons/skype.svg" width="30px" height="30px" />
-        </a>
-        <a href="mailto:pablo@camara.pt" target="_blank" id="social_media_mailto">
-          <img src="assets/img/icons/email.svg" width="30px" height="30px" />
-        </a>
       </div>
 
     </div>
