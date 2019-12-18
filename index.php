@@ -95,15 +95,20 @@
 
 
       <div id="social_media" style="display: none">
-        <!-- <a href="https://www.facebook.com/pablo.camara.5" target="_blank"> -->
-          <!-- <img src="img/icons/fb-icon.svg" width="30px" height="30px" /> -->
-        <!-- </a> -->
-        <!-- <a href="https://www.instagram.com/pablo.camara.pt/" target="_blank"> -->
-          <!-- <img src="img/icons/instagram.svg" width="30px" height="30px" /> -->
-        <!-- </a> -->
-        <!-- <a href="#" target="_blank"> -->
-          <!-- <img src="img/icons/youtube.svg" width="30px" height="30px" /> -->
-        <!-- </a> -->
+        <a href="https://www.facebook.com/pablo.camara.5" target="_blank">
+          <img src="assets/img/icons/fb-icon.svg" width="30px" height="30px" />
+        </a>
+    	<a href="https://www.instagram.com/camara.pt/" target="_blank">
+          <img src="assets/img/icons/instagram.svg" width="30px" height="30px" />
+        </a> 
+		<a href="https://www.youtube.com/channel/UCpWwIcqn6V8J7FH0pZOEHzA" target="_blank" title="My New Software Related Channel"> 
+          <img src="assets/img/icons/youtube.svg" width="30px" height="30px" />
+        </a> 
+
+        <a href="https://www.youtube.com/channel/UCk4CpCZpDpHev43Ud_zSnXg" target="_blank" title="My Old Fitness Channel"> 
+          <img src="assets/img/icons/youtube.svg" width="30px" height="30px" />
+        </a> 
+
         <a href="https://github.com/Pablo-Camara" target="_blank" id="social_media_github">
           <img src="assets/img/icons/github.svg" width="50px" height="30px" />
         </a>
