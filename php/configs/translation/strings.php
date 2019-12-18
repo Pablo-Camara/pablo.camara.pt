@@ -205,5 +205,15 @@ return [
         'pt' => 'Não foi possível obter os dados do utilizador.',
         'en' => 'Unable to get user data.',
         'es' => 'No se pueden obtener los datos del usuario.',
-    ]
+    ],
+    'youtube_link_title_software'   =>  [
+        'pt' => 'Meu novo canal relacionado com Software',
+        'en' => 'My new Software related channel',
+        'es' => 'Mi nuevo canal relacionado con Software',
+    ],
+    'youtube_link_title_fitness'   =>  [
+        'pt' => 'Meu antigo canal de desporto',
+        'en' => 'My old sports channel',
+        'es' => 'Mi viejo canal de deportes',
+    ],
 ];

@@ -3,7 +3,7 @@
 	$translationStrings = require 'php/configs/translation/strings.php';
 	$lang = Translation::getLanguage();
 	$translator = new Translation($translationStrings,$lang);
-	$breakCache = true; $curDate = $breakCache ? date('Y-m-d H:i:s') : '2019-12-06 16:23:00'; 
+	$breakCache = false; $curDate = $breakCache ? date('Y-m-d H:i:s') : '2019-12-18 13:35:29'; 
 ?><!DOCTYPE html>
 <html lang="<?= $lang ?>">
   <head>
@@ -101,13 +101,15 @@
     	<a href="https://www.instagram.com/camara.pt/" target="_blank">
           <img src="assets/img/icons/instagram.svg" width="30px" height="30px" />
         </a> 
-		<a href="https://www.youtube.com/channel/UCpWwIcqn6V8J7FH0pZOEHzA" target="_blank" title="My New Software Related Channel"> 
+		<a href="https://www.youtube.com/channel/UCpWwIcqn6V8J7FH0pZOEHzA" target="_blank" title="<?= $translator->get('youtube_link_title_software'); ?>"> 
           <img src="assets/img/icons/youtube.svg" width="30px" height="30px" />
         </a> 
 
-        <a href="https://www.youtube.com/channel/UCk4CpCZpDpHev43Ud_zSnXg" target="_blank" title="My Old Fitness Channel"> 
+        <a href="https://www.youtube.com/channel/UCk4CpCZpDpHev43Ud_zSnXg" target="_blank" title="<?= $translator->get('youtube_link_title_fitness'); ?>"> 
           <img src="assets/img/icons/youtube.svg" width="30px" height="30px" />
         </a> 
+
+		<br/>
 
         <a href="https://github.com/Pablo-Camara" target="_blank" id="social_media_github">
           <img src="assets/img/icons/github.svg" width="50px" height="30px" />
