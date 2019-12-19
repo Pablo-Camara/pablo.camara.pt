@@ -3,7 +3,7 @@
 	$translationStrings = require 'php/configs/translation/strings.php';
 	$lang = Translation::getLanguage();
 	$translator = new Translation($translationStrings,$lang);
-	$breakCache = false; $curDate = $breakCache ? date('Y-m-d H:i:s') : '2019-12-18 13:35:29'; 
+	$breakCache = false; $curDate = $breakCache ? date('Y-m-d H:i:s') : '2019-12-19 00:46:41'; 
 ?><!DOCTYPE html>
 <html lang="<?= $lang ?>">
   <head>
@@ -112,17 +112,17 @@
 
 		<br/>
 
-		<a href="https://www.facebook.com/pablo.camara.5" target="_blank">
+		<a href="https://www.facebook.com/pablo.camara.5" target="_blank" id="social_media_facebook">
           <img src="assets/img/icons/fb-icon.svg" width="30px" height="30px" />
         </a>
-    	<a href="https://www.instagram.com/camara.pt/" target="_blank">
+    	<a href="https://www.instagram.com/camara.pt/" target="_blank" id="social_media_instagram">
           <img src="assets/img/icons/instagram.svg" width="30px" height="30px" />
         </a> 
-		<a href="https://www.youtube.com/channel/UCpWwIcqn6V8J7FH0pZOEHzA" target="_blank" title="<?= $translator->get('youtube_link_title_software'); ?>"> 
+		<a href="https://www.youtube.com/channel/UCpWwIcqn6V8J7FH0pZOEHzA" id="social_media_youtube_software" target="_blank" title="<?= $translator->get('youtube_link_title_software'); ?>"> 
           <img src="assets/img/icons/youtube.svg" width="30px" height="30px" />
         </a> 
 
-        <a href="https://www.youtube.com/channel/UCk4CpCZpDpHev43Ud_zSnXg" target="_blank" title="<?= $translator->get('youtube_link_title_fitness'); ?>"> 
+        <a href="https://www.youtube.com/channel/UCk4CpCZpDpHev43Ud_zSnXg" id="social_media_youtube_fitness" target="_blank" title="<?= $translator->get('youtube_link_title_fitness'); ?>"> 
           <img src="assets/img/icons/youtube.svg" width="30px" height="30px" />
         </a> 
 
