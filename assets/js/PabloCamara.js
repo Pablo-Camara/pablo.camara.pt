@@ -1226,9 +1226,9 @@ const PabloCamara = {
 
         // --
 
-        El.getById('social_media_facebook').onclick = function(){
+       /*  El.getById('social_media_facebook').onclick = function(){
           Stats.click(PabloCamara.Components.SocialMedia.getId(),'facebook');
-        };
+        }; */
         
         El.getById('social_media_instagram').onclick = function(){
           Stats.click(PabloCamara.Components.SocialMedia.getId(),'instagram');
