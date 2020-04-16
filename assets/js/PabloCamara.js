@@ -1216,26 +1216,8 @@ const PabloCamara = {
           Stats.click(PabloCamara.Components.SocialMedia.getId(),'linkedin');
         };
         
-        El.getById('social_media_skype').onclick = function(){
-          Stats.click(PabloCamara.Components.SocialMedia.getId(),'skype');
-        };
-        
         El.getById('social_media_mailto').onclick = function(){
           Stats.click(PabloCamara.Components.SocialMedia.getId(),'mailto');
-        };
-
-        // --
-
-       /*  El.getById('social_media_facebook').onclick = function(){
-          Stats.click(PabloCamara.Components.SocialMedia.getId(),'facebook');
-        }; */
-        
-        El.getById('social_media_instagram').onclick = function(){
-          Stats.click(PabloCamara.Components.SocialMedia.getId(),'instagram');
-        };
-        
-        El.getById('social_media_youtube_software').onclick = function(){
-          Stats.click(PabloCamara.Components.SocialMedia.getId(),'youtube-software-ch');
         };
         
         El.getById('social_media_youtube_fitness').onclick = function(){
